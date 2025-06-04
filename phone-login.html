@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Phone Login Test</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      RecaptchaVerifier,
+      signInWithPhoneNumber
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
+      authDomain: "amvibe-a22db.firebaseapp.com",
+      projectId: "amvibe-a22db",
+      storageBucket: "amvibe-a22db.appspot.com",
+      messagingSenderId: "717648312311",
+      appId: "1:717648312311:web:c97e204d16e4211b9360f2",
+      measurementId: "G-WPV8M3E8K2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.onload = () => {
+      window.recaptchaVerifier = new RecaptchaVerifier("recaptcha-container", {
+        size: "normal",
+        callback: () => {
+          console.log("reCAPTCHA verified");
+        }
+      }, auth);
+      recaptchaVerifier.render();
+    };
+
+    window.sendOTP = () => {
+      const phoneNumber = document.getElementById("phone").value;
+      signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          alert("OTP Sent!");
+        }).catch((error) => {
+          alert("Error: " + error.message);
+        });
+    };
+
+    window.verifyOTP = () => {
+      const otp = document.getElementById("otp").value;
+      window.confirmationResult.confirm(otp)
+        .then((result) => {
+          alert("Login success! Welcome " + result.user.phoneNumber);
+        }).catch((error) => {
+          alert("Invalid OTP");
+        });
+    };
+  </script>
+</head>
+<body>
+  <h2>Phone Login</h2>
+  <input id="phone" type="text" placeholder="+91XXXXXXXXXX" /><br><br>
+  <div id="recaptcha-container"></div><br>
+  <button onclick="sendOTP()">Send OTP</button><br><br>
+  <input id="otp" type="text" placeholder="Enter OTP" /><br><br>
+  <button onclick="verifyOTP()">Verify OTP</button>
+</body>
+</html>
