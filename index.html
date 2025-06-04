@@ -1,170 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AmVibe - Log In</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Circular', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-        body {
-            background-color: #000;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            text-align: center;
-        }
-        .login-container {
-            background-color: #121212;
-            padding: 30px;
-            border-radius: 8px;
-            width: 100%;
-            max-width: 400px;
-        }
-        .logo {
-            width: 120px;
-            display: block; /* लोगो सेंटर करण्यासाठी हे महत्वाचे आहे */
-            margin: 0 auto 30px auto; /* top | right | bottom | left */
-        }
-        /* बाकीची CSS तशीच ठेवा */
-        h1 {
-            font-size: 22px;
-            margin-bottom: 25px;
-            font-weight: 700;
-        }
-        .btn {
-            width: 100%;
-            padding: 15px;
-            border-radius: 30px;
-            font-weight: bold;
-            font-size: 15px;
-            cursor: pointer;
-            margin-bottom: 15px;
-            border: none;
-            color: white;
-            transition: all 0.3s;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .btn-email {
-            background-color: #1DB954;
-        }
-        .btn-other {
-            background: transparent;
-            border: 1px solid #878787;
-        }
-        .icon {
-            width: 18px;
-            height: 18px;
-            display: block;
-        }
-        .phone-icon {
-            font-size: 18px;
-        }
-        .signup-link {
-            margin-top: 20px;
-            font-size: 15px;
-            color: #a7a7a7;
-        }
-        .signup-link a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        @media (max-width: 480px) {
-            .login-container {
-                padding: 25px 20px;
-                border-radius: 0;
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-            body {
-                padding: 0;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>AmVibe - Log In</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Circular', sans-serif;
+    }
+    body {
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+    .login-container {
+      background-color: #121212;
+      padding: 30px;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 400px;
+    }
+    .logo {
+      width: 120px;
+      margin: 0 auto 30px;
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 25px;
+      font-weight: 700;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      margin-bottom: 15px;
+      border: none;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn-email {
+      background-color: #1DB954;
+    }
+    .btn-other {
+      background: transparent;
+      border: 1px solid #878787;
+    }
+    .icon {
+      width: 18px;
+      height: 18px;
+    }
+    .phone-icon {
+      font-size: 18px;
+    }
+    .signup-link {
+      margin-top: 20px;
+      font-size: 15px;
+      color: #a7a7a7;
+    }
+    .signup-link a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    #recaptcha-container {
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-    <div class="login-container">
-        <!-- सेंटर केलेले लोगो -->
-        <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo">
-        
-        <h1>Log in to AmVibe</h1>
-        
-        <button class="btn btn-email" onclick="loginWithEmail()">Continue with email</button>
-        
-        <button class="btn btn-other" onclick="loginWithPhone()">
-            <span class="phone-icon">📱</span>
-            Continue with phone number
-        </button>
-        
-        <button class="btn btn-other" onclick="loginWithGoogle()">
-            <img src="https://www.google.com/favicon.ico" class="icon" alt="Google">
-            Continue with Google
-        </button>
-        
-        <button class="btn btn-other" onclick="loginWithFacebook()">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" class="icon" alt="Facebook">
-            Continue with Facebook
-        </button>
-        
-        <p class="signup-link">Don't have an account? <a href="#">Sign up</a></p>
-    </div>
+  <div class="login-container">
+    <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo" />
+    <h1>Log in to AmVibe</h1>
 
-    <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    <button class="btn btn-email" onclick="loginWithEmail()">Continue with email</button>
+    <button class="btn btn-other" onclick="loginWithPhone()">
+      <span class="phone-icon">📱</span> Continue with phone number
+    </button>
+    <button class="btn btn-other" onclick="loginWithGoogle()">
+      <img src="https://www.google.com/favicon.ico" class="icon" alt="Google" />
+      Continue with Google
+    </button>
+    <button class="btn btn-other" onclick="loginWithFacebook()">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" class="icon" alt="Facebook" />
+      Continue with Facebook
+    </button>
 
-  
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
-  authDomain: "amvibe-a22db.firebaseapp.com",
-  projectId: "amvibe-a22db",
-  storageBucket: "amvibe-a22db.appspot.com",  // ✅ हेच बरोबर आहे
-  messagingSenderId: "717648312311",
-  appId: "1:717648312311:web:c97e204d16e4211b9360f2",
-  measurementId: "G-WPV8M3E8K2"
-};
-        
+    <p class="signup-link">Don't have an account? <a href="#">Sign up</a></p>
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
+    <!-- reCAPTCHA container (invisible) -->
+    <div id="recaptcha-container"></div>
+  </div>
 
-  // आता Google login function
-  window.loginWithGoogle = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        alert("Login successful! Welcome " + user.displayName);
-        console.log("User Info:", user);
-        // लॉगिन झाल्यावर पेज बदलवायचं असेल तर इथे टाक
-        // window.location.href = "home.html";
-      })
-      .catch((error) => {
-        console.error("Login Error:", error);
-        alert("Login failed: " + error.message);
-      });
-  };
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      GoogleAuthProvider,
+      signInWithPopup,
+      signInWithPhoneNumber,
+      RecaptchaVerifier
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  // बाकीचे alert फंक्शन्स
-  window.loginWithEmail = () => alert("Email login selected");
-  window.loginWithPhone = () => alert("Phone login selected");
-  window.loginWithFacebook = () => alert("Facebook login selected");
-    </script>
-    
+    const firebaseConfig = {
+      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
+      authDomain: "amvibe-a22db.firebaseapp.com",
+      projectId: "amvibe-a22db",
+      storageBucket: "amvibe-a22db.appspot.com",
+      messagingSenderId: "717648312311",
+      appId: "1:717648312311:web:c97e204d16e4211b9360f2",
+      measurementId: "G-WPV8M3E8K2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    // Google Login
+    window.loginWithGoogle = () => {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          alert("Login successful! Welcome " + user.displayName);
+        })
+        .catch((error) => {
+          alert("Login failed: " + error.message);
+        });
+    };
+
+    // Phone Login
+    window.loginWithPhone = () => {
+      const phoneNumber = prompt("Enter your phone number (e.g. +91XXXXXXXXXX):");
+      if (!phoneNumber) return;
+
+      const appVerifier = new RecaptchaVerifier(
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: (response) => {
+            console.log("reCAPTCHA solved");
+          }
+        },
+        auth
+      );
+
+      signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          const otp = prompt("Enter the OTP sent to your phone:");
+          return confirmationResult.confirm(otp);
+        })
+        .then((result) => {
+          const user = result.user;
+          alert("Phone login successful! Welcome " + user.phoneNumber);
+        })
+        .catch((error) => {
+          alert("Login failed: " + error.message);
+        });
+    };
+
+    // Dummy placeholders for other buttons
+    window.loginWithEmail = () => alert("Email login selected");
+    window.loginWithFacebook = () => alert("Facebook login selected");
+  </script>
 </body>
 </html>
