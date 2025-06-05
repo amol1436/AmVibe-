@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AmVibe - Welcome</title>
+  <title>Enter Phone Number - AmVibe</title>
   <style>
     body {
       background-color: #000;
@@ -11,54 +11,102 @@
       font-family: 'Circular', sans-serif;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      align-items: center;
+      height: 100vh;
       margin: 0;
       padding: 20px;
-      text-align: center;
     }
 
-    .card {
-      background-color: #121212;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    .container {
+      width: 100%;
       max-width: 400px;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .phone-input {
+      display: flex;
+      align-items: center;
+      background-color: #121212;
+      border: 1px solid #555;
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    .phone-input span {
+      margin-right: 10px;
+      color: #ccc;
+    }
+
+    input[type="text"] {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 16px;
       width: 100%;
     }
 
-    h1 {
-      font-size: 24px;
-      margin-bottom: 15px;
-    }
-
-    p {
-      font-size: 16px;
-      margin-bottom: 25px;
-    }
-
     button {
-      padding: 12px 20px;
-      font-size: 15px;
-      background-color: #1DB954;
-      color: white;
+      width: 100%;
+      padding: 14px;
       border: none;
       border-radius: 30px;
+      background-color: #1DB954;
+      color: white;
+      font-size: 16px;
       cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:disabled {
+      background-color: #333;
+      cursor: not-allowed;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #999;
+      margin-top: 10px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Welcome to AmVibe 🎧</h1>
-    <p id="user-info">Loading user info...</p>
-    <button onclick="logout()">Logout</button>
+  <div class="container">
+    <h2>Enter phone number</h2>
+
+    <label>India</label>
+    <div class="phone-input">
+      <span>+91</span>
+      <input type="text" id="phone-number" placeholder="Phone number" oninput="checkInput()" />
+    </div>
+
+    <button id="next-btn" onclick="sendOTP()" disabled>Next</button>
+
+    <div class="note">
+      We’ll send you a code to confirm your phone number.<br>
+      We may occasionally send you service-based messages.
+    </div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import {
+      getAuth,
+      RecaptchaVerifier,
+      signInWithPhoneNumber
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
@@ -73,23 +121,32 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // user check
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const nameOrPhone = user.displayName || user.phoneNumber || user.email || "User";
-        document.getElementById("user-info").innerText = "Hello, " + nameOrPhone + " 👋";
-      } else {
-        // No user logged in, redirect to login
-        window.location.href = "index.html";
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'next-btn', {
+      'size': 'invisible',
+      'callback': (response) => {
+        console.log("reCAPTCHA passed");
       }
     });
 
-    // logout function
-    window.logout = () => {
-      signOut(auth).then(() => {
-        alert("You have been logged out.");
-        window.location.href = "index.html";
-      });
+    window.sendOTP = () => {
+      const number = document.getElementById("phone-number").value.trim();
+      const fullNumber = "+91" + number;
+      const appVerifier = window.recaptchaVerifier;
+
+      signInWithPhoneNumber(auth, fullNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          alert("OTP Sent!");
+          // Redirect to OTP verification page (if needed)
+        })
+        .catch((error) => {
+          alert("Error: " + error.message);
+        });
+    };
+
+    window.checkInput = () => {
+      const input = document.getElementById("phone-number").value.trim();
+      document.getElementById("next-btn").disabled = input.length < 10;
     };
   </script>
 </body>
