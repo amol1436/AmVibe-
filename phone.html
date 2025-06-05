@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Phone Login</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: black;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Enter phone number</h2>
+  <p>We’ll send you a code to confirm your phone number.</p>
+
+  <input id="phone" type="text" placeholder="+91xxxxxxxxxx"><br>
+  <div id="recaptcha-container"></div><br>
+  <button onclick="sendOTP()">Next</button>
+
+  <script>
+    // ✅ तुझं Firebase config खाली टाक
+    const firebaseConfig = {
+      apiKey: "तुझं-api-key",
+      authDomain: "तुझं-auth-domain",
+      projectId: "तुझं-project-id",
+      storageBucket: "तुझं-storage-bucket",
+      messagingSenderId: "तुझं-sender-id",
+      appId: "तुझं-app-id"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+      'size': 'invisible'
+    });
+
+    function sendOTP() {
+      const phoneNumber = document.getElementById("phone").value;
+      const appVerifier = window.recaptchaVerifier;
+
+      auth.signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then(confirmationResult => {
+          window.confirmationResult = confirmationResult;
+          alert("OTP sent!");
+          window.location.href = "otp.html";
+        }).catch(error => {
+          alert(error.message);
+        });
+    }
+  </script>
+</body>
+</html>
