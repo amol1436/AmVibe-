@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AmVibe - Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>AmVibe - Log In</title>
   <style>
     * {
       margin: 0;
@@ -65,6 +65,10 @@
     .icon {
       width: 18px;
       height: 18px;
+      display: block;
+    }
+    .phone-icon {
+      font-size: 18px;
     }
     .signup-link {
       margin-top: 20px;
@@ -76,20 +80,31 @@
       text-decoration: none;
       font-weight: bold;
     }
-    #phone-login {
-      margin-top: 20px;
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 25px 20px;
+        border-radius: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      body {
+        padding: 0;
+      }
     }
   </style>
 </head>
 <body>
   <div class="login-container">
-    <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" class="logo" alt="AmVibe Logo" />
+    <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo" />
     <h1>Log in to AmVibe</h1>
 
-    <button class="btn btn-email" onclick="loginWithEmail()">Continue with Email</button>
+    <button class="btn btn-email" onclick="loginWithEmail()">Continue with email</button>
 
-    <button class="btn btn-other" onclick="togglePhoneLogin()">
-      📱 Continue with Phone Number
+    <button class="btn btn-other" onclick="showPhoneLogin()">
+      <span class="phone-icon">📱</span>
+      Continue with phone number
     </button>
 
     <button class="btn btn-other" onclick="loginWithGoogle()">
@@ -97,25 +112,26 @@
       Continue with Google
     </button>
 
-    <div id="phone-login" style="display: none;">
+    <p class="signup-link">Don't have an account? <a href="#" onclick="signUp()">Sign up</a></p>
+
+    <!-- PHONE LOGIN SECTION -->
+    <div id="phone-login" style="display: none; margin-top: 20px;">
       <input type="text" id="phone-number" placeholder="+91XXXXXXXXXX" /><br /><br />
       <div id="recaptcha-container"></div><br />
       <button onclick="sendOTP()">Send OTP</button><br /><br />
       <input type="text" id="otp" placeholder="Enter OTP" /><br /><br />
       <button onclick="verifyOTP()">Verify OTP</button>
     </div>
-
-    <p class="signup-link">Don't have an account? <a href="#">Sign up</a></p>
   </div>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase Integration -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import {
       getAuth,
       GoogleAuthProvider,
-      RecaptchaVerifier,
       signInWithPopup,
+      RecaptchaVerifier,
       signInWithPhoneNumber
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
@@ -131,37 +147,43 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
 
-    // Google Login
     window.loginWithGoogle = () => {
-      const provider = new GoogleAuthProvider();
       signInWithPopup(auth, provider)
         .then((result) => {
-          alert("Login successful! Welcome " + result.user.displayName);
+          const user = result.user;
+          alert("Login successful! Welcome " + user.displayName);
+          // window.location.href = "home.html";
         })
         .catch((error) => {
           alert("Login failed: " + error.message);
         });
     };
 
-    // Email Login (फक्त alert दाखवतो)
-    window.loginWithEmail = () => alert("Email login selected");
-
-    // Phone login toggle
-    window.togglePhoneLogin = () => {
-      const phoneLogin = document.getElementById("phone-login");
-      phoneLogin.style.display = phoneLogin.style.display === "none" ? "block" : "none";
+    window.loginWithEmail = () => {
+      alert("Email login coming soon...");
     };
 
-    // reCAPTCHA
-    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-      size: 'normal',
-      callback: () => {
-        console.log('reCAPTCHA solved');
-      }
-    });
+    window.signUp = () => {
+      alert("Sign up page/functionality yet to be implemented.");
+    };
 
-    // Send OTP
+    window.showPhoneLogin = () => {
+      document.getElementById("phone-login").style.display = "block";
+
+      // reCAPTCHA फक्त एकदाच सेट करायचा
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+          size: "normal",
+          callback: () => {
+            console.log("reCAPTCHA verified");
+          },
+        });
+        window.recaptchaVerifier.render();
+      }
+    };
+
     window.sendOTP = () => {
       const phoneNumber = document.getElementById("phone-number").value;
       const appVerifier = window.recaptchaVerifier;
@@ -169,22 +191,22 @@
       signInWithPhoneNumber(auth, phoneNumber, appVerifier)
         .then((confirmationResult) => {
           window.confirmationResult = confirmationResult;
-          alert("OTP Sent!");
+          alert("OTP पाठवला गेला आहे");
         })
         .catch((error) => {
-          alert("Error: " + error.message);
+          alert("OTP त्रुटी: " + error.message);
         });
     };
 
-    // Verify OTP
     window.verifyOTP = () => {
       const otp = document.getElementById("otp").value;
       window.confirmationResult.confirm(otp)
         .then((result) => {
-          alert("Login successful! Phone: " + result.user.phoneNumber);
+          alert("फोन लॉगिन यशस्वी: " + result.user.phoneNumber);
+          // window.location.href = "home.html";
         })
         .catch((error) => {
-          alert("Invalid OTP: " + error.message);
+          alert("चुकीचा OTP");
         });
     };
   </script>
