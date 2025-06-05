@@ -3,101 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Enter Phone Number - AmVibe</title>
+  <title>Phone Login - AmVibe</title>
   <style>
     body {
       background-color: #000;
       color: #fff;
       font-family: 'Circular', sans-serif;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
+      min-height: 100vh;
       padding: 20px;
+      margin: 0;
     }
-
     .container {
+      background-color: #121212;
+      padding: 30px;
+      border-radius: 10px;
       width: 100%;
       max-width: 400px;
-    }
-
-    h2 {
-      margin-bottom: 30px;
-    }
-
-    label {
-      display: block;
-      font-size: 16px;
-      margin-bottom: 8px;
-    }
-
-    .phone-input {
-      display: flex;
-      align-items: center;
-      background-color: #121212;
-      border: 1px solid #555;
-      border-radius: 6px;
-      padding: 10px;
-      margin-bottom: 20px;
-    }
-
-    .phone-input span {
-      margin-right: 10px;
-      color: #ccc;
-    }
-
-    input[type="text"] {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #fff;
-      font-size: 16px;
-      width: 100%;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 30px;
-      background-color: #1DB954;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    button:disabled {
-      background-color: #333;
-      cursor: not-allowed;
-    }
-
-    .note {
-      font-size: 13px;
-      color: #999;
-      margin-top: 10px;
       text-align: center;
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 16px;
+      border-radius: 30px;
+      border: none;
+    }
+    input {
+      background-color: #333;
+      color: #fff;
+    }
+    button {
+      background-color: #1DB954;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #recaptcha-container {
+      margin-top: 15px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Enter phone number</h2>
+    <h2>Phone Number Login</h2>
+    <input type="text" id="phone-number" placeholder="+91XXXXXXXXXX" />
+    <div id="recaptcha-container"></div>
+    <button onclick="sendOTP()">Send OTP</button>
 
-    <label>India</label>
-    <div class="phone-input">
-      <span>+91</span>
-      <input type="text" id="phone-number" placeholder="Phone number" oninput="checkInput()" />
-    </div>
-
-    <button id="next-btn" onclick="sendOTP()" disabled>Next</button>
-
-    <div class="note">
-      We’ll send you a code to confirm your phone number.<br>
-      We may occasionally send you service-based messages.
-    </div>
+    <input type="text" id="otp" placeholder="Enter OTP" style="display:none;" />
+    <button onclick="verifyOTP()" style="display:none;" id="verify-btn">Verify OTP</button>
   </div>
 
   <script type="module">
@@ -121,32 +79,47 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'next-btn', {
-      'size': 'invisible',
-      'callback': (response) => {
-        console.log("reCAPTCHA passed");
+    // Setup Recaptcha
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+      size: 'normal',
+      callback: (response) => {
+        console.log('reCAPTCHA verified');
+      },
+      'expired-callback': () => {
+        alert("reCAPTCHA expired, please refresh.");
       }
     });
 
     window.sendOTP = () => {
-      const number = document.getElementById("phone-number").value.trim();
-      const fullNumber = "+91" + number;
+      const phoneNumber = document.getElementById("phone-number").value;
       const appVerifier = window.recaptchaVerifier;
 
-      signInWithPhoneNumber(auth, fullNumber, appVerifier)
+      signInWithPhoneNumber(auth, phoneNumber, appVerifier)
         .then((confirmationResult) => {
           window.confirmationResult = confirmationResult;
-          alert("OTP Sent!");
-          // Redirect to OTP verification page (if needed)
+          alert("OTP sent!");
+
+          // Show OTP input
+          document.getElementById("otp").style.display = "block";
+          document.getElementById("verify-btn").style.display = "block";
         })
         .catch((error) => {
-          alert("Error: " + error.message);
+          alert("Error sending OTP: " + error.message);
         });
     };
 
-    window.checkInput = () => {
-      const input = document.getElementById("phone-number").value.trim();
-      document.getElementById("next-btn").disabled = input.length < 10;
+    window.verifyOTP = () => {
+      const otp = document.getElementById("otp").value;
+
+      window.confirmationResult.confirm(otp)
+        .then((result) => {
+          const user = result.user;
+          alert("Login successful! Welcome " + user.phoneNumber);
+          // window.location.href = "home.html";
+        })
+        .catch((error) => {
+          alert("Invalid OTP. Please try again.");
+        });
     };
   </script>
 </body>
