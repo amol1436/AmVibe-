@@ -1,63 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Phone Login</title>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AmVibe - Welcome</title>
   <style>
     body {
-      font-family: sans-serif;
-      background-color: black;
-      color: white;
+      background-color: #000;
+      color: #fff;
+      font-family: 'Circular', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
       text-align: center;
-      padding: 40px;
     }
-    input, button {
-      padding: 10px;
-      margin: 10px;
+
+    .card {
+      background-color: #121212;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    p {
       font-size: 16px;
+      margin-bottom: 25px;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 15px;
+      background-color: #1DB954;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
+  <div class="card">
+    <h1>Welcome to AmVibe 🎧</h1>
+    <p id="user-info">Loading user info...</p>
+    <button onclick="logout()">Logout</button>
+  </div>
 
-  <h2>Enter phone number</h2>
-  <p>We’ll send you a code to confirm your phone number.</p>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  <input id="phone" type="text" placeholder="+91xxxxxxxxxx"><br>
-  <div id="recaptcha-container"></div><br>
-  <button onclick="sendOTP()">Next</button>
-
-  <script>
-    // ✅ तुझं Firebase config खाली टाक
     const firebaseConfig = {
-      apiKey: "तुझं-api-key",
-      authDomain: "तुझं-auth-domain",
-      projectId: "तुझं-project-id",
-      storageBucket: "तुझं-storage-bucket",
-      messagingSenderId: "तुझं-sender-id",
-      appId: "तुझं-app-id"
+      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
+      authDomain: "amvibe-a22db.firebaseapp.com",
+      projectId: "amvibe-a22db",
+      storageBucket: "amvibe-a22db.appspot.com",
+      messagingSenderId: "717648312311",
+      appId: "1:717648312311:web:c97e204d16e4211b9360f2",
+      measurementId: "G-WPV8M3E8K2"
     };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
 
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-      'size': 'invisible'
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // user check
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const nameOrPhone = user.displayName || user.phoneNumber || user.email || "User";
+        document.getElementById("user-info").innerText = "Hello, " + nameOrPhone + " 👋";
+      } else {
+        // No user logged in, redirect to login
+        window.location.href = "index.html";
+      }
     });
 
-    function sendOTP() {
-      const phoneNumber = document.getElementById("phone").value;
-      const appVerifier = window.recaptchaVerifier;
-
-      auth.signInWithPhoneNumber(phoneNumber, appVerifier)
-        .then(confirmationResult => {
-          window.confirmationResult = confirmationResult;
-          alert("OTP sent!");
-          window.location.href = "otp.html";
-        }).catch(error => {
-          alert(error.message);
-        });
-    }
+    // logout function
+    window.logout = () => {
+      signOut(auth).then(() => {
+        alert("You have been logged out.");
+        window.location.href = "index.html";
+      });
+    };
   </script>
 </body>
 </html>
