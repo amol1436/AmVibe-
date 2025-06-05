@@ -165,6 +165,63 @@ const firebaseConfig = {
   window.loginWithPhone = () => alert("Phone login selected");
   window.loginWithFacebook = () => alert("Facebook login selected");
     </script>
+    <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
+  authDomain: "amvibe-a22db.firebaseapp.com",
+  projectId: "amvibe-a22db",
+  storageBucket: "amvibe-a22db.firebasestorage.app",
+  messagingSenderId: "717648312311",
+  appId: "1:717648312311:web:c97e204d16e4211b9360f2",
+  measurementId: "G-WPV8M3E8K2"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// reCAPTCHA सेटअप
+window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+  size: 'normal',
+  callback: (response) => {
+    console.log('reCAPTCHA verified');
+  }
+});
+
+// OTP पाठवा
+window.sendOTP = function () {
+  const phoneNumber = document.getElementById("phone-number").value;
+  const appVerifier = window.recaptchaVerifier;
+
+  signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+    .then((confirmationResult) => {
+      window.confirmationResult = confirmationResult;
+      alert("OTP पाठवला");
+    })
+    .catch((error) => {
+      alert("त्रुटी: " + error.message);
+    });
+};
+
+// OTP Verify करा
+window.verifyOTP = function () {
+  const otp = document.getElementById("otp").value;
+
+  window.confirmationResult.confirm(otp)
+    .then((result) => {
+      alert("Login यशस्वी: " + result.user.phoneNumber);
+    })
+    .catch((error) => {
+      alert("चुकीचा OTP");
+    });
+};
+    </script>
     
 </body>
 </html>
