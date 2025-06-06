@@ -100,12 +100,18 @@
     <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo" />
     <h1>Log in to AmVibe</h1>
 
-    <button class="btn btn-email" onclick="loginWithEmail()">Continue with email</button>
+    <button class="btn btn-email" onclick="loginWithEmail()">Continue with email
+    <button class="btn btn-email" onclick="window.location.href='email.html'">
+    Continue with email
+    </button>
+    
 
     <button class="btn btn-other" onclick="showPhoneLogin()">
       <span class="phone-icon">📱</span>
       Continue with phone number
-    </button>
+      <button onclick="window.location.href='phone.html'">
+  📱 Continue with phone number
+      </button>
 
     <button class="btn btn-other" onclick="loginWithGoogle()">
       <img src="https://www.google.com/favicon.ico" class="icon" alt="Google" />
