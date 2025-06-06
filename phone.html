@@ -1,33 +1,36 @@
-<!-- phone-login.html -->
+<style>
+  /* वरील स्टाइल्सची पुनरावृत्ती करा, फक्त हे बदला: */
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .phone-input {
+    display: flex;
+    gap: 10px;
+  }
+  select {
+    padding: 16px;
+    background: #121212;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: white;
+  }
+</style>
+
 <div class="login-container">
-  <img src="logo.png" class="logo">
   <h1>Enter phone number</h1>
   
-  <div class="country-selector">
-    <select>
+  <div class="phone-input">
+    <select id="countryCode">
       <option value="+91">India (+91)</option>
-      <option value="+1">USA (+1)</option>
     </select>
     <input type="tel" id="phone" placeholder="Phone number">
   </div>
-
+  
   <p class="disclaimer">
     We'll send you a code to confirm your phone number.<br>
     We may occasionally send you service-based messages.
   </p>
-
+  
   <button class="btn" onclick="sendOTP()">Next</button>
 </div>
-
-<style>
-.country-selector {
-  display: flex;
-  gap: 10px;
-  margin: 20px 0;
-}
-.country-selector select {
-  padding: 12px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-</style>
