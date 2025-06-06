@@ -1,136 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Email Login - AmVibe</title>
-  <style>
-    body {
-      background-color: #000;
-      color: #fff;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .logo {
-      width: 100px;
-      height: 100px;
-      margin-bottom: 20px;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-    }
-
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      width: 80%;
-      max-width: 300px;
-      margin-bottom: 15px;
-    }
-
-    .input-group label {
-      margin-bottom: 5px;
-      font-size: 14px;
-    }
-
-    .input-group input {
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-
-    .btn {
-      background-color: #1db954;
-      color: #fff;
-      border: none;
-      border-radius: 50px;
-      padding: 12px;
-      width: 80%;
-      max-width: 300px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      background-color: #1ed760;
-    }
-
-    .back-link {
-      color: #bbb;
-      margin-top: 20px;
-      font-size: 14px;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <img src="logo.png" alt="AmVibe Logo" class="logo" />
-  <h2>Login with Email</h2>
-
+<!-- email-signup.html -->
+<div class="login-container">
+  <img src="logo.png" class="logo">
+  <h1>Create account</h1>
+  
   <div class="input-group">
-    <label for="email">Email address</label>
-    <input type="email" id="email" placeholder="Enter your email" required />
+    <label>What's your email address?</label>
+    <input type="email" id="email" placeholder="Email address">
   </div>
 
-  <div class="input-group">
-    <label for="password">Password</label>
-    <input type="password" id="password" placeholder="Enter your password" required />
-  </div>
+  <p class="disclaimer">
+    You'll need to confirm this email later.
+  </p>
 
-  <button class="btn" onclick="loginWithEmail()">Log In</button>
-
-  <div class="back-link" onclick="goBack()">← Back to main login</div>
-
-  <script>
-    function goBack() {
-      window.location.href = 'index.html';
-    }
-
-    function loginWithEmail() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-
-      if (!email || !password) {
-        alert('Please enter both email and password.');
-        return;
-      }
-
-      // Firebase login (उदाहरणार्थ)
-      firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          alert('Login successful!');
-          // redirect to home/dashboard page
-        })
-        .catch((error) => {
-          alert('Error: ' + error.message);
-        });
-    }
-  </script>
-
-  <!-- Firebase JS SDK जोडलेले असेल हे नक्की करा -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-  <script>
-    // Firebase config इथे जोडा
-    const firebaseConfig = {
-      apiKey: "तुमचं-api-key",
-      authDomain: "तुमचं-auth-domain",
-      projectId: "तुमचं-project-id",
-      storageBucket: "तुमचं-storageBucket",
-      messagingSenderId: "तुमचं-msgSenderId",
-      appId: "तुमचं-app-id"
-    };
-    firebase.initializeApp(firebaseConfig);
-  </script>
-</body>
-</html>
+  <button class="btn" onclick="verifyEmail()">Next</button>
+</div>
