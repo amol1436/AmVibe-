@@ -1,84 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AmVibe - Email Login</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif; /* Spotify चा फॉन्ट */
-    }
-    body {
-      background: linear-gradient(180deg, #1DB954 0%, #121212 100%);
-      color: white;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .login-container {
-      background: #121212;
-      width: 100%;
-      max-width: 450px;
-      padding: 48px;
-      border-radius: 8px;
-      text-align: left; /* Spotify प्रमाणे डावीकडे टेक्स्ट */
-      margin: 20px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    }
-    h1 {
-      font-size: 24px;
-      margin-bottom: 30px;
-      font-weight: 700;
-    }
-    input {
-      width: 100%;
-      padding: 16px;
-      margin-bottom: 16px;
-      background: #121212;
-      border: 1px solid #333;
-      border-radius: 4px;
-      color: white;
-      font-size: 16px;
-    }
-    input:focus {
-      outline: none;
-      border-color: #1DB954;
-    }
-    .disclaimer {
-      color: #a7a7a7;
-      font-size: 11px;
-      margin: 10px 0 30px;
-      line-height: 1.5;
-    }
-    .btn {
-      width: 100%;
-      padding: 14px;
-      background: #1DB954;
-      color: white;
-      border: none;
-      border-radius: 500px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .btn:hover {
-      background: #1ed760;
-    }
-  </style>
+  <title>Email Login</title>
 </head>
-<body>
-  <div class="login-container">
-    <h1>What's your email address?</h1>
-    
-    <input type="email" id="email" placeholder="Email address">
-    
-    <p class="disclaimer">
-      You'll need to confirm this email later.
-    </p>
-    
-    <button class="btn" onclick="sendEmail()">Next</button>
-  </div>
+<body style="background-color:black; color:white; text-align:center; padding:50px;">
+  <h2>Create account</h2>
+  <h3>What’s your email address?</h3>
+  <input type="email" placeholder="Enter your email" style="padding:10px; width: 80%;"><br><br>
+  <p>You’ll need to confirm this email later.</p>
+  <button style="padding: 10px 20px; background-color:gray; color:white;" disabled>Next</button>
 </body>
 </html>
