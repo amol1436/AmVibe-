@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AmVibe - OTP Verification</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    body {
+      background: #000; /* पूर्ण काळा बॅकग्राऊंड */
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .otp-container {
+      background: #121212; /* Spotify डार्क थीम */
+      width: 100%;
+      max-width: 450px;
+      padding: 32px;
+      border-radius: 8px;
+      text-align: center;
+      margin: 20px;
+    }
+    
+    h1 {
+      font-size: 24px;
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+    
+    .otp-message {
+      color: #a7a7a7;
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+    
+    .otp-inputs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+    
+    .otp-input {
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      font-size: 20px;
+      background: #121212;
+      border: 1px solid #333;
+      border-radius: 4px;
+      color: white;
+    }
+    
+    .otp-input:focus {
+      outline: none;
+      border-color: #1DB954;
+    }
+    
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: #1DB954; /* Spotify ग्रीन */
+      color: white;
+      border: none;
+      border-radius: 500px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .btn:hover {
+      background: #1ED760;
+    }
+    
+    .resend-link {
+      color: #a7a7a7;
+      font-size: 14px;
+      margin-top: 24px;
+    }
+    
+    .resend-link a {
+      color: #1DB954;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="otp-container">
+    <h1>Enter Verification Code</h1>
+    
+    <p class="otp-message">
+      We've sent a 6-digit code to <strong>+91 •••• •••789</strong><br>
+      (Expires in 5:00)
+    </p>
+    
+    <div class="otp-inputs">
+      <input type="text" class="otp-input" maxlength="1" pattern="\d*">
+      <input type="text" class="otp-input" maxlength="1" pattern="\d*">
+      <input type="text" class="otp-input" maxlength="1" pattern="\d*">
+      <input type="text" class="otp-input" maxlength="1" pattern="\d*">
+      <input type="text" class="otp-input" maxlength="1" pattern="\d*">
+      <input type="text" class="otp-input" maxlength="1" pattern="\d*">
+    </div>
+    
+    <button class="btn" onclick="verifyOTP()">Verify</button>
+    
+    <p class="resend-link">
+      Didn't receive code? <a href="#" onclick="resendOTP()">Resend</a>
+    </p>
+  </div>
+
+  <script>
+    // OTP इनपुट स्वयंचलित नेव्हिगेशन
+    const inputs = document.querySelectorAll('.otp-input');
+    inputs.forEach((input, index) => {
+      input.addEventListener('input', (e) => {
+        if (e.target.value.length === 1) {
+          if (index < inputs.length - 1) {
+            inputs[index + 1].focus();
+          }
+        }
+      });
+      
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && e.target.value === '') {
+          if (index > 0) {
+            inputs[index - 1].focus();
+          }
+        }
+      });
+    });
+
+    function verifyOTP() {
+      let otp = '';
+      inputs.forEach(input => {
+        otp += input.value;
+      });
+      
+      if (otp.length !== 6) {
+        alert("Please enter 6-digit OTP");
+        return;
+      }
+      
+      console.log("OTP submitted:", otp);
+      // Firebase OTP व्हेरिफिकेशन कोड येथे जोडा
+      // confirmOTP(otp);
+    }
+    
+    function resendOTP() {
+      console.log("Resending OTP...");
+      // OTP पुन्हा पाठवण्याचा कोड
+    }
+  </script>
+</body>
+</html>
