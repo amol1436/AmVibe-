@@ -1,13 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Phone Login</title>
+  <title>AmVibe - Phone Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    body {
+      background: #000;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding-top: 0; /* अगदी वरपासून */
+    }
+    .login-container {
+      background: #121212;
+      width: 100%;
+      max-width: 450px;
+      padding: 32px;
+      border-radius: 8px;
+      text-align: left;
+      margin: 0;
+      position: absolute;
+      top: 0; /* अगदी टॉपला */
+    }
+    /* बाकी CSS तसेच */
+  </style>
 </head>
-<body style="background-color:black; color:white; text-align:center; padding:50px;">
-  <h2>Enter phone number</h2>
-  <input type="tel" placeholder="+91 Phone number" style="padding:10px; width: 80%;"><br><br>
-  <p>We’ll send you a code to confirm your phone number.</p>
-  <p>We may occasionally send you service-based messages.</p>
-  <button style="padding: 10px 20px; background-color:gray; color:white;" disabled>Next</button>
+<body>
+  <div class="login-container">
+    <!-- तुमचे मूळ कोड तसेच -->
+  </div>
 </body>
 </html>
