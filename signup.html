@@ -22,7 +22,7 @@
     }
     .signup-container {
       background-color: #121212;
-      padding: 30px;
+      padding: 40px;
       border-radius: 8px;
       width: 100%;
       max-width: 400px;
@@ -33,22 +33,14 @@
       margin: 0 auto 30px auto;
     }
     h1 {
-      font-size: 22px;
+      font-size: 24px;
       margin-bottom: 25px;
-      font-weight: 700;
       text-align: center;
     }
-    .input-group {
-      margin-bottom: 20px;
-    }
-    .input-group label {
-      display: block;
-      margin-bottom: 8px;
-      color: #a7a7a7;
-    }
-    .input-group input {
+    .input-field {
       width: 100%;
       padding: 15px;
+      margin-bottom: 20px;
       border-radius: 4px;
       border: 1px solid #333;
       background: #2a2a2a;
@@ -62,10 +54,10 @@
       font-weight: bold;
       font-size: 16px;
       cursor: pointer;
-      margin-top: 10px;
       border: none;
       color: white;
       background-color: #1DB954;
+      margin-top: 10px;
     }
     .login-link {
       margin-top: 20px;
@@ -82,22 +74,12 @@
 <body>
   <div class="signup-container">
     <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo">
-    <h1>Sign Up for AmVibe</h1>
+    <h1>Create Your Account</h1>
     
-    <div class="input-group">
-      <label for="name">Full Name</label>
-      <input type="text" id="name" placeholder="Enter your name">
-    </div>
-    
-    <div class="input-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" placeholder="Enter your email">
-    </div>
-    
-    <div class="input-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" placeholder="Create a password">
-    </div>
+    <input type="text" class="input-field" id="name" placeholder="Full Name">
+    <input type="email" class="input-field" id="email" placeholder="Email Address">
+    <input type="password" class="input-field" id="password" placeholder="Password">
+    <input type="password" class="input-field" id="confirm-password" placeholder="Confirm Password">
     
     <button class="btn" onclick="signUp()">Sign Up</button>
     
@@ -106,20 +88,79 @@
     </div>
   </div>
 
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  
   <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
+      authDomain: "amvibe-a22db.firebaseapp.com",
+      projectId: "amvibe-a22db",
+      storageBucket: "amvibe-a22db.appspot.com",
+      messagingSenderId: "717648312311",
+      appId: "1:717648312311:web:c97e204d16e4211b9360f2",
+      measurementId: "G-WPV8M3E8K2"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
     function signUp() {
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
       
-      if (!name || !email || !password) {
+      // Validation
+      if (!name || !email || !password || !confirmPassword) {
         alert('Please fill in all fields');
         return;
       }
       
-      // Firebase authentication code will go here
-      alert('Sign up successful! Welcome to AmVibe');
-      // window.location.href = "home.html";
+      if (password !== confirmPassword) {
+        alert('Passwords do not match');
+        return;
+      }
+      
+      if (password.length < 6) {
+        alert('Password must be at least 6 characters');
+        return;
+      }
+      
+      // Create user with Firebase
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // Update user profile with name
+          return userCredential.user.updateProfile({
+            displayName: name
+          });
+        })
+        .then(() => {
+          alert('Account created successfully!');
+          window.location.href = "home.html"; // Redirect to home page
+        })
+        .catch((error) => {
+          let errorMessage = "Sign up failed: ";
+          
+          switch(error.code) {
+            case 'auth/email-already-in-use':
+              errorMessage += 'This email is already registered';
+              break;
+            case 'auth/invalid-email':
+              errorMessage += 'Invalid email address';
+              break;
+            case 'auth/weak-password':
+              errorMessage += 'Password is too weak';
+              break;
+            default:
+              errorMessage += error.message;
+          }
+          
+          alert(errorMessage);
+        });
     }
   </script>
 </body>
