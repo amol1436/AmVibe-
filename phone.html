@@ -205,6 +205,27 @@
         alert("Please enter your phone number");
         return;
       }
+          // Firebase OTP लॉजिक
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('send-button', {
+      'size': 'invisible',
+      'callback': function(response) {
+        // reCAPTCHA solved
+      }
+    });
+
+    const fullPhone = countryCode + phoneNumber;
+
+    firebase.auth().signInWithPhoneNumber(fullPhone, window.recaptchaVerifier)
+      .then(function (confirmationResult) {
+        window.confirmationResult = confirmationResult;
+        alert("OTP sent successfully!");
+        window.location.href = "verify.html"; // OTP verify page
+      })
+      .catch(function (error) {
+        console.error("Error sending OTP:", error);
+        alert("Failed to send OTP: " + error.message);
+      });
+      
       
       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
