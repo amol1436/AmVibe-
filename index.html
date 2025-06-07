@@ -101,17 +101,14 @@
     <h1>Log in to AmVibe</h1>
 
     <button class="btn btn-email" onclick="window.location.href='email.html'">
-    Continue with email
+      Continue with email
     </button>
     
-    
-
     <button class="btn btn-other" onclick="window.location.href='phone.html'">
-    <span class="phone-icon">📱</span>
-    Continue with phone number
+      <span class="phone-icon">📱</span>
+      Continue with phone number
     </button>
       
-
     <button class="btn btn-other" onclick="loginWithGoogle()">
       <img src="https://www.google.com/favicon.ico" class="icon" alt="Google" />
       Continue with Google
@@ -130,16 +127,10 @@
   </div>
 
   <!-- Firebase Integration -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import {
-      getAuth,
-      GoogleAuthProvider,
-      signInWithPopup,
-      RecaptchaVerifier,
-      signInWithPhoneNumber
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script>
+    // Your web app's Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
       authDomain: "amvibe-a22db.firebaseapp.com",
@@ -150,12 +141,13 @@
       measurementId: "G-WPV8M3E8K2"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
 
     window.loginWithGoogle = () => {
-      signInWithPopup(auth, provider)
+      auth.signInWithPopup(provider)
         .then((result) => {
           const user = result.user;
           alert("Login successful! Welcome " + user.displayName);
@@ -179,7 +171,7 @@
 
       // reCAPTCHA फक्त एकदाच सेट करायचा
       if (!window.recaptchaVerifier) {
-        window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha-container", {
           size: "normal",
           callback: () => {
             console.log("reCAPTCHA verified");
@@ -193,7 +185,7 @@
       const phoneNumber = document.getElementById("phone-number").value;
       const appVerifier = window.recaptchaVerifier;
 
-      signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+      auth.signInWithPhoneNumber(phoneNumber, appVerifier)
         .then((confirmationResult) => {
           window.confirmationResult = confirmationResult;
           alert("OTP पाठवला गेला आहे");
@@ -214,8 +206,6 @@
           alert("चुकीचा OTP");
         });
     };
-</button>
-    
   </script>
 </body>
 </html>
