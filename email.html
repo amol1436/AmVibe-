@@ -1,3 +1,6 @@
+Email.html
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -126,44 +129,6 @@
       
       console.log("Login attempt with:", email);
       // Firebase लॉगिन कोड येथे जोडा
-      <script type="module">
-
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
-  authDomain: "amvibe-a22db.firebaseapp.com",
-  projectId: "amvibe-a22db",
-  storageBucket: "amvibe-a22db.firebasestorage.app",
-  messagingSenderId: "717648312311",
-  appId: "1:717648312311:web:c97e204d16e4211b9360f2",
-  measurementId: "G-WPV8M3E8K2"
-};
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  // Login Function
-  window.login = function () {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    if (!email || !password) {
-      alert("Please enter both email and password");
-      return;
-    }
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // लॉगिन यशस्वी झाला!
-        alert("Login successful!");
-        window.location.href = "home.html"; // लॉगिन नंतर कुठे जायचं ते
-      })
-      .catch((error) => {
-        alert("Login failed: " + error.message);
-      });
-  };
-</script>
-  
       // signInWithEmailAndPassword(auth, email, password)...
     }
   </script>
