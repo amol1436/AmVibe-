@@ -1,113 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Music Preferences</title>
   <style>
     body {
-      background-color: #000;
+      background-color: black;
       color: white;
-      font-family: 'Circular', sans-serif;
-      padding: 20px;
+      font-family: sans-serif;
       text-align: center;
+      padding: 20px;
     }
-    h1 {
-      font-size: 24px;
+
+    h2 {
+      font-size: 28px;
       margin-bottom: 20px;
     }
+
     .genre-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      margin-bottom: 20px;
+      gap: 12px;
     }
+
     .genre {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
       padding: 20px;
-      border-radius: 10px;
-      background-color: #1DB954;
-      cursor: pointer;
+      font-size: 20px;
       font-weight: bold;
+      color: white;
     }
-    .genre.selected {
-      border: 3px solid white;
+
+    .genre input {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      transform: scale(1.5);
     }
+
     button {
-      padding: 10px 20px;
-      background-color: #1DB954;
-      border: none;
-      border-radius: 25px;
+      margin-top: 20px;
+      padding: 12px 30px;
+      font-size: 16px;
       font-weight: bold;
-      cursor: pointer;
+      background-color: white;
+      color: black;
+      border: none;
+      border-radius: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>What music do you like?</h1>
-  <div class="genre-grid" id="genreGrid">
-    <div class="genre">Hindi</div>
-    <div class="genre">International</div>
-    <div class="genre">Punjabi</div>
-    <div class="genre">Tamil</div>
-    <div class="genre">Telugu</div>
-    <div class="genre">Malayalam</div>
-    <div class="genre">Marathi</div>
-    <div class="genre">Gujarati</div>
-    <div class="genre">Bengali</div>
-    <div class="genre">Kannada</div>
-  </div>
-  <button onclick="savePreferences()">Next</button>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <h2>What music do you like?</h2>
+
+  <div class="genre-grid">
+    <label class="genre" style="background: #e53935;">
+      Hindi
+      <input type="checkbox" value="Hindi" name="genre" />
+    </label>
+    <label class="genre" style="background: #ff9800;">
+      International
+      <input type="checkbox" value="International" name="genre" />
+    </label>
+    <label class="genre" style="background: #9c27b0;">
+      Punjabi
+      <input type="checkbox" value="Punjabi" name="genre" />
+    </label>
+    <label class="genre" style="background: #ffb74d;">
+      Tamil
+      <input type="checkbox" value="Tamil" name="genre" />
+    </label>
+    <label class="genre" style="background: #4caf50;">
+      Telugu
+      <input type="checkbox" value="Telugu" name="genre" />
+    </label>
+    <label class="genre" style="background: #81c784;">
+      Malayalam
+      <input type="checkbox" value="Malayalam" name="genre" />
+    </label>
+    <label class="genre" style="background: #a1887f;">
+      Marathi
+      <input type="checkbox" value="Marathi" name="genre" />
+    </label>
+    <label class="genre" style="background: #ec407a;">
+      Gujarati
+      <input type="checkbox" value="Gujarati" name="genre" />
+    </label>
+    <label class="genre" style="background: #42a5f5;">
+      Bengali
+      <input type="checkbox" value="Bengali" name="genre" />
+    </label>
+    <label class="genre" style="background: #d32f2f;">
+      Kannada
+      <input type="checkbox" value="Kannada" name="genre" />
+    </label>
+  </div>
+
+  <button id="savePreferencesBtn">Next</button>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
-      authDomain: "amvibe-a22db.firebaseapp.com",
-      projectId: "amvibe-a22db",
-      storageBucket: "amvibe-a22db.appspot.com",
-      messagingSenderId: "717648312311",
-      appId: "1:717648312311:web:c97e204d16e4211b9360f2"
-    };
-
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
+  authDomain: "amvibe-a22db.firebaseapp.com",
+  projectId: "amvibe-a22db",
+  storageBucket: "amvibe-a22db.firebasestorage.app",
+  messagingSenderId: "717648312311",
+  appId: "1:717648312311:web:c97e204d16e4211b9360f2",
+  measurementId: "G-WPV8M3E8K2"
+};
     firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
     const db = firebase.firestore();
 
-    const selectedGenres = new Set();
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        document.getElementById("savePreferencesBtn").addEventListener("click", function () {
+          const selected = [];
+          document.querySelectorAll('input[name="genre"]:checked').forEach((cb) => {
+            selected.push(cb.value);
+          });
 
-    document.querySelectorAll('.genre').forEach(item => {
-      item.addEventListener('click', () => {
-        item.classList.toggle('selected');
-        const genre = item.textContent;
-        if (selectedGenres.has(genre)) {
-          selectedGenres.delete(genre);
-        } else {
-          selectedGenres.add(genre);
-        }
-      });
-    });
-
-    function savePreferences() {
-      const user = auth.currentUser;
-      if (!user) {
-        alert("You are not logged in.");
-        return;
+          db.collection("users").doc(user.uid).set({
+            preferences: selected
+          }, { merge: true }).then(() => {
+            window.location.href = "home.html";
+          });
+        });
+      } else {
+        window.location.href = "Email.html";
       }
-
-      const genreList = Array.from(selectedGenres);
-      db.collection('users').doc(user.uid).set({
-        preferences: genreList
-      }, { merge: true }).then(() => {
-        alert("Preferences saved!");
-        window.location.href = "home.html";
-      }).catch(error => {
-        alert("Error saving preferences: " + error.message);
-      });
-    }
+    });
   </script>
+
 </body>
 </html>
