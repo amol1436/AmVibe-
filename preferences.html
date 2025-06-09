@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Preferences</title>
+  <style>
+    body {
+      background-color: #000;
+      color: white;
+      font-family: 'Circular', sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .genre-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .genre {
+      padding: 20px;
+      border-radius: 10px;
+      background-color: #1DB954;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .genre.selected {
+      border: 3px solid white;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #1DB954;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>What music do you like?</h1>
+  <div class="genre-grid" id="genreGrid">
+    <div class="genre">Hindi</div>
+    <div class="genre">International</div>
+    <div class="genre">Punjabi</div>
+    <div class="genre">Tamil</div>
+    <div class="genre">Telugu</div>
+    <div class="genre">Malayalam</div>
+    <div class="genre">Marathi</div>
+    <div class="genre">Gujarati</div>
+    <div class="genre">Bengali</div>
+    <div class="genre">Kannada</div>
+  </div>
+  <button onclick="savePreferences()">Next</button>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
+      authDomain: "amvibe-a22db.firebaseapp.com",
+      projectId: "amvibe-a22db",
+      storageBucket: "amvibe-a22db.appspot.com",
+      messagingSenderId: "717648312311",
+      appId: "1:717648312311:web:c97e204d16e4211b9360f2"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const selectedGenres = new Set();
+
+    document.querySelectorAll('.genre').forEach(item => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('selected');
+        const genre = item.textContent;
+        if (selectedGenres.has(genre)) {
+          selectedGenres.delete(genre);
+        } else {
+          selectedGenres.add(genre);
+        }
+      });
+    });
+
+    function savePreferences() {
+      const user = auth.currentUser;
+      if (!user) {
+        alert("You are not logged in.");
+        return;
+      }
+
+      const genreList = Array.from(selectedGenres);
+      db.collection('users').doc(user.uid).set({
+        preferences: genreList
+      }, { merge: true }).then(() => {
+        alert("Preferences saved!");
+        window.location.href = "home.html";
+      }).catch(error => {
+        alert("Error saving preferences: " + error.message);
+      });
+    }
+  </script>
+</body>
+</html>
