@@ -1,11 +1,73 @@
-<!-- home.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Welcome to AmVibe</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Circular', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      color: #1DB954;
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+    .btn {
+      padding: 12px 25px;
+      font-size: 16px;
+      background-color: #1DB954;
+      border: none;
+      color: white;
+      border-radius: 25px;
+      cursor: pointer;
+    }
+  </style>
 </head>
-<body style="background:#000; color:#fff; display:flex; align-items:center; justify-content:center; height:100vh;">
-  <h1>Welcome to AmVibe 🎵</h1>
+<body>
+  <h1>Welcome to AmVibe!</h1>
+  <p>You have successfully logged in.</p>
+  <button class="btn" onclick="logout()">Log Out</button>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
+      authDomain: "amvibe-a22db.firebaseapp.com",
+      projectId: "amvibe-a22db",
+      storageBucket: "amvibe-a22db.appspot.com",
+      messagingSenderId: "717648312311",
+      appId: "1:717648312311:web:c97e204d16e4211b9360f2",
+      measurementId: "G-WPV8M3E8K2"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function logout() {
+      auth.signOut().then(() => {
+        window.location.href = "email.html"; // login page
+      });
+    }
+
+    // Optional: Redirect if user not logged in
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "email.html";
+      }
+    });
+  </script>
 </body>
 </html>
