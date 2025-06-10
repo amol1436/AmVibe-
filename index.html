@@ -3,110 +3,137 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AMVibe</title>
+  <title>AmVibe - Login</title>
+
+  <!-- Firebase JS SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
   <style>
     body {
-      margin: 0;
-      font-family: "Helvetica Neue", sans-serif;
-      background-color: black;
+      background-color: #000;
       color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      font-family: Arial, sans-serif;
       text-align: center;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
     }
 
     .logo {
       width: 100px;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
 
-    .title {
-      font-size: 28px;
-      font-weight: bold;
-      margin: 10px 0;
+    h1 {
+      font-size: 24px;
+      margin-bottom: 5px;
     }
 
     .subtitle {
-      font-size: 18px;
       color: #aaa;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
-    .btn {
-      width: 300px;
-      padding: 14px;
+    .green-btn {
+      background-color: #1DB954;
+      color: black;
+      padding: 15px;
       border-radius: 30px;
+      border: none;
+      width: 100%;
       font-size: 16px;
       font-weight: bold;
-      margin: 10px 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
+      margin-bottom: 20px;
       cursor: pointer;
     }
 
-    .signup-btn {
-      background-color: #1ed760;
-      color: black;
-      border: none;
-    }
-
-    .google-btn,
-    .facebook-btn,
-    .phone-btn {
-      background-color: transparent;
-      border: 1.5px solid white;
+    .social-btn {
+      background: transparent;
+      border: 1px solid white;
       color: white;
+      padding: 12px;
+      border-radius: 30px;
+      width: 100%;
+      margin-bottom: 15px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
     }
 
-    .google-icon,
-    .facebook-icon,
-    .phone-icon {
-      width: 22px;
-      height: 22px;
+    .social-btn .icon {
+      width: 20px;
+      height: 20px;
     }
 
-    .login-link {
+    .login-text {
       margin-top: 30px;
-      font-size: 14px;
-      color: white;
+      color: #ccc;
     }
 
-    .login-link a {
-      color: #1ed760;
+    .login-text a {
+      color: #1DB954;
       text-decoration: none;
     }
   </style>
 </head>
 <body>
-  <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/0/08/Spotify_icon.svg" alt="AMVibe Logo" />
+  <div class="container">
+    <img src="https://i.imgur.com/wSTFkRM.png" alt="Logo" class="logo" />
+    <h1>Millions of songs.</h1>
+    <p class="subtitle">Free on AMVibe.</p>
 
-  <div class="title">Millions of songs.</div>
-  <div class="subtitle">Free on AMVibe.</div>
+    <button class="green-btn">Sign up for free</button>
 
-  <button class="btn signup-btn">Sign up for free</button>
+    <button class="social-btn" onclick="phoneLogin()">
+      📞 Continue with Phone Number
+    </button>
 
-  <button class="btn phone-btn">
-    <img class="phone-icon" src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" alt="Phone" />
-    Continue with phone number
-  </button>
+    <button class="social-btn" onclick="googleLogin()">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" class="icon" />
+      Continue with Google
+    </button>
 
-  <button class="btn google-btn">
-    <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" />
-    Continue with Google
-  </button>
+    <button class="social-btn">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" class="icon" />
+      Continue with Facebook
+    </button>
 
-  <button class="btn facebook-btn">
-    <img class="facebook-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
-    Continue with Facebook
-  </button>
-
-  <div class="login-link">
-    Already have an account? <a href="#">Log in</a>
+    <p class="login-text">Already have an account? <a href="#">Log in</a></p>
   </div>
+
+  <script>
+    // Firebase config इथे तुमचं टाका
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      appId: "YOUR_APP_ID",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function googleLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then((result) => {
+          alert("Logged in as: " + result.user.displayName);
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    }
+
+    function phoneLogin() {
+      window.location.href = "phone.html";
+    }
+  </script>
 </body>
 </html>
