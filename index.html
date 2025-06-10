@@ -1,125 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AMVibe Login</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>AmVibe - Log In</title>
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+      font-family: 'Circular', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    body {
       background-color: #000;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
       text-align: center;
     }
-
-    .container {
-      padding: 40px 20px;
+    .login-container {
+      background-color: #121212;
+      padding: 30px;
+      border-radius: 8px;
+      width: 100%;
       max-width: 400px;
-      margin: auto;
     }
-
     .logo {
-      width: 100px;
-      height: 100px;
-      margin: 40px auto 20px;
-      background: #1db954;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      width: 120px;
+      display: block;
+      margin: 0 auto 30px auto;
     }
-
-    .logo:before {
-      content: '▶️';
-      font-size: 40px;
-    }
-
     h1 {
-      font-size: 24px;
-      font-weight: 600;
-      margin: 20px 0 10px;
+      font-size: 22px;
+      margin-bottom: 25px;
+      font-weight: 700;
     }
-
-    p {
-      font-size: 20px;
-      margin: 0 0 30px;
-    }
-
     .btn {
       width: 100%;
-      padding: 14px;
+      padding: 15px;
       border-radius: 30px;
-      font-size: 16px;
-      font-weight: 500;
-      margin-bottom: 15px;
+      font-weight: bold;
+      font-size: 15px;
       cursor: pointer;
+      margin-bottom: 15px;
+      border: none;
+      color: white;
+      transition: all 0.3s;
+      text-align: center;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: none;
+      gap: 10px;
     }
-
-    .btn-green {
-      background-color: #1db954;
-      color: #000;
+    .btn-email {
+      background-color: #1DB954;
     }
-
-    .btn-outline {
+    .btn-other {
       background: transparent;
-      border: 1px solid #fff;
+      border: 1px solid #878787;
+    }
+    .icon {
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
+    .phone-icon {
+      font-size: 18px;
+    }
+    .signup-link {
+      margin-top: 20px;
+      font-size: 15px;
+      color: #a7a7a7;
+    }
+    .signup-link a {
       color: #fff;
-    }
-
-    .btn img {
-      width: 20px;
-      height: 20px;
-      margin-right: 12px;
-    }
-
-    .login-link {
-      margin-top: 30px;
-      font-size: 14px;
-    }
-
-    .login-link a {
-      color: #1db954;
       text-decoration: none;
+      font-weight: bold;
     }
-
-    .btn-outline:hover, .btn-green:hover {
-      opacity: 0.9;
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 25px 20px;
+        border-radius: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      body {
+        padding: 0;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="logo"></div>
-    <h1>Millions of songs.</h1>
-    <p>Free on AMVibe.</p>
+  <div class="login-container">
+    <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo" />
+    <h1>Log in to AmVibe</h1>
 
-    <button class="btn btn-green">Sign up for free</button>
-
-    <button class="btn btn-outline">
-      <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google" />
+    <button class="btn btn-email" onclick="window.location.href='email.html'">
+      Continue with email
+    </button>
+    
+    <button class="btn btn-other" onclick="window.location.href='phone.html'">
+      <span class="phone-icon">📱</span>
+      Continue with phone number
+    </button>
+      
+    <button class="btn btn-other" onclick="loginWithGoogle()">
+      <img src="https://www.google.com/favicon.ico" class="icon" alt="Google" />
       Continue with Google
     </button>
 
-    <button class="btn btn-outline">
-      <img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" alt="Facebook" />
-      Continue with Facebook
-    </button>
+    <p class="signup-link">Don't have an account? <a href="#" onclick="signUp()">Sign up</a></p>
 
-    <button class="btn btn-outline">
-      <img src="https://img.icons8.com/fluency/48/phone.png" alt="Phone" />
-      Continue with Phone number
-    </button>
-
-    <div class="login-link">
-      Already have an account? <a href="#">Log in</a>
+    <!-- PHONE LOGIN SECTION -->
+    <div id="phone-login" style="display: none; margin-top: 20px;">
+      <input type="text" id="phone-number" placeholder="+91XXXXXXXXXX" /><br /><br />
+      <div id="recaptcha-container"></div><br />
+      <button onclick="sendOTP()">Send OTP</button><br /><br />
+      <input type="text" id="otp" placeholder="Enter OTP" /><br /><br />
+      <button onclick="verifyOTP()">Verify OTP</button>
     </div>
   </div>
+
+  <!-- Firebase Integration -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
+      authDomain: "amvibe-a22db.firebaseapp.com",
+      projectId: "amvibe-a22db",
+      storageBucket: "amvibe-a22db.appspot.com",
+      messagingSenderId: "717648312311",
+      appId: "1:717648312311:web:c97e204d16e4211b9360f2",
+      measurementId: "G-WPV8M3E8K2"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    window.loginWithGoogle = () => {
+      auth.signInWithPopup(provider)
+        .then((result) => {
+          const user = result.user;
+          alert("Login successful! Welcome " + user.displayName);
+          // window.location.href = "home.html";
+        })
+        .catch((error) => {
+          alert("Login failed: " + error.message);
+        });
+    };
+
+    window.loginWithEmail = () => {
+      alert("Email login coming soon...");
+    };
+
+    window.signUp = () => {
+      alert("Sign up page/functionality yet to be implemented.");
+    };
+
+    window.showPhoneLogin = () => {
+      document.getElementById("phone-login").style.display = "block";
+
+      // reCAPTCHA फक्त एकदाच सेट करायचा
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha-container", {
+          size: "normal",
+          callback: () => {
+            console.log("reCAPTCHA verified");
+          },
+        });
+        window.recaptchaVerifier.render();
+      }
+    };
+
+    window.sendOTP = () => {
+      const phoneNumber = document.getElementById("phone-number").value;
+      const appVerifier = window.recaptchaVerifier;
+
+      auth.signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          alert("OTP पाठवला गेला आहे");
+        })
+        .catch((error) => {
+          alert("OTP त्रुटी: " + error.message);
+        });
+    };
+
+    window.verifyOTP = () => {
+      const otp = document.getElementById("otp").value;
+      window.confirmationResult.confirm(otp)
+        .then((result) => {
+          alert("फोन लॉगिन यशस्वी: " + result.user.phoneNumber);
+          // window.location.href = "home.html";
+        })
+        .catch((error) => {
+          alert("चुकीचा OTP");
+        });
+    };
+  </script>
 </body>
 </html>
