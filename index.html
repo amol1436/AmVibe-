@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>AmVibe - Sign Up</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AmVibe - Music Streaming</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Circular', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Circular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
+    
     body {
       background-color: #000;
       color: #fff;
@@ -20,161 +22,274 @@
       min-height: 100vh;
       padding: 20px;
       text-align: center;
-      background: linear-gradient(to bottom, #1a1a1a, #000000);
+      background: radial-gradient(circle at center, #121212 0%, #000 100%);
+      overflow: hidden;
     }
+    
     .login-container {
-      background-color: rgba(18, 18, 18, 0.8);
-      padding: 40px 30px;
+      background-color: rgba(18, 18, 18, 0.95);
+      padding: 40px 35px;
       border-radius: 12px;
       width: 100%;
       max-width: 450px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+      position: relative;
+      z-index: 2;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .app-title {
-      font-size: 32px;
-      font-weight: 900;
-      margin-bottom: 10px;
-      letter-spacing: -0.5px;
-      background: linear-gradient(to right, #1DB954, #1ED760);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    
+    .logo-container {
+      margin-bottom: 30px;
     }
+    
+    .logo {
+      height: 50px;
+      margin-bottom: 15px;
+    }
+    
     .tagline {
       font-size: 18px;
       color: #b3b3b3;
-      margin-bottom: 35px;
       font-weight: 500;
-    }
-    .btn {
-      width: 100%;
-      padding: 17px;
-      border-radius: 30px;
-      font-weight: bold;
-      font-size: 16px;
-      cursor: pointer;
-      margin-bottom: 15px;
-      border: none;
-      color: white;
-      transition: all 0.3s ease;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .btn:hover {
-      transform: scale(1.02);
-      background: rgba(255, 255, 255, 0.15);
-    }
-    .btn:active {
-      transform: scale(0.98);
-    }
-    .btn-signup {
-      background-color: #1DB954;
-      border: none;
-      font-size: 17px;
-      font-weight: 800;
+      margin-bottom: 5px;
       letter-spacing: 0.5px;
+    }
+    
+    .sub-tagline {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 35px;
+      letter-spacing: -0.5px;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .signup-btn {
+      width: 100%;
+      padding: 18px;
+      border-radius: 500px;
+      background-color: #1DB954;
+      color: #000;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      border: none;
+      cursor: pointer;
+      margin-bottom: 25px;
+      transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
     }
-    .btn-signup:hover {
+    
+    .signup-btn:hover {
       background-color: #1ED760;
+      transform: scale(1.02);
       box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
     }
-    .icon {
-      width: 20px;
-      height: 20px;
-      display: block;
+    
+    .signup-btn:active {
+      transform: scale(0.98);
     }
-    .phone-icon {
-      font-size: 20px;
-    }
-    .login-link {
-      margin-top: 25px;
-      font-size: 16px;
-      color: #a0a0a0;
-    }
-    .login-link a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-      margin-left: 5px;
-      transition: all 0.2s;
-    }
-    .login-link a:hover {
-      color: #1DB954;
-      text-decoration: underline;
-    }
+    
     .divider {
       display: flex;
       align-items: center;
-      margin: 20px 0;
+      margin: 25px 0;
       color: #777;
+      font-size: 14px;
+      font-weight: 500;
     }
+    
     .divider::before,
     .divider::after {
       content: "";
       flex: 1;
-      border-bottom: 1px solid #444;
+      border-bottom: 1px solid #333;
     }
+    
     .divider span {
       padding: 0 15px;
-      font-size: 14px;
     }
+    
+    .login-option {
+      width: 100%;
+      padding: 16px;
+      border-radius: 500px;
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      margin-bottom: 15px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    
+    .login-option:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .login-option:active {
+      transform: translateY(0);
+    }
+    
+    .login-option i {
+      font-size: 18px;
+    }
+    
+    .google-icon {
+      width: 20px;
+      height: 20px;
+      background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
+      border-radius: 50%;
+    }
+    
+    .facebook-icon {
+      color: #1877F2;
+      font-size: 20px;
+    }
+    
+    .phone-icon {
+      color: #1DB954;
+    }
+    
+    .login-link {
+      margin-top: 30px;
+      font-size: 16px;
+      color: #a7a7a7;
+    }
+    
+    .login-link a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      margin-left: 5px;
+      transition: all 0.2s;
+    }
+    
+    .login-link a:hover {
+      color: #1DB954;
+      text-decoration: underline;
+    }
+    
+    .background-animation {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+    }
+    
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(29,185,84,0.1) 0%, rgba(29,185,84,0) 70%);
+    }
+    
+    .circle-1 {
+      width: 300px;
+      height: 300px;
+      top: -100px;
+      right: -100px;
+    }
+    
+    .circle-2 {
+      width: 200px;
+      height: 200px;
+      bottom: -50px;
+      left: -50px;
+    }
+    
+    .circle-3 {
+      width: 150px;
+      height: 150px;
+      top: 40%;
+      left: 10%;
+    }
+    
     @media (max-width: 480px) {
       .login-container {
-        padding: 30px 20px;
-        min-height: auto;
+        padding: 35px 25px;
         border-radius: 0;
-        background: rgba(18, 18, 18, 0.95);
       }
+      
       body {
         padding: 0;
         background: #000;
       }
-      .app-title {
-        font-size: 28px;
-      }
-      .tagline {
-        font-size: 16px;
+      
+      .sub-tagline {
+        font-size: 22px;
       }
     }
   </style>
 </head>
 <body>
+  <div class="background-animation">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+  </div>
+  
   <div class="login-container">
-    <h1 class="app-title">AMVibe</h1>
-    <p class="tagline">Millions of songs. Free on AMVibe..</p>
+    <div class="logo-container">
+      <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo">
+      <p class="tagline">Millions of songs. Free on AMVibe.</p>
+    </div>
     
-    <button class="btn btn-signup">
-      Sign up for free
-    </button>
+    <p class="sub-tagline">Sign up for free</p>
     
-    <div class="divider"><span>or continue with</span></div>
+    <button class="signup-btn">Sign up for free</button>
     
-    <button class="btn">
-      <span class="phone-icon">📱</span>
+    <div class="divider">
+      <span>or continue with</span>
+    </div>
+    
+    <button class="login-option">
+      <i class="fas fa-phone-alt phone-icon"></i>
       Continue with phone number
     </button>
     
-    <button class="btn">
-      <img src="https://www.gstatic.com/images/branding/googleg/1x/googleg_standard_color_32dp.png" class="icon" alt="Google" />
+    <button class="login-option">
+      <div class="google-icon"></div>
       Continue with Google
     </button>
     
-    <button class="btn">
-      <svg class="icon" viewBox="0 0 24 24" fill="#1877F2">
-        <path d="M22.675 0H1.325C0.593 0 0 0.593 0 1.325v21.351C0 23.407 0.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463 0.099 2.795 0.143v3.24l-1.918 0.001c-1.504 0-1.795 0.715-1.795 1.763v2.313h3.587l-0.467 3.622h-3.12V24h6.116c0.73 0 1.323-0.593 1.323-1.325V1.325C24 0.593 23.407 0 22.675 0z"/>
-      </svg>
+    <button class="login-option">
+      <i class="fab fa-facebook facebook-icon"></i>
       Continue with Facebook
     </button>
-
+    
     <div class="login-link">
-      Already have an account? <a href="login.html">Log in</a>
+      Already have an account? <a href="#">Log in</a>
     </div>
   </div>
+  
+  <script>
+    // Simple animation for background circles
+    document.addEventListener('DOMContentLoaded', function() {
+      const circles = document.querySelectorAll('.circle');
+      let x = 0, y = 0;
+      
+      function moveCircles() {
+        circles.forEach((circle, index) => {
+          const speed = 0.002 * (index + 1);
+          const offsetX = Math.sin(Date.now() * speed + index) * 5;
+          const offsetY = Math.cos(Date.now() * speed + index) * 5;
+          circle.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+        });
+        requestAnimationFrame(moveCircles);
+      }
+      
+      moveCircles();
+    });
+  </script>
 </body>
 </html>
