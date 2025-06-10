@@ -2,155 +2,111 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AmVibe - Log In</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AMVibe</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Circular', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
     body {
-      background-color: #000;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-      text-align: center;
-    }
-    .login-container {
-      background-color: #121212;
-      padding: 30px;
-      border-radius: 8px;
-      width: 100%;
-      max-width: 400px;
-    }
-    .logo {
-      width: 120px;
-      display: block;
-      margin: 0 auto 30px auto;
-    }
-    h1 {
-      font-size: 22px;
-      margin-bottom: 25px;
-      font-weight: 700;
-    }
-    .btn {
-      width: 100%;
-      padding: 15px;
-      border-radius: 30px;
-      font-weight: bold;
-      font-size: 15px;
-      cursor: pointer;
-      margin-bottom: 15px;
-      border: none;
+      margin: 0;
+      font-family: "Helvetica Neue", sans-serif;
+      background-color: black;
       color: white;
-      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
       text-align: center;
+    }
+
+    .logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #aaa;
+      margin-bottom: 40px;
+    }
+
+    .btn {
+      width: 300px;
+      padding: 14px;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      margin: 10px 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 12px;
+      cursor: pointer;
     }
-    .btn-email {
-      background-color: #1DB954;
+
+    .signup-btn {
+      background-color: #1ed760;
+      color: black;
+      border: none;
     }
-    .btn-other {
-      background: transparent;
-      border: 1px solid #878787;
+
+    .google-btn,
+    .facebook-btn,
+    .phone-btn {
+      background-color: transparent;
+      border: 1.5px solid white;
+      color: white;
     }
-    .icon {
-      width: 18px;
-      height: 18px;
-    }
+
+    .google-icon,
+    .facebook-icon,
     .phone-icon {
-      font-size: 18px;
+      width: 22px;
+      height: 22px;
     }
-    .signup-link {
-      margin-top: 20px;
-      font-size: 15px;
-      color: #a7a7a7;
+
+    .login-link {
+      margin-top: 30px;
+      font-size: 14px;
+      color: white;
     }
-    .signup-link a {
-      color: #fff;
+
+    .login-link a {
+      color: #1ed760;
       text-decoration: none;
-      font-weight: bold;
-    }
-    @media (max-width: 480px) {
-      .login-container {
-        padding: 25px 20px;
-        border-radius: 0;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-      body {
-        padding: 0;
-      }
     }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo" />
-    <h1>Log in to AmVibe</h1>
+  <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/0/08/Spotify_icon.svg" alt="AMVibe Logo" />
 
-    <button class="btn btn-email" onclick="window.location.href='email.html'">
-      Continue with email
-    </button>
+  <div class="title">Millions of songs.</div>
+  <div class="subtitle">Free on AMVibe.</div>
 
-    <button class="btn btn-other" onclick="window.location.href='phone.html'">
-      <span class="phone-icon">📱</span>
-      Continue with phone number
-    </button>
+  <button class="btn signup-btn">Sign up for free</button>
 
-    <button class="btn btn-other" onclick="loginWithGoogle()">
-      <!-- Google SVG Icon -->
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.5 544.3">
-        <path fill="#4285F4" d="M533.5 278.4c0-17.7-1.4-35-4-51.7H272v97.9h146.9c-6.4 34.8-25.8 64.3-55 84l89.1 69.4c52-47.9 80.5-118.6 80.5-199.6z"/>
-        <path fill="#34A853" d="M272 544.3c72.6 0 133.6-23.9 178.1-64.9l-89.1-69.4c-24.7 16.6-56.3 26.4-89 26.4-68.3 0-126-46-146.7-108.2l-90.8 70c42.7 84.2 130.5 145.1 237.5 145.1z"/>
-        <path fill="#FBBC05" d="M125.3 328.2c-10.1-30.2-10.1-62.5 0-92.7l-90.8-70c-39.6 77.8-39.6 168.5 0 246.3l90.8-70z"/>
-        <path fill="#EA4335" d="M272 107.7c37.7 0 71.6 13 98.2 34.9l73.5-73.5C405.6 24.8 344.6 0 272 0 165 0 77.2 60.9 34.5 145.1l90.8 70C146 153.7 203.7 107.7 272 107.7z"/>
-      </svg>
-      Continue with Google
-    </button>
+  <button class="btn phone-btn">
+    <img class="phone-icon" src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" alt="Phone" />
+    Continue with phone number
+  </button>
 
-    <p class="signup-link">Don't have an account? <a href="signup.html">Sign up</a></p>
+  <button class="btn google-btn">
+    <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" />
+    Continue with Google
+  </button>
+
+  <button class="btn facebook-btn">
+    <img class="facebook-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
+    Continue with Facebook
+  </button>
+
+  <div class="login-link">
+    Already have an account? <a href="#">Log in</a>
   </div>
-
-  <!-- Firebase Integration -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
-      authDomain: "amvibe-a22db.firebaseapp.com",
-      projectId: "amvibe-a22db",
-      storageBucket: "amvibe-a22db.appspot.com",
-      messagingSenderId: "717648312311",
-      appId: "1:717648312311:web:c97e204d16e4211b9360f2",
-      measurementId: "G-WPV8M3E8K2"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const provider = new firebase.auth.GoogleAuthProvider();
-
-    window.loginWithGoogle = () => {
-      auth.signInWithPopup(provider)
-        .then((result) => {
-          const user = result.user;
-          alert("Login successful! Welcome " + user.displayName);
-          // window.location.href = "home.html";
-        })
-        .catch((error) => {
-          alert("Login failed: " + error.message);
-        });
-    };
-  </script>
 </body>
 </html>
