@@ -26,14 +26,16 @@
       position: relative;
     }
     
-    .background-overlay {
+    .background-pattern {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at 20% 30%, rgba(40, 40, 40, 0.5) 0%, rgba(0, 0, 0, 0) 60%),
-                  radial-gradient(circle at 80% 70%, rgba(30, 30, 30, 0.3) 0%, rgba(0, 0, 0, 0) 60%);
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(29, 185, 84, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(29, 185, 84, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 50% 30%, rgba(29, 185, 84, 0.03) 0%, transparent 25%);
       z-index: 1;
     }
     
@@ -43,37 +45,45 @@
       border-radius: 12px;
       width: 100%;
       max-width: 450px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
       position: relative;
       z-index: 2;
-      backdrop-filter: blur(5px);
       border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
     }
     
     .logo-container {
       margin-bottom: 30px;
+      padding-top: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     
     .logo {
-      height: 50px;
+      height: 60px;
       margin-bottom: 15px;
+      object-fit: contain;
     }
     
     .tagline {
-      font-size: 18px;
+      font-size: 22px;
       color: #b3b3b3;
       font-weight: 500;
       margin-bottom: 5px;
       letter-spacing: 0.5px;
+      line-height: 1.4;
     }
     
     .sub-tagline {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 35px;
+      font-size: 28px;
+      font-weight: 800;
+      margin: 20px 0 35px;
       letter-spacing: -0.5px;
       color: #fff;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      text-transform: uppercase;
+      background: linear-gradient(to right, #1DB954, #1ED760);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     
     .signup-btn {
@@ -83,7 +93,7 @@
       background-color: #1DB954;
       color: #000;
       font-weight: 700;
-      font-size: 16px;
+      font-size: 18px;
       letter-spacing: 0.5px;
       border: none;
       cursor: pointer;
@@ -129,7 +139,7 @@
       background-color: rgba(255, 255, 255, 0.08);
       color: #fff;
       font-weight: 600;
-      font-size: 15px;
+      font-size: 16px;
       border: 1px solid rgba(255, 255, 255, 0.15);
       cursor: pointer;
       margin-bottom: 15px;
@@ -188,89 +198,82 @@
       text-decoration: underline;
     }
     
-    /* Phone Modal Styles */
-    .modal {
+    /* Phone login section */
+    #phone-login-section {
       display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-    }
-    
-    .modal-content {
-      background-color: #121212;
-      padding: 30px;
+      margin-top: 25px;
+      padding: 20px;
+      background: rgba(40, 40, 40, 0.5);
       border-radius: 12px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .phone-input-container {
       position: relative;
-      border: 1px solid #333;
-    }
-    
-    .close-modal {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      font-size: 24px;
-      color: #b3b3b3;
-      cursor: pointer;
-      transition: color 0.3s;
-    }
-    
-    .close-modal:hover {
-      color: #fff;
-    }
-    
-    .modal-title {
-      font-size: 22px;
       margin-bottom: 20px;
-      text-align: center;
+    }
+    
+    .phone-input-container i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #1DB954;
     }
     
     .phone-input {
       width: 100%;
-      padding: 15px;
-      border-radius: 4px;
-      background-color: rgba(255, 255, 255, 0.08);
-      border: 1px solid #333;
-      color: #fff;
-      font-size: 16px;
-      margin-bottom: 15px;
+      padding: 16px 16px 16px 45px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 500px;
+      color: white;
+      font-size: 15px;
+      outline: none;
     }
     
     .phone-input:focus {
-      outline: none;
       border-color: #1DB954;
+      background: rgba(29, 185, 84, 0.05);
     }
     
-    .modal-btn {
+    .otp-input-container {
+      display: none;
+      margin-bottom: 20px;
+    }
+    
+    .otp-input {
       width: 100%;
-      padding: 15px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 500px;
+      color: white;
+      font-size: 15px;
+      text-align: center;
+      outline: none;
+    }
+    
+    .otp-input:focus {
+      border-color: #1DB954;
+      background: rgba(29, 185, 84, 0.05);
+    }
+    
+    .phone-action-btn {
+      width: 100%;
+      padding: 16px;
       border-radius: 500px;
       background-color: #1DB954;
       color: #000;
-      font-weight: 700;
-      font-size: 16px;
+      font-weight: 600;
+      font-size: 15px;
       border: none;
       cursor: pointer;
-      margin-top: 10px;
       transition: all 0.3s ease;
     }
     
-    .modal-btn:hover {
+    .phone-action-btn:hover {
       background-color: #1ED760;
-    }
-    
-    .modal-btn:disabled {
-      background-color: #1DB954;
-      opacity: 0.7;
-      cursor: not-allowed;
     }
     
     #recaptcha-container {
@@ -279,35 +282,24 @@
       justify-content: center;
     }
     
-    .otp-section {
-      display: none;
+    .notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(29, 185, 84, 0.9);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s;
     }
     
-    .otp-input {
-      width: 100%;
-      padding: 15px;
-      border-radius: 4px;
-      background-color: rgba(255, 255, 255, 0.08);
-      border: 1px solid #333;
-      color: #fff;
-      font-size: 16px;
-      margin-bottom: 15px;
-      letter-spacing: 8px;
-      text-align: center;
-    }
-    
-    .resend-otp {
-      color: #1DB954;
-      cursor: pointer;
-      font-size: 14px;
-      text-align: right;
-      margin-top: 5px;
-      transition: color 0.3s;
-    }
-    
-    .resend-otp:hover {
-      color: #1ED760;
-      text-decoration: underline;
+    .notification.show {
+      opacity: 1;
     }
     
     @media (max-width: 480px) {
@@ -322,17 +314,22 @@
       }
       
       .sub-tagline {
-        font-size: 22px;
+        font-size: 24px;
       }
       
-      .modal-content {
-        padding: 25px 20px;
+      .tagline {
+        font-size: 18px;
+      }
+      
+      .logo {
+        height: 50px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="background-overlay"></div>
+  <div class="background-pattern"></div>
+  <div class="notification" id="notification">Action completed successfully!</div>
   
   <div class="login-container">
     <div class="logo-container">
@@ -342,50 +339,43 @@
     
     <p class="sub-tagline">Sign up for free</p>
     
-    <button class="signup-btn">Sign up for free</button>
+    <button class="signup-btn" id="signup-btn">Sign up for free</button>
     
     <div class="divider">
       <span>or continue with</span>
     </div>
     
-    <button class="login-option" id="phoneBtn">
+    <button class="login-option" id="phone-btn">
       <i class="fas fa-phone-alt phone-icon"></i>
       Continue with phone number
     </button>
     
-    <button class="login-option" id="googleBtn">
+    <button class="login-option" id="google-btn">
       <div class="google-icon"></div>
       Continue with Google
     </button>
     
-    <button class="login-option" id="facebookBtn">
+    <button class="login-option" id="facebook-btn">
       <i class="fab fa-facebook facebook-icon"></i>
       Continue with Facebook
     </button>
     
-    <div class="login-link">
-      Already have an account? <a href="#">Log in</a>
+    <div id="phone-login-section">
+      <div class="phone-input-container">
+        <i class="fas fa-phone-alt"></i>
+        <input type="tel" id="phone-number" class="phone-input" placeholder="Enter phone number" autocomplete="off">
+      </div>
+      <div id="recaptcha-container"></div>
+      <button class="phone-action-btn" id="send-otp-btn">Send OTP</button>
+      
+      <div class="otp-input-container" id="otp-container">
+        <input type="text" id="otp" class="otp-input" placeholder="Enter OTP" maxlength="6" autocomplete="off">
+        <button class="phone-action-btn" id="verify-otp-btn">Verify OTP</button>
+      </div>
     </div>
-  </div>
-  
-  <!-- Phone Authentication Modal -->
-  <div id="phoneModal" class="modal">
-    <div class="modal-content">
-      <span class="close-modal" id="closeModal">&times;</span>
-      <h2 class="modal-title">Continue with phone number</h2>
-      
-      <div class="phone-section">
-        <input type="tel" id="phoneNumber" class="phone-input" placeholder="+91 1234567890" required>
-        <div id="recaptcha-container"></div>
-        <button id="sendOTPBtn" class="modal-btn">Send Verification Code</button>
-      </div>
-      
-      <div class="otp-section" id="otpSection">
-        <p>We've sent a 6-digit code to your phone</p>
-        <input type="text" id="verificationCode" class="otp-input" placeholder="Enter code" maxlength="6">
-        <p class="resend-otp" id="resendOTP">Resend code</p>
-        <button id="verifyOTPBtn" class="modal-btn">Verify and Continue</button>
-      </div>
+    
+    <div class="login-link">
+      Already have an account? <a href="#" id="login-link">Log in</a>
     </div>
   </div>
 
@@ -394,7 +384,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   
   <script>
-    // Firebase configuration from previous code
+    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
       authDomain: "amvibe-a22db.firebaseapp.com",
@@ -406,190 +396,143 @@
     };
 
     // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     
     // DOM Elements
-    const phoneBtn = document.getElementById('phoneBtn');
-    const phoneModal = document.getElementById('phoneModal');
-    const closeModal = document.getElementById('closeModal');
-    const sendOTPBtn = document.getElementById('sendOTPBtn');
-    const verifyOTPBtn = document.getElementById('verifyOTPBtn');
-    const resendOTP = document.getElementById('resendOTP');
-    const phoneSection = document.querySelector('.phone-section');
-    const otpSection = document.getElementById('otpSection');
-    const phoneNumberInput = document.getElementById('phoneNumber');
-    const verificationCodeInput = document.getElementById('verificationCode');
-    const googleBtn = document.getElementById('googleBtn');
-    const facebookBtn = document.getElementById('facebookBtn');
+    const signupBtn = document.getElementById('signup-btn');
+    const phoneBtn = document.getElementById('phone-btn');
+    const phoneLoginSection = document.getElementById('phone-login-section');
+    const sendOtpBtn = document.getElementById('send-otp-btn');
+    const otpContainer = document.getElementById('otp-container');
+    const verifyOtpBtn = document.getElementById('verify-otp-btn');
+    const phoneNumberInput = document.getElementById('phone-number');
+    const otpInput = document.getElementById('otp');
+    const googleBtn = document.getElementById('google-btn');
+    const facebookBtn = document.getElementById('facebook-btn');
+    const loginLink = document.getElementById('login-link');
+    const notification = document.getElementById('notification');
     
-    // Modal functionality
-    phoneBtn.addEventListener('click', () => {
-      phoneModal.style.display = 'flex';
-    });
-    
-    closeModal.addEventListener('click', () => {
-      phoneModal.style.display = 'none';
-      resetPhoneAuth();
-    });
-    
-    window.addEventListener('click', (e) => {
-      if (e.target === phoneModal) {
-        phoneModal.style.display = 'none';
-        resetPhoneAuth();
-      }
-    });
-    
-    // Initialize reCAPTCHA
-    let recaptchaVerifier;
-    let confirmationResult;
-    
-    function setupRecaptcha() {
-      recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-        'size': 'normal',
-        'callback': () => {
-          sendOTPBtn.disabled = false;
-        },
-        'expired-callback': () => {
-          sendOTPBtn.disabled = true;
-        }
-      });
-      
-      recaptchaVerifier.render();
+    // Show notification
+    function showNotification(message) {
+      notification.textContent = message;
+      notification.classList.add('show');
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
     }
-    
-    // Send OTP
-    sendOTPBtn.addEventListener('click', async () => {
-      const phoneNumber = phoneNumberInput.value;
-      
-      if (!phoneNumber) {
-        alert('Please enter a valid phone number');
-        return;
-      }
-      
-      try {
-        setupRecaptcha();
-        
-        confirmationResult = await auth.signInWithPhoneNumber(
-          phoneNumber, 
-          recaptchaVerifier
-        );
-        
-        // Switch to OTP verification UI
-        phoneSection.style.display = 'none';
-        otpSection.style.display = 'block';
-      } catch (error) {
-        console.error('Error sending OTP:', error);
-        alert(`Error sending OTP: ${error.message}`);
-        resetRecaptcha();
-      }
-    });
-    
-    // Verify OTP
-    verifyOTPBtn.addEventListener('click', async () => {
-      const code = verificationCodeInput.value;
-      
-      if (!code || code.length !== 6) {
-        alert('Please enter a valid 6-digit code');
-        return;
-      }
-      
-      try {
-        const result = await confirmationResult.confirm(code);
-        const user = result.user;
-        
-        alert(`Phone login successful! Welcome ${user.phoneNumber}`);
-        phoneModal.style.display = 'none';
-        resetPhoneAuth();
-        
-        // Redirect to app
-        // window.location.href = 'home.html';
-      } catch (error) {
-        console.error('Error verifying OTP:', error);
-        alert(`Error verifying OTP: ${error.message}`);
-      }
-    });
-    
-    // Resend OTP
-    resendOTP.addEventListener('click', async () => {
-      try {
-        if (recaptchaVerifier) {
-          resetRecaptcha();
-        }
-        
-        setupRecaptcha();
-        
-        const phoneNumber = phoneNumberInput.value;
-        confirmationResult = await auth.signInWithPhoneNumber(
-          phoneNumber, 
-          recaptchaVerifier
-        );
-        
-        alert('New verification code has been sent');
-      } catch (error) {
-        console.error('Error resending OTP:', error);
-        alert(`Error resending OTP: ${error.message}`);
-      }
-    });
-    
-    // Reset phone auth UI
-    function resetPhoneAuth() {
-      phoneSection.style.display = 'block';
-      otpSection.style.display = 'none';
-      phoneNumberInput.value = '';
-      verificationCodeInput.value = '';
-      
-      if (recaptchaVerifier) {
-        resetRecaptcha();
-      }
-    }
-    
-    function resetRecaptcha() {
-      recaptchaVerifier.clear();
-      document.getElementById('recaptcha-container').innerHTML = '';
-    }
-    
-    // Google Authentication
-    googleBtn.addEventListener('click', () => {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      
-      auth.signInWithPopup(provider)
-        .then((result) => {
-          const user = result.user;
-          alert(`Google login successful! Welcome ${user.displayName}`);
-          // window.location.href = 'home.html';
-        })
-        .catch((error) => {
-          console.error('Google login error:', error);
-          alert(`Google login failed: ${error.message}`);
-        });
-    });
-    
-    // Facebook Authentication
-    facebookBtn.addEventListener('click', () => {
-      const provider = new firebase.auth.FacebookAuthProvider();
-      
-      auth.signInWithPopup(provider)
-        .then((result) => {
-          const user = result.user;
-          alert(`Facebook login successful! Welcome ${user.displayName}`);
-          // window.location.href = 'home.html';
-        })
-        .catch((error) => {
-          console.error('Facebook login error:', error);
-          alert(`Facebook login failed: ${error.message}`);
-        });
-    });
     
     // Sign up button
-    document.querySelector('.signup-btn').addEventListener('click', () => {
-      alert('Sign up functionality will be implemented');
+    signupBtn.addEventListener('click', () => {
+      showNotification('Sign up functionality will be implemented soon!');
     });
     
     // Login link
-    document.querySelector('.login-link a').addEventListener('click', (e) => {
+    loginLink.addEventListener('click', (e) => {
       e.preventDefault();
-      alert('Login page will be implemented');
+      showNotification('Login functionality will be implemented soon!');
+    });
+    
+    // Phone login functionality
+    let recaptchaVerifier;
+    let confirmationResult;
+    
+    phoneBtn.addEventListener('click', () => {
+      phoneLoginSection.style.display = 'block';
+      
+      // Initialize reCAPTCHA if not already done
+      if (!recaptchaVerifier) {
+        recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+          'size': 'invisible',
+          'callback': () => {
+            // reCAPTCHA solved, allow send OTP
+            sendOtpBtn.disabled = false;
+          }
+        });
+        
+        recaptchaVerifier.render().then(widgetId => {
+          window.recaptchaWidgetId = widgetId;
+        });
+      }
+    });
+    
+    sendOtpBtn.addEventListener('click', () => {
+      const phoneNumber = phoneNumberInput.value;
+      if (!phoneNumber) {
+        showNotification('Please enter a valid phone number');
+        return;
+      }
+      
+      const formattedPhone = phoneNumber.startsWith('+') ? phoneNumber : `+91${phoneNumber}`;
+      
+      auth.signInWithPhoneNumber(formattedPhone, recaptchaVerifier)
+        .then(confirmation => {
+          confirmationResult = confirmation;
+          otpContainer.style.display = 'block';
+          sendOtpBtn.textContent = 'Resend OTP';
+          showNotification('OTP sent successfully!');
+        })
+        .catch(error => {
+          console.error('Error sending OTP:', error);
+          showNotification(`Error sending OTP: ${error.message}`);
+          
+          // Reset reCAPTCHA
+          if (window.recaptchaWidgetId) {
+            recaptchaVerifier.reset(window.recaptchaWidgetId);
+          }
+        });
+    });
+    
+    verifyOtpBtn.addEventListener('click', () => {
+      const otp = otpInput.value;
+      if (!otp || otp.length !== 6) {
+        showNotification('Please enter a valid 6-digit OTP');
+        return;
+      }
+      
+      confirmationResult.confirm(otp)
+        .then(result => {
+          const user = result.user;
+          showNotification(`Login successful! Welcome ${user.phoneNumber}`);
+          // Redirect to home page or dashboard
+          // window.location.href = 'home.html';
+        })
+        .catch(error => {
+          console.error('Error verifying OTP:', error);
+          showNotification(`Error verifying OTP: ${error.message}`);
+        });
+    });
+    
+    // Google login
+    googleBtn.addEventListener('click', () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(result => {
+          const user = result.user;
+          showNotification(`Login successful! Welcome ${user.displayName}`);
+          // Redirect to home page
+          // window.location.href = 'home.html';
+        })
+        .catch(error => {
+          console.error('Google login error:', error);
+          showNotification(`Google login failed: ${error.message}`);
+        });
+    });
+    
+    // Facebook login
+    facebookBtn.addEventListener('click', () => {
+      const provider = new firebase.auth.FacebookAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(result => {
+          const user = result.user;
+          showNotification(`Login successful! Welcome ${user.displayName}`);
+          // Redirect to home page
+          // window.location.href = 'home.html';
+        })
+        .catch(error => {
+          console.error('Facebook login error:', error);
+          showNotification(`Facebook login failed: ${error.message}`);
+        });
     });
   </script>
 </body>
