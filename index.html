@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>AmVibe - Log In</title>
+  <title>AmVibe - Sign Up</title>
   <style>
     * {
       margin: 0;
@@ -20,196 +20,161 @@
       min-height: 100vh;
       padding: 20px;
       text-align: center;
+      background: linear-gradient(to bottom, #1a1a1a, #000000);
     }
     .login-container {
-      background-color: #121212;
-      padding: 30px;
-      border-radius: 8px;
+      background-color: rgba(18, 18, 18, 0.8);
+      padding: 40px 30px;
+      border-radius: 12px;
       width: 100%;
-      max-width: 400px;
+      max-width: 450px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
-    .logo {
-      width: 120px;
-      display: block;
-      margin: 0 auto 30px auto;
+    .app-title {
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #1DB954, #1ED760);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
-    h1 {
-      font-size: 22px;
-      margin-bottom: 25px;
-      font-weight: 700;
+    .tagline {
+      font-size: 18px;
+      color: #b3b3b3;
+      margin-bottom: 35px;
+      font-weight: 500;
     }
     .btn {
       width: 100%;
-      padding: 15px;
+      padding: 17px;
       border-radius: 30px;
       font-weight: bold;
-      font-size: 15px;
+      font-size: 16px;
       cursor: pointer;
       margin-bottom: 15px;
       border: none;
       color: white;
-      transition: all 0.3s;
+      transition: all 0.3s ease;
       text-align: center;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
-    .btn-email {
+    .btn:hover {
+      transform: scale(1.02);
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-signup {
       background-color: #1DB954;
+      border: none;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
     }
-    .btn-other {
-      background: transparent;
-      border: 1px solid #878787;
+    .btn-signup:hover {
+      background-color: #1ED760;
+      box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
     }
     .icon {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       display: block;
     }
     .phone-icon {
-      font-size: 18px;
+      font-size: 20px;
     }
-    .signup-link {
-      margin-top: 20px;
-      font-size: 15px;
-      color: white;
+    .login-link {
+      margin-top: 25px;
+      font-size: 16px;
+      color: #a0a0a0;
     }
-    .signup-link a {
+    .login-link a {
       color: #fff;
       text-decoration: none;
       font-weight: bold;
+      margin-left: 5px;
+      transition: all 0.2s;
+    }
+    .login-link a:hover {
+      color: #1DB954;
+      text-decoration: underline;
+    }
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      color: #777;
+    }
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #444;
+    }
+    .divider span {
+      padding: 0 15px;
+      font-size: 14px;
     }
     @media (max-width: 480px) {
       .login-container {
-        padding: 25px 20px;
+        padding: 30px 20px;
+        min-height: auto;
         border-radius: 0;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        background: rgba(18, 18, 18, 0.95);
       }
       body {
         padding: 0;
+        background: #000;
+      }
+      .app-title {
+        font-size: 28px;
+      }
+      .tagline {
+        font-size: 16px;
       }
     }
   </style>
 </head>
 <body>
   <div class="login-container">
-    <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo" />
-    <h1>Log in to AmVibe</h1>
-
-    <button class="btn btn-email" onclick="window.location.href='email.html'">
-      Continue with email
+    <h1 class="app-title">AMVibe</h1>
+    <p class="tagline">Millions of songs. Free on AMVibe..</p>
+    
+    <button class="btn btn-signup">
+      Sign up for free
     </button>
     
-    <button class="btn btn-other" onclick="window.location.href='phone.html'">
+    <div class="divider"><span>or continue with</span></div>
+    
+    <button class="btn">
       <span class="phone-icon">📱</span>
       Continue with phone number
     </button>
-      
-    <button class="btn btn-other" onclick="loginWithGoogle()">
-      <img src="https://www.google.com/favicon.ico" class="icon" alt="Google" />
+    
+    <button class="btn">
+      <img src="https://www.gstatic.com/images/branding/googleg/1x/googleg_standard_color_32dp.png" class="icon" alt="Google" />
       Continue with Google
     </button>
-          <div class="login-link">
-          Don't have an account? <a href="signup.html">Sign up</a>
-           </div>
     
-    
-    
+    <button class="btn">
+      <svg class="icon" viewBox="0 0 24 24" fill="#1877F2">
+        <path d="M22.675 0H1.325C0.593 0 0 0.593 0 1.325v21.351C0 23.407 0.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463 0.099 2.795 0.143v3.24l-1.918 0.001c-1.504 0-1.795 0.715-1.795 1.763v2.313h3.587l-0.467 3.622h-3.12V24h6.116c0.73 0 1.323-0.593 1.323-1.325V1.325C24 0.593 23.407 0 22.675 0z"/>
+      </svg>
+      Continue with Facebook
+    </button>
 
-    <!-- PHONE LOGIN SECTION -->
-    <div id="phone-login" style="display: none; margin-top: 20px;">
-      <input type="text" id="phone-number" placeholder="+91XXXXXXXXXX" /><br /><br />
-      <div id="recaptcha-container"></div><br />
-      <button onclick="sendOTP()">Send OTP</button><br /><br />
-      <input type="text" id="otp" placeholder="Enter OTP" /><br /><br />
-      <button onclick="verifyOTP()">Verify OTP</button>
+    <div class="login-link">
+      Already have an account? <a href="login.html">Log in</a>
     </div>
   </div>
-
-  <!-- Firebase Integration -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script>
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
-      authDomain: "amvibe-a22db.firebaseapp.com",
-      projectId: "amvibe-a22db",
-      storageBucket: "amvibe-a22db.appspot.com",
-      messagingSenderId: "717648312311",
-      appId: "1:717648312311:web:c97e204d16e4211b9360f2",
-      measurementId: "G-WPV8M3E8K2"
-    };
-
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const provider = new firebase.auth.GoogleAuthProvider();
-
-    window.loginWithGoogle = () => {
-      auth.signInWithPopup(provider)
-        .then((result) => {
-          const user = result.user;
-          alert("Login successful! Welcome " + user.displayName);
-          // window.location.href = "home.html";
-        })
-        .catch((error) => {
-          alert("Login failed: " + error.message);
-        });
-    };
-
-    window.loginWithEmail = () => {
-      alert("Email login coming soon...");
-    };
-
-    window.signUp = () => {
-      alert("Sign up page/functionality yet to be implemented.");
-    };
-
-    window.showPhoneLogin = () => {
-      document.getElementById("phone-login").style.display = "block";
-
-      // reCAPTCHA फक्त एकदाच सेट करायचा
-      if (!window.recaptchaVerifier) {
-        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha-container", {
-          size: "normal",
-          callback: () => {
-            console.log("reCAPTCHA verified");
-          },
-        });
-        window.recaptchaVerifier.render();
-      }
-    };
-
-    window.sendOTP = () => {
-      const phoneNumber = document.getElementById("phone-number").value;
-      const appVerifier = window.recaptchaVerifier;
-
-      auth.signInWithPhoneNumber(phoneNumber, appVerifier)
-        .then((confirmationResult) => {
-          window.confirmationResult = confirmationResult;
-          alert("OTP पाठवला गेला आहे");
-        })
-        .catch((error) => {
-          alert("OTP त्रुटी: " + error.message);
-        });
-    };
-
-    window.verifyOTP = () => {
-      const otp = document.getElementById("otp").value;
-      window.confirmationResult.confirm(otp)
-        .then((result) => {
-          alert("फोन लॉगिन यशस्वी: " + result.user.phoneNumber);
-          // window.location.href = "home.html";
-        })
-        .catch((error) => {
-          alert("चुकीचा OTP");
-        });
-    };
-  </script>
 </body>
 </html>
