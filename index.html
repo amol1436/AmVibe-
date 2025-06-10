@@ -22,8 +22,19 @@
       min-height: 100vh;
       padding: 20px;
       text-align: center;
-      background: radial-gradient(circle at center, #121212 0%, #000 100%);
       overflow: hidden;
+      position: relative;
+    }
+    
+    .background-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 30%, rgba(40, 40, 40, 0.5) 0%, rgba(0, 0, 0, 0) 60%),
+                  radial-gradient(circle at 80% 70%, rgba(30, 30, 30, 0.3) 0%, rgba(0, 0, 0, 0) 60%);
+      z-index: 1;
     }
     
     .login-container {
@@ -177,41 +188,126 @@
       text-decoration: underline;
     }
     
-    .background-animation {
-      position: absolute;
+    /* Phone Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 1;
-      overflow: hidden;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
     }
     
-    .circle {
+    .modal-content {
+      background-color: #121212;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+      position: relative;
+      border: 1px solid #333;
+    }
+    
+    .close-modal {
       position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(29,185,84,0.1) 0%, rgba(29,185,84,0) 70%);
+      top: 15px;
+      right: 15px;
+      font-size: 24px;
+      color: #b3b3b3;
+      cursor: pointer;
+      transition: color 0.3s;
     }
     
-    .circle-1 {
-      width: 300px;
-      height: 300px;
-      top: -100px;
-      right: -100px;
+    .close-modal:hover {
+      color: #fff;
     }
     
-    .circle-2 {
-      width: 200px;
-      height: 200px;
-      bottom: -50px;
-      left: -50px;
+    .modal-title {
+      font-size: 22px;
+      margin-bottom: 20px;
+      text-align: center;
     }
     
-    .circle-3 {
-      width: 150px;
-      height: 150px;
-      top: 40%;
-      left: 10%;
+    .phone-input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 4px;
+      background-color: rgba(255, 255, 255, 0.08);
+      border: 1px solid #333;
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    
+    .phone-input:focus {
+      outline: none;
+      border-color: #1DB954;
+    }
+    
+    .modal-btn {
+      width: 100%;
+      padding: 15px;
+      border-radius: 500px;
+      background-color: #1DB954;
+      color: #000;
+      font-weight: 700;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .modal-btn:hover {
+      background-color: #1ED760;
+    }
+    
+    .modal-btn:disabled {
+      background-color: #1DB954;
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    
+    #recaptcha-container {
+      margin: 15px 0;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .otp-section {
+      display: none;
+    }
+    
+    .otp-input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 4px;
+      background-color: rgba(255, 255, 255, 0.08);
+      border: 1px solid #333;
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 15px;
+      letter-spacing: 8px;
+      text-align: center;
+    }
+    
+    .resend-otp {
+      color: #1DB954;
+      cursor: pointer;
+      font-size: 14px;
+      text-align: right;
+      margin-top: 5px;
+      transition: color 0.3s;
+    }
+    
+    .resend-otp:hover {
+      color: #1ED760;
+      text-decoration: underline;
     }
     
     @media (max-width: 480px) {
@@ -228,15 +324,15 @@
       .sub-tagline {
         font-size: 22px;
       }
+      
+      .modal-content {
+        padding: 25px 20px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="background-animation">
-    <div class="circle circle-1"></div>
-    <div class="circle circle-2"></div>
-    <div class="circle circle-3"></div>
-  </div>
+  <div class="background-overlay"></div>
   
   <div class="login-container">
     <div class="logo-container">
@@ -252,17 +348,17 @@
       <span>or continue with</span>
     </div>
     
-    <button class="login-option">
+    <button class="login-option" id="phoneBtn">
       <i class="fas fa-phone-alt phone-icon"></i>
       Continue with phone number
     </button>
     
-    <button class="login-option">
+    <button class="login-option" id="googleBtn">
       <div class="google-icon"></div>
       Continue with Google
     </button>
     
-    <button class="login-option">
+    <button class="login-option" id="facebookBtn">
       <i class="fab fa-facebook facebook-icon"></i>
       Continue with Facebook
     </button>
@@ -272,23 +368,228 @@
     </div>
   </div>
   
-  <script>
-    // Simple animation for background circles
-    document.addEventListener('DOMContentLoaded', function() {
-      const circles = document.querySelectorAll('.circle');
-      let x = 0, y = 0;
+  <!-- Phone Authentication Modal -->
+  <div id="phoneModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeModal">&times;</span>
+      <h2 class="modal-title">Continue with phone number</h2>
       
-      function moveCircles() {
-        circles.forEach((circle, index) => {
-          const speed = 0.002 * (index + 1);
-          const offsetX = Math.sin(Date.now() * speed + index) * 5;
-          const offsetY = Math.cos(Date.now() * speed + index) * 5;
-          circle.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-        });
-        requestAnimationFrame(moveCircles);
+      <div class="phone-section">
+        <input type="tel" id="phoneNumber" class="phone-input" placeholder="+91 1234567890" required>
+        <div id="recaptcha-container"></div>
+        <button id="sendOTPBtn" class="modal-btn">Send Verification Code</button>
+      </div>
+      
+      <div class="otp-section" id="otpSection">
+        <p>We've sent a 6-digit code to your phone</p>
+        <input type="text" id="verificationCode" class="otp-input" placeholder="Enter code" maxlength="6">
+        <p class="resend-otp" id="resendOTP">Resend code</p>
+        <button id="verifyOTPBtn" class="modal-btn">Verify and Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  
+  <script>
+    // Firebase configuration from previous code
+    const firebaseConfig = {
+      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
+      authDomain: "amvibe-a22db.firebaseapp.com",
+      projectId: "amvibe-a22db",
+      storageBucket: "amvibe-a22db.appspot.com",
+      messagingSenderId: "717648312311",
+      appId: "1:717648312311:web:c97e204d16e4211b9360f2",
+      measurementId: "G-WPV8M3E8K2"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    
+    // DOM Elements
+    const phoneBtn = document.getElementById('phoneBtn');
+    const phoneModal = document.getElementById('phoneModal');
+    const closeModal = document.getElementById('closeModal');
+    const sendOTPBtn = document.getElementById('sendOTPBtn');
+    const verifyOTPBtn = document.getElementById('verifyOTPBtn');
+    const resendOTP = document.getElementById('resendOTP');
+    const phoneSection = document.querySelector('.phone-section');
+    const otpSection = document.getElementById('otpSection');
+    const phoneNumberInput = document.getElementById('phoneNumber');
+    const verificationCodeInput = document.getElementById('verificationCode');
+    const googleBtn = document.getElementById('googleBtn');
+    const facebookBtn = document.getElementById('facebookBtn');
+    
+    // Modal functionality
+    phoneBtn.addEventListener('click', () => {
+      phoneModal.style.display = 'flex';
+    });
+    
+    closeModal.addEventListener('click', () => {
+      phoneModal.style.display = 'none';
+      resetPhoneAuth();
+    });
+    
+    window.addEventListener('click', (e) => {
+      if (e.target === phoneModal) {
+        phoneModal.style.display = 'none';
+        resetPhoneAuth();
+      }
+    });
+    
+    // Initialize reCAPTCHA
+    let recaptchaVerifier;
+    let confirmationResult;
+    
+    function setupRecaptcha() {
+      recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        'size': 'normal',
+        'callback': () => {
+          sendOTPBtn.disabled = false;
+        },
+        'expired-callback': () => {
+          sendOTPBtn.disabled = true;
+        }
+      });
+      
+      recaptchaVerifier.render();
+    }
+    
+    // Send OTP
+    sendOTPBtn.addEventListener('click', async () => {
+      const phoneNumber = phoneNumberInput.value;
+      
+      if (!phoneNumber) {
+        alert('Please enter a valid phone number');
+        return;
       }
       
-      moveCircles();
+      try {
+        setupRecaptcha();
+        
+        confirmationResult = await auth.signInWithPhoneNumber(
+          phoneNumber, 
+          recaptchaVerifier
+        );
+        
+        // Switch to OTP verification UI
+        phoneSection.style.display = 'none';
+        otpSection.style.display = 'block';
+      } catch (error) {
+        console.error('Error sending OTP:', error);
+        alert(`Error sending OTP: ${error.message}`);
+        resetRecaptcha();
+      }
+    });
+    
+    // Verify OTP
+    verifyOTPBtn.addEventListener('click', async () => {
+      const code = verificationCodeInput.value;
+      
+      if (!code || code.length !== 6) {
+        alert('Please enter a valid 6-digit code');
+        return;
+      }
+      
+      try {
+        const result = await confirmationResult.confirm(code);
+        const user = result.user;
+        
+        alert(`Phone login successful! Welcome ${user.phoneNumber}`);
+        phoneModal.style.display = 'none';
+        resetPhoneAuth();
+        
+        // Redirect to app
+        // window.location.href = 'home.html';
+      } catch (error) {
+        console.error('Error verifying OTP:', error);
+        alert(`Error verifying OTP: ${error.message}`);
+      }
+    });
+    
+    // Resend OTP
+    resendOTP.addEventListener('click', async () => {
+      try {
+        if (recaptchaVerifier) {
+          resetRecaptcha();
+        }
+        
+        setupRecaptcha();
+        
+        const phoneNumber = phoneNumberInput.value;
+        confirmationResult = await auth.signInWithPhoneNumber(
+          phoneNumber, 
+          recaptchaVerifier
+        );
+        
+        alert('New verification code has been sent');
+      } catch (error) {
+        console.error('Error resending OTP:', error);
+        alert(`Error resending OTP: ${error.message}`);
+      }
+    });
+    
+    // Reset phone auth UI
+    function resetPhoneAuth() {
+      phoneSection.style.display = 'block';
+      otpSection.style.display = 'none';
+      phoneNumberInput.value = '';
+      verificationCodeInput.value = '';
+      
+      if (recaptchaVerifier) {
+        resetRecaptcha();
+      }
+    }
+    
+    function resetRecaptcha() {
+      recaptchaVerifier.clear();
+      document.getElementById('recaptcha-container').innerHTML = '';
+    }
+    
+    // Google Authentication
+    googleBtn.addEventListener('click', () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      
+      auth.signInWithPopup(provider)
+        .then((result) => {
+          const user = result.user;
+          alert(`Google login successful! Welcome ${user.displayName}`);
+          // window.location.href = 'home.html';
+        })
+        .catch((error) => {
+          console.error('Google login error:', error);
+          alert(`Google login failed: ${error.message}`);
+        });
+    });
+    
+    // Facebook Authentication
+    facebookBtn.addEventListener('click', () => {
+      const provider = new firebase.auth.FacebookAuthProvider();
+      
+      auth.signInWithPopup(provider)
+        .then((result) => {
+          const user = result.user;
+          alert(`Facebook login successful! Welcome ${user.displayName}`);
+          // window.location.href = 'home.html';
+        })
+        .catch((error) => {
+          console.error('Facebook login error:', error);
+          alert(`Facebook login failed: ${error.message}`);
+        });
+    });
+    
+    // Sign up button
+    document.querySelector('.signup-btn').addEventListener('click', () => {
+      alert('Sign up functionality will be implemented');
+    });
+    
+    // Login link
+    document.querySelector('.login-link a').addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('Login page will be implemented');
     });
   </script>
 </body>
