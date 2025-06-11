@@ -93,6 +93,11 @@
     Continue with phone number
   </button>
 
+  <button class="btn btn-other" onclick="loginWithFacebook()">
+    <img src="https://www.facebook.com/favicon.ico" class="icon" alt="Facebook" />
+    Continue with Facebook
+  </button>
+
   <div class="footer">
     Already have an account? <a href="email.html">Log in</a>
   </div>
@@ -112,15 +117,27 @@
     };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    const provider = new firebase.auth.GoogleAuthProvider();
+
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+    const facebookProvider = new firebase.auth.FacebookAuthProvider();
 
     function loginWithGoogle() {
-      auth.signInWithPopup(provider)
+      auth.signInWithPopup(googleProvider)
         .then(result => {
           alert("Welcome " + result.user.displayName);
         })
         .catch(error => {
-          alert("Login failed: " + error.message);
+          alert("Google login failed: " + error.message);
+        });
+    }
+
+    function loginWithFacebook() {
+      auth.signInWithPopup(facebookProvider)
+        .then(result => {
+          alert("Welcome " + result.user.displayName);
+        })
+        .catch(error => {
+          alert("Facebook login failed: " + error.message);
         });
     }
   </script>
