@@ -3,170 +3,121 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AmVibe - Sign Up</title>
+  <title>AMVibe Login</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Circular', sans-serif;
     }
+
     body {
       background-color: #000;
       color: white;
+      font-family: 'Helvetica Neue', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px;
       height: 100vh;
       text-align: center;
+      padding: 20px;
     }
+
     .logo {
       width: 100px;
+      height: 100px;
       margin-bottom: 30px;
     }
+
     h1 {
-      font-size: 22px;
+      font-size: 24px;
+      font-weight: bold;
       margin-bottom: 40px;
-      line-height: 1.4;
     }
+
     .btn {
       width: 100%;
       max-width: 320px;
-      padding: 14px 20px;
-      margin-bottom: 15px;
+      padding: 14px;
       border-radius: 30px;
-      font-size: 15px;
-      font-weight: bold;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      cursor: pointer;
-    }
-    .btn-signup {
-      background-color: #1DB954;
-      color: black;
-      border: none;
-    }
-    .btn-other {
-      background: transparent;
+      border: 1px solid white;
+      background-color: transparent;
       color: white;
-      border: 1px solid #888;
     }
-    .icon {
-      height: 18px;
-      width: 18px;
-    }
-    .footer {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #b3b3b3;
-    }
-    .footer a {
-      color: #1DB954;
-      text-decoration: none;
-    }
-    input {
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 25px;
+
+    .btn-green {
+      background-color: #1ed760;
       border: none;
-      text-align: center;
-      width: 100%;
-      max-width: 300px;
-      font-size: 16px;
+      color: black;
+    }
+
+    .btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .footer a {
+      color: #1ed760;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    @media (max-height: 640px) {
+      .logo {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        font-size: 20px;
+        margin-bottom: 30px;
+      }
+
+      .btn {
+        padding: 12px;
+        font-size: 15px;
+        margin-bottom: 12px;
+      }
     }
   </style>
 </head>
 <body>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/AmVibe_Play_Icon.svg/512px-AmVibe_Play_Icon.svg.png" alt="Logo" class="logo" />
 
-  <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo" />
+  <h1>Sign up to start listening</h1>
 
-  <h1>Millions of songs.<br>Free on AMVibe.</h1>
-
-  <button class="btn btn-signup" onclick="window.location.href='signup.html'">
-    Sign up for free
+  <button class="btn btn-green">
+    <img src="https://img.icons8.com/ios-filled/50/000000/new-post.png" alt="Email" />
+    Continue with email
   </button>
 
-  <button class="btn btn-other" onclick="loginWithPhone()">
-    📱 Continue with Phone Number
+  <button class="btn">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" alt="Phone" />
+    Continue with phone number
   </button>
 
-  <button class="btn btn-other" onclick="loginWithGoogle()">
-    <img src="https://www.google.com/favicon.ico" class="icon" alt="Google" />
+  <button class="btn">
+    <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google" />
     Continue with Google
   </button>
 
-  <button class="btn btn-other" onclick="loginWithFacebook()">
-    <img src="https://www.facebook.com/favicon.ico" class="icon" alt="Facebook" />
-    Continue with Facebook
-  </button>
-
   <div class="footer">
-    Already have an account? <a href="email.html">Log in</a>
+    Already have an account? <a href="#">Log in</a>
   </div>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
-      authDomain: "amvibe-a22db.firebaseapp.com",
-      projectId: "amvibe-a22db",
-      storageBucket: "amvibe-a22db.appspot.com",
-      messagingSenderId: "717648312311",
-      appId: "1:717648312311:web:c97e204d16e4211b9360f2",
-      measurementId: "G-WPV8M3E8K2"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    const googleProvider = new firebase.auth.GoogleAuthProvider();
-    const facebookProvider = new firebase.auth.FacebookAuthProvider();
-
-    function loginWithGoogle() {
-      auth.signInWithPopup(googleProvider)
-        .then(result => {
-          alert("Welcome " + result.user.displayName);
-        })
-        .catch(error => {
-          alert("Google login failed: " + error.message);
-        });
-    }
-
-    function loginWithFacebook() {
-      auth.signInWithPopup(facebookProvider)
-        .then(result => {
-          alert("Welcome " + result.user.displayName);
-        })
-        .catch(error => {
-          alert("Facebook login failed: " + error.message);
-        });
-    }
-
-    function loginWithPhone() {
-      const phoneNumber = prompt("Enter your phone number with country code (+91...)");
-      const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-        'size': 'invisible'
-      });
-      auth.signInWithPhoneNumber(phoneNumber, appVerifier)
-        .then(confirmationResult => {
-          const code = prompt("Enter the OTP sent to your phone:");
-          return confirmationResult.confirm(code);
-        })
-        .then(result => {
-          alert("Welcome " + result.user.phoneNumber);
-        })
-        .catch(error => {
-          alert("Phone login failed: " + error.message);
-        });
-    }
-  </script>
-
-  <!-- Hidden reCAPTCHA -->
-  <div id="recaptcha-container"></div>
 </body>
 </html>
