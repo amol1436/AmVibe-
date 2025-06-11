@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Choose Your Language Preferences</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #000;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      margin-bottom: 24px;
+    }
+    .lang-option {
+      display: inline-block;
+      background: #1DB954;
+      color: black;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    .lang-option.selected {
+      background: #fff;
+      color: #000;
+    }
+    .btn {
+      margin-top: 30px;
+      padding: 12px 20px;
+      background: #1DB954;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>तुम्हाला कोणत्या भाषेत गाणी आवडतात?</h1>
+  
+  <div id="languages">
+    <div class="lang-option" onclick="toggleSelection(this)">मराठी</div>
+    <div class="lang-option" onclick="toggleSelection(this)">हिंदी</div>
+    <div class="lang-option" onclick="toggleSelection(this)">इंग्रजी</div>
+    <div class="lang-option" onclick="toggleSelection(this)">तमिळ</div>
+    <div class="lang-option" onclick="toggleSelection(this)">तेलुगु</div>
+    <!-- अजून भाषा इथे वाढवा -->
+  </div>
+  
+  <button class="btn" onclick="savePreferences()">Next</button>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
+      authDomain: "amvibe-a22db.firebaseapp.com",
+      projectId: "amvibe-a22db",
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    let selectedLanguages = [];
+
+    function toggleSelection(element) {
+      const lang = element.textContent;
+      if (selectedLanguages.includes(lang)) {
+        selectedLanguages = selectedLanguages.filter(l => l !== lang);
+        element.classList.remove('selected');
+      } else {
+        selectedLanguages.push(lang);
+        element.classList.add('selected');
+      }
+    }
+
+    function savePreferences() {
+      const user = auth.currentUser;
+      if (!user) {
+        alert("User not logged in");
+        return;
+      }
+
+      db.collection('users').doc(user.uid).set({
+        preferredLanguages: selectedLanguages
+      }, { merge: true })
+      .then(() => {
+        alert("Language preferences saved!");
+        window.location.href = "home.html"; // पुढील पानावर जा
+      })
+      .catch((error) => {
+        console.error("Error saving preferences:", error);
+      });
+    }
+  </script>
+</body>
+</html>
