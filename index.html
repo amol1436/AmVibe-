@@ -5,18 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AmVibe - Sign Up</title>
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       font-family: 'Circular', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    body {
       background-color: #000;
       color: white;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      align-items: center;
       text-align: center;
-      padding: 20px;
+      padding: 30px 20px;
     }
 
     .logo {
@@ -25,36 +29,37 @@
     }
 
     h1 {
-      font-size: 24px;
+      font-size: 22px;
       margin-bottom: 40px;
+      line-height: 1.4;
     }
 
     .btn {
       width: 100%;
-      max-width: 300px;
+      max-width: 320px;
       padding: 14px 20px;
       margin-bottom: 15px;
       border-radius: 30px;
       font-size: 15px;
       font-weight: bold;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      border: none;
-      transition: all 0.3s;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
 
     .btn-signup {
       background-color: #1DB954;
       color: black;
+      border: none;
     }
 
     .btn-other {
       background: transparent;
-      border: 1px solid #878787;
       color: white;
+      border: 1px solid #878787;
     }
 
     .icon {
@@ -72,12 +77,19 @@
       color: #1DB954;
       text-decoration: none;
     }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 20px;
+      }
+    }
   </style>
 </head>
 <body>
+
   <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo" />
 
-  <h1>Millions of songs.<br />Free on AMVibe.</h1>
+  <h1>Millions of songs.<br>Free on AMVibe.</h1>
 
   <button class="btn btn-signup" onclick="window.location.href='signup.html'">
     Sign up for free
