@@ -2,112 +2,122 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AMVibe Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AmVibe Login</title>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"></script>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      background-color: #000;
-      color: white;
+      margin: 0;
       font-family: 'Helvetica Neue', sans-serif;
+      background-color: black;
+      color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 30px 20px;
       text-align: center;
+      padding: 20px;
     }
 
-    .logo {
-      width: 80px;
-      height: 80px;
+    img.logo {
+      width: 64px;
+      height: 64px;
       margin-bottom: 30px;
     }
 
-    h1 {
-      font-size: 22px;
-      font-weight: bold;
-      margin-bottom: 40px;
+    h2 {
+      font-size: 24px;
+      margin-bottom: 30px;
     }
 
-    .btn {
+    button {
       width: 100%;
-      max-width: 320px;
-      padding: 12px;
+      max-width: 300px;
+      padding: 15px;
+      margin: 10px 0;
       border-radius: 30px;
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 14px;
+      font-size: 16px;
+      font-weight: bold;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      border: 1px solid white;
-      background-color: transparent;
-      color: white;
+      cursor: pointer;
     }
 
-    .btn-green {
+    .email-btn {
       background-color: #1ed760;
       border: none;
       color: black;
     }
 
-    .btn img {
-      width: 18px;
-      height: 18px;
+    .phone-btn, .google-btn, .facebook-btn {
+      background-color: transparent;
+      color: white;
+      border: 1px solid white;
     }
 
     .footer {
       margin-top: 20px;
       font-size: 14px;
-      color: #ccc;
     }
 
     .footer a {
       color: #1ed760;
       text-decoration: none;
-      font-weight: 500;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <!-- Logo -->
-  <img src="https://upload.wikimedia.org/wikipedia/commons/5/56/Spotify_icon.svg" alt="Logo" class="logo" />
+  <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="Logo" />
+  <h2>Sign up to start listening</h2>
 
-  <!-- Title -->
-  <h1>Sign up to start listening</h1>
-
-  <!-- Buttons -->
-  <button class="btn btn-green">
-    <img src="https://img.icons8.com/ios-filled/50/000000/new-post.png" alt="Email" />
-    Sign up for free
+  <button class="email-btn" onclick="window.location.href='signup.html'">
+    📧 Sign up for free
   </button>
 
-  <button class="btn">
-    <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" alt="Phone" />
-    Continue with phone number
+  <button class="phone-btn" onclick="window.location.href='phone.html'">
+    📞 Continue with phone number
   </button>
 
-  <button class="btn">
-    <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google" />
-    Continue with Google
+  <button class="google-btn" onclick="signInWithGoogle()">
+    <img src="https://img.icons8.com/color/24/000000/google-logo.png" /> Continue with Google
   </button>
 
-  <button class="btn">
-    <img src="https://img.icons8.com/fluency/48/facebook-new.png" alt="Facebook" />
-    Continue with Facebook
+  <button class="facebook-btn">
+    <img src="https://img.icons8.com/color/24/000000/facebook-new.png" /> Continue with Facebook
   </button>
 
-  <!-- Footer -->
   <div class="footer">
-    Already have an account? <a href="#">Log in</a>
+    Already have an account? <a href="login.html">Log in</a>
   </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function signInWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(result => {
+          alert("Signed in as " + result.user.email);
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    }
+  </script>
 </body>
 </html>
