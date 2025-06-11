@@ -9,31 +9,28 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Circular', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Circular', sans-serif;
     }
     body {
       background-color: #000;
       color: white;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      height: 100vh;
       text-align: center;
-      padding: 30px 20px;
     }
-
     .logo {
       width: 100px;
       margin-bottom: 30px;
     }
-
     h1 {
       font-size: 22px;
       margin-bottom: 40px;
       line-height: 1.4;
     }
-
     .btn {
       width: 100%;
       max-width: 320px;
@@ -47,41 +44,29 @@
       justify-content: center;
       gap: 10px;
       cursor: pointer;
-      transition: all 0.3s ease;
     }
-
     .btn-signup {
       background-color: #1DB954;
       color: black;
       border: none;
     }
-
     .btn-other {
       background: transparent;
       color: white;
-      border: 1px solid #878787;
+      border: 1px solid #888;
     }
-
     .icon {
       height: 18px;
       width: 18px;
     }
-
     .footer {
-      margin-top: 25px;
+      margin-top: 20px;
       font-size: 14px;
       color: #b3b3b3;
     }
-
     .footer a {
       color: #1DB954;
       text-decoration: none;
-    }
-
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 20px;
-      }
     }
   </style>
 </head>
@@ -98,11 +83,6 @@
   <button class="btn btn-other" onclick="loginWithGoogle()">
     <img src="https://www.google.com/favicon.ico" class="icon" alt="Google" />
     Continue with Google
-  </button>
-
-  <button class="btn btn-other" onclick="window.location.href='phone.html'">
-    <span class="icon">📱</span>
-    Continue with phone number
   </button>
 
   <button class="btn btn-other" onclick="loginWithFacebook()">
