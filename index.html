@@ -18,11 +18,10 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      padding: 20px;
       text-align: center;
     }
     .login-container {
-      background-color: #121212;
+      background-color: #000;
       padding: 40px 30px;
       border-radius: 12px;
       width: 100%;
@@ -37,6 +36,7 @@
       font-size: 24px;
       margin-bottom: 30px;
       font-weight: bold;
+      color: #fff;
     }
     .btn {
       width: 100%;
@@ -58,12 +58,13 @@
       border: none;
     }
     .btn-other {
-      background-color: transparent;
+      background-color: #111;
       color: white;
-      border: 1px solid #878787;
+      border: 1px solid #333;
     }
     .btn:hover {
-      transform: scale(1.03);
+      transform: scale(1.02);
+      background-color: #222;
     }
     .icon {
       width: 20px;
@@ -129,7 +130,7 @@
       const provider = new firebase.auth.GoogleAuthProvider();
       auth.signInWithPopup(provider)
         .then(result => alert("Welcome, " + result.user.displayName))
-        .catch(error => alert("Error: " + error.message));
+        .catch(error => alert("Google Login Error: " + error.message));
     }
 
     function loginWithFacebook() {
