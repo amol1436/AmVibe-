@@ -56,11 +56,7 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    function logout() {
-      auth.signOut().then(() => {
-        window.location.href = "email.html"; // login page
-      });
-    }
+    
 
     // Optional: Redirect if user not logged in
     auth.onAuthStateChanged(user => {
