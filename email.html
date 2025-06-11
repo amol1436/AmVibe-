@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <title>AmVibe - Email Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,96 +8,100 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Circular', sans-serif;
+      font-family: 'Circular', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     body {
       background: #000;
       color: white;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
     }
     .login-container {
-      background: #121212;
-      padding: 40px 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+      background: #000; /* Full black */
       width: 100%;
-      max-width: 400px;
+      max-width: 450px;
+      padding: 40px 32px;
+      border-radius: 12px;
+      text-align: left;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7); /* slight depth */
     }
     h1 {
       font-size: 24px;
       margin-bottom: 30px;
-      font-weight: bold;
+      font-weight: 700;
+    }
+    .input-group {
+      margin-bottom: 24px;
     }
     input {
       width: 100%;
-      padding: 14px 16px;
+      padding: 14px 18px;
       margin-bottom: 16px;
+      background: #121212;
       border: 1px solid #333;
-      border-radius: 8px;
-      background: #1e1e1e;
+      border-radius: 6px;
       color: white;
       font-size: 16px;
     }
     input::placeholder {
-      color: #bbb;
+      color: #999;
     }
     input:focus {
       outline: none;
       border-color: #1DB954;
+      background-color: #181818;
+    }
+    .disclaimer {
+      color: #a7a7a7;
+      font-size: 11px;
+      line-height: 1.5;
+      margin-bottom: 30px;
     }
     .btn {
       width: 100%;
       padding: 14px;
       background: #1DB954;
-      border: none;
-      border-radius: 30px;
       color: white;
+      border: none;
+      border-radius: 500px;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      transition: 0.3s;
+      transition: background 0.3s;
     }
     .btn:hover {
       background: #1ed760;
     }
-    .disclaimer {
-      color: #a7a7a7;
-      font-size: 12px;
-      margin-top: 10px;
-      margin-bottom: 30px;
-    }
     .signup-link {
-      color: #a7a7a7;
+      color: #b3b3b3;
       font-size: 14px;
       text-align: center;
-      margin-top: 20px;
+      margin-top: 24px;
     }
     .signup-link a {
       color: white;
       text-decoration: none;
       font-weight: bold;
     }
-    .signup-link a:hover {
-      text-decoration: underline;
-    }
   </style>
 </head>
 <body>
   <div class="login-container">
     <h1>Log in to AmVibe</h1>
-
-    <input type="email" id="email" placeholder="Email address" />
-    <input type="password" id="password" placeholder="Password" />
-
+    
+    <div class="input-group">
+      <input type="email" id="email" placeholder="Email address">
+      <input type="password" id="password" placeholder="Password">
+    </div>
+    
     <p class="disclaimer">
       By logging in, you agree to AmVibe's Terms and Conditions.
     </p>
-
+    
     <button class="btn" onclick="login()">Log In</button>
-
+    
     <p class="signup-link">
       Don't have an account? <a href="signup.html">Sign up</a>
     </p>
@@ -128,20 +132,26 @@
       }
 
       auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
+        .then((userCredential) => {
           alert("Login successful!");
           window.location.href = "home.html";
         })
         .catch((error) => {
-          let message = "Login failed: ";
-          if (error.code === "auth/user-not-found") {
-            message += "No user found.";
-          } else if (error.code === "auth/wrong-password") {
-            message += "Incorrect password.";
-          } else {
-            message += error.message;
+          let errorMessage = "Login failed: ";
+          switch (error.code) {
+            case 'auth/user-not-found':
+              errorMessage += "No user found with this email.";
+              break;
+            case 'auth/wrong-password':
+              errorMessage += "Incorrect password.";
+              break;
+            case 'auth/invalid-email':
+              errorMessage += "Invalid email format.";
+              break;
+            default:
+              errorMessage += error.message;
           }
-          alert(message);
+          alert(errorMessage);
         });
     }
   </script>
