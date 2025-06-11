@@ -60,13 +60,23 @@
       width: 18px;
     }
     .footer {
-      margin-top: 20px;
+      margin-top: 10px;
       font-size: 14px;
       color: #b3b3b3;
     }
     .footer a {
       color: #1DB954;
       text-decoration: none;
+    }
+    input {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 25px;
+      border: none;
+      text-align: center;
+      width: 100%;
+      max-width: 300px;
+      font-size: 16px;
     }
   </style>
 </head>
@@ -78,6 +88,10 @@
 
   <button class="btn btn-signup" onclick="window.location.href='signup.html'">
     Sign up for free
+  </button>
+
+  <button class="btn btn-other" onclick="loginWithPhone()">
+    📱 Continue with Phone Number
   </button>
 
   <button class="btn btn-other" onclick="loginWithGoogle()">
@@ -132,6 +146,27 @@
           alert("Facebook login failed: " + error.message);
         });
     }
+
+    function loginWithPhone() {
+      const phoneNumber = prompt("Enter your phone number with country code (+91...)");
+      const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        'size': 'invisible'
+      });
+      auth.signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then(confirmationResult => {
+          const code = prompt("Enter the OTP sent to your phone:");
+          return confirmationResult.confirm(code);
+        })
+        .then(result => {
+          alert("Welcome " + result.user.phoneNumber);
+        })
+        .catch(error => {
+          alert("Phone login failed: " + error.message);
+        });
+    }
   </script>
+
+  <!-- Hidden reCAPTCHA -->
+  <div id="recaptcha-container"></div>
 </body>
 </html>
