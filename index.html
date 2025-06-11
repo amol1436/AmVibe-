@@ -104,7 +104,7 @@
       Continue with email
     </button>
     
-    <button class="btn btn-other" onclick="window.location.href='phone.html'">
+    <button class="btn btn-other" onclick="showPhoneLogin()">
       <span class="phone-icon">📱</span>
       Continue with phone number
     </button>
@@ -115,16 +115,18 @@
     </button>
 
     <div class="login-link">
-  Don't have an account? <a href="signup.html">Sign up</a>
-          </div>
+      Don't have an account? <a href="signup.html">Sign up</a>
+    </div>
 
     <!-- PHONE LOGIN SECTION -->
     <div id="phone-login" style="display: none; margin-top: 20px;">
-      <input type="text" id="phone-number" placeholder="+91XXXXXXXXXX" /><br /><br />
-      <div id="recaptcha-container"></div><br />
-      <button onclick="sendOTP()">Send OTP</button><br /><br />
-      <input type="text" id="otp" placeholder="Enter OTP" /><br /><br />
-      <button onclick="verifyOTP()">Verify OTP</button>
+      <input type="text" id="phone-number" placeholder="+91XXXXXXXXXX"
+        style="width:100%; padding:12px; border-radius:5px; border:none; margin-bottom:10px;" /><br />
+      <div id="recaptcha-container" style="margin-bottom:15px;"></div>
+      <button onclick="sendOTP()" class="btn btn-email">Send OTP</button><br /><br />
+      <input type="text" id="otp" placeholder="Enter OTP"
+        style="width:100%; padding:12px; border-radius:5px; border:none; margin-bottom:10px;" /><br />
+      <button onclick="verifyOTP()" class="btn btn-email">Verify OTP</button>
     </div>
   </div>
 
@@ -132,7 +134,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script>
-    // Your web app's Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
       authDomain: "amvibe-a22db.firebaseapp.com",
@@ -143,7 +144,6 @@
       measurementId: "G-WPV8M3E8K2"
     };
 
-    // Initialize Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -160,18 +160,8 @@
         });
     };
 
-    window.loginWithEmail = () => {
-      alert("Email login coming soon...");
-    };
-
-    window.signUp = () => {
-      alert("Sign up page/functionality yet to be implemented.");
-    };
-
     window.showPhoneLogin = () => {
       document.getElementById("phone-login").style.display = "block";
-
-      // reCAPTCHA फक्त एकदाच सेट करायचा
       if (!window.recaptchaVerifier) {
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha-container", {
           size: "normal",
