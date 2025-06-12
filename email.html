@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>AmVibe - Login</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AmVibe - Log In</title>
   <style>
     * {
       margin: 0;
@@ -88,7 +89,7 @@
 <body>
   <div class="login-container">
     <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo">
-    <h1>Log in to your account</h1>
+    <h1>Log In to AmVibe</h1>
     
     <input type="email" class="input-field" id="email" placeholder="Email Address" />
     <input type="password" class="input-field" id="password" placeholder="Password" />
@@ -118,8 +119,8 @@
     const auth = firebase.auth();
 
     function login() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
       if (!email || !password) {
         alert("Please enter both email and password.");
@@ -133,18 +134,20 @@
             localStorage.removeItem("firstTimeUser");
             window.location.href = "language-preference.html";
           } else {
-            window.location.href = "login.html";
+            window.location.href = "login.html"; // Or your dashboard/home page
           }
         })
         .catch((error) => {
           let errorMessage = "Login failed: ";
-          switch (error.code) {
+          switch(error.code) {
+            case 'auth/user-not-found':
+              errorMessage += "No user found with this email.";
+              break;
+            case 'auth/wrong-password':
+              errorMessage += "Incorrect password.";
+              break;
             case 'auth/invalid-email':
               errorMessage += "Invalid email format.";
-              break;
-            case 'auth/user-not-found':
-            case 'auth/wrong-password':
-              errorMessage += "Invalid email or password.";
               break;
             default:
               errorMessage += error.message;
