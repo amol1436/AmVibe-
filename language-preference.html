@@ -1,99 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Choose Language</title>
+  <meta charset="UTF-8">
+  <title>Select Language</title>
   <style>
     body {
       background-color: #000;
       color: white;
       font-family: 'Circular', sans-serif;
-      padding: 20px;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
     }
     h1 {
-      font-size: 24px;
+      color: #1DB954;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    .languages {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
       margin-bottom: 30px;
     }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-    .language-card {
-      padding: 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      background-color: #1c1c1c;
-      border: 2px solid transparent;
-      transition: all 0.3s ease;
-    }
-    .language-card.selected {
-      border-color: #1DB954;
+    .lang-btn {
       background-color: #2a2a2a;
-    }
-    button {
-      margin-top: 30px;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 30px;
-      background-color: #1DB954;
       color: white;
-      font-size: 16px;
-      font-weight: bold;
+      border: 1px solid #555;
+      padding: 10px 20px;
+      border-radius: 20px;
       cursor: pointer;
+    }
+    .lang-btn.selected {
+      background-color: #1DB954;
+      color: black;
+    }
+    .btn {
+      background-color: #1DB954;
+      border: none;
+      color: white;
+      padding: 10px 30px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
     }
   </style>
 </head>
 <body>
+
   <h1>What music do you like?</h1>
-  <div class="grid" id="languageGrid">
-    <div class="language-card">Hindi</div>
-    <div class="language-card">International</div>
-    <div class="language-card">Punjabi</div>
-    <div class="language-card">Tamil</div>
-    <div class="language-card">Telugu</div>
-    <div class="language-card">Malayalam</div>
-    <div class="language-card">Marathi</div>
-    <div class="language-card">Gujarati</div>
-    <div class="language-card">Bengali</div>
-    <div class="language-card">Kannada</div>
+  <div class="languages">
+    <button class="lang-btn" onclick="toggle(this)">Marathi</button>
+    <button class="lang-btn" onclick="toggle(this)">Hindi</button>
+    <button class="lang-btn" onclick="toggle(this)">English</button>
+    <button class="lang-btn" onclick="toggle(this)">Punjabi</button>
+    <button class="lang-btn" onclick="toggle(this)">Tamil</button>
   </div>
-  <button onclick="savePreferences()">Next</button>
+
+  <button class="btn" onclick="submit()">Continue</button>
 
   <script>
-    const cards = document.querySelectorAll('.language-card');
-    let selectedLanguages = [];
+    function toggle(button) {
+      button.classList.toggle('selected');
+    }
 
-    cards.forEach(card => {
-      card.addEventListener('click', () => {
-        const lang = card.textContent;
-        card.classList.toggle('selected');
-
-        if (selectedLanguages.includes(lang)) {
-          selectedLanguages = selectedLanguages.filter(l => l !== lang);
-        } else {
-          selectedLanguages.push(lang);
-        }
-      });
-    });
-
-    function savePreferences() {
-      if (selectedLanguages.length === 0) {
-        alert('Please select at least one language');
+    function submit() {
+      const selected = Array.from(document.querySelectorAll('.lang-btn.selected')).map(btn => btn.innerText);
+      if (selected.length === 0) {
+        alert("Please select at least one language.");
         return;
       }
 
-      // Save to localStorage or Firebase
-      localStorage.setItem('preferredLanguages', JSON.stringify(selectedLanguages));
+      // Store selected languages in localStorage (or send to Firebase if needed)
+      localStorage.setItem("preferredLanguages", JSON.stringify(selected));
       
-      // Go to artist preference screen or home
-      window.location.href = "artist-preference.html"; // Replace with your actual path
+      // Proceed to main app
+      window.location.href = "login.html";
     }
   </script>
+
 </body>
 </html>
