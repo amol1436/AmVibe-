@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Choose Language</title>
+  <style>
+    body {
+      background-color: #000;
+      color: white;
+      font-family: 'Circular', sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .language-card {
+      padding: 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      background-color: #1c1c1c;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+    .language-card.selected {
+      border-color: #1DB954;
+      background-color: #2a2a2a;
+    }
+    button {
+      margin-top: 30px;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 30px;
+      background-color: #1DB954;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>What music do you like?</h1>
+  <div class="grid" id="languageGrid">
+    <div class="language-card">Hindi</div>
+    <div class="language-card">International</div>
+    <div class="language-card">Punjabi</div>
+    <div class="language-card">Tamil</div>
+    <div class="language-card">Telugu</div>
+    <div class="language-card">Malayalam</div>
+    <div class="language-card">Marathi</div>
+    <div class="language-card">Gujarati</div>
+    <div class="language-card">Bengali</div>
+    <div class="language-card">Kannada</div>
+  </div>
+  <button onclick="savePreferences()">Next</button>
+
+  <script>
+    const cards = document.querySelectorAll('.language-card');
+    let selectedLanguages = [];
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const lang = card.textContent;
+        card.classList.toggle('selected');
+
+        if (selectedLanguages.includes(lang)) {
+          selectedLanguages = selectedLanguages.filter(l => l !== lang);
+        } else {
+          selectedLanguages.push(lang);
+        }
+      });
+    });
+
+    function savePreferences() {
+      if (selectedLanguages.length === 0) {
+        alert('Please select at least one language');
+        return;
+      }
+
+      // Save to localStorage or Firebase
+      localStorage.setItem('preferredLanguages', JSON.stringify(selectedLanguages));
+      
+      // Go to artist preference screen or home
+      window.location.href = "artist-preference.html"; // Replace with your actual path
+    }
+  </script>
+</body>
+</html>
