@@ -1,427 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AmVibe - Log In</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Circular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
-        
-        body {
-            background-color: #000;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            text-align: center;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .background-pattern {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(29, 185, 84, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(29, 185, 84, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 50% 30%, rgba(29, 185, 84, 0.03) 0%, transparent 25%);
-            z-index: 1;
-        }
-        
-        .login-container {
-            background-color: rgba(18, 18, 18, 0.95);
-            padding: 40px 35px;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 450px;
-            position: relative;
-            z-index: 2;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
-        }
-        
-        .logo-container {
-            margin-bottom: 30px;
-            padding-top: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .logo {
-            height: 60px;
-            margin-bottom: 20px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 10px rgba(29, 185, 84, 0.5));
-        }
-        
-        .login-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 30px;
-            color: #fff;
-            text-align: left;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-            text-align: left;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #b3b3b3;
-            font-size: 14px;
-        }
-        
-        .input-container {
-            position: relative;
-        }
-        
-        .input-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #1DB954;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 16px 16px 16px 45px;
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            color: white;
-            font-size: 16px;
-            outline: none;
-            transition: all 0.3s;
-        }
-        
-        .form-input:focus {
-            border-color: #1DB954;
-            background: rgba(29, 185, 84, 0.05);
-            box-shadow: 0 0 0 2px rgba(29, 185, 84, 0.2);
-        }
-        
-        .login-btn {
-            width: 100%;
-            padding: 16px;
-            border-radius: 500px;
-            background-color: #1DB954;
-            color: #000;
-            font-weight: 700;
-            font-size: 16px;
-            letter-spacing: 0.5px;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
-        }
-        
-        .login-btn:hover {
-            background-color: #1ED760;
-            transform: scale(1.02);
-            box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
-        }
-        
-        .login-btn:active {
-            transform: scale(0.98);
-        }
-        
-        .login-link {
-            margin-top: 25px;
-            font-size: 16px;
-            color: #a7a7a7;
-        }
-        
-        .login-link a {
-            color: #1DB954;
-            text-decoration: none;
-            font-weight: 700;
-            margin-left: 5px;
-            transition: all 0.2s;
-        }
-        
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-        
-        .forgot-password {
-            display: block;
-            text-align: right;
-            margin-top: 10px;
-            color: #1DB954;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        
-        .forgot-password:hover {
-            text-decoration: underline;
-        }
-        
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 25px 0;
-            color: #777;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .divider::before,
-        .divider::after {
-            content: "";
-            flex: 1;
-            border-bottom: 1px solid #333;
-        }
-        
-        .divider span {
-            padding: 0 15px;
-        }
-        
-        .social-login {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .social-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .social-btn:hover {
-            background-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-3px);
-        }
-        
-        .social-btn i {
-            font-size: 20px;
-        }
-        
-        .google-icon {
-            color: #4285F4;
-        }
-        
-        .facebook-icon {
-            color: #1877F2;
-        }
-        
-        .notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(29, 185, 84, 0.9);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .notification.show {
-            opacity: 1;
-        }
-        
-        @media (max-width: 480px) {
-            .login-container {
-                padding: 35px 25px;
-                border-radius: 0;
-                background: #121212;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-            
-            body {
-                padding: 0;
-                background: #000;
-            }
-            
-            .login-title {
-                font-size: 22px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AmVibe - Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Circular', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    body {
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .login-container {
+      background-color: #000;
+      padding: 40px 32px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+    .logo {
+      width: 120px;
+      display: block;
+      margin: 0 auto 30px auto;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 25px;
+      text-align: center;
+      font-weight: 700;
+    }
+    .input-field {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background: #121212;
+      color: white;
+      font-size: 16px;
+    }
+    .input-field::placeholder {
+      color: #888;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: #1DB954;
+      background-color: #181818;
+    }
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      color: white;
+      background-color: #1DB954;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+    }
+    .btn:hover {
+      background-color: #1ed760;
+    }
+    .signup-link {
+      margin-top: 20px;
+      text-align: center;
+      color: #a7a7a7;
+      font-size: 14px;
+    }
+    .signup-link a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-    <div class="background-pattern"></div>
-    <div class="notification" id="notification">Action completed successfully!</div>
+  <div class="login-container">
+    <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo">
+    <h1>Log In to AmVibe</h1>
     
-    <div class="login-container">
-        <div class="logo-container">
-            <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo">
-        </div>
-        
-        <h1 class="login-title">Log in to your account</h1>
-        
-        <div class="form-group">
-            <label class="form-label">Email Address</label>
-            <div class="input-container">
-                <i class="fas fa-envelope input-icon"></i>
-                <input type="email" id="email" class="form-input" placeholder="Enter your email address">
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label class="form-label">Password</label>
-            <div class="input-container">
-                <i class="fas fa-lock input-icon"></i>
-                <input type="password" id="password" class="form-input" placeholder="Enter your password">
-            </div>
-            <a href="#" class="forgot-password">Forgot password?</a>
-        </div>
-        
-        <button class="login-btn" id="login-btn">Log In</button>
-        
-        <div class="login-link">
-            Don't have an account? <a href="#" id="signup-link">Sign up</a>
-        </div>
-        
-        <div class="divider">
-            <span>or log in with</span>
-        </div>
-        
-        <div class="social-login">
-            <div class="social-btn" id="google-login">
-                <i class="fab fa-google google-icon"></i>
-            </div>
-            <div class="social-btn" id="facebook-login">
-                <i class="fab fa-facebook-f facebook-icon"></i>
-            </div>
-        </div>
+    <input type="email" class="input-field" id="email" placeholder="Email Address" />
+    <input type="password" class="input-field" id="password" placeholder="Password" />
+    
+    <button class="btn" onclick="login()">Log In</button>
+    
+    <div class="signup-link">
+      Don't have an account? <a href="signup.html">Sign up</a>
     </div>
+  </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-    
-    <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
-            authDomain: "amvibe-a22db.firebaseapp.com",
-            projectId: "amvibe-a22db",
-            storageBucket: "amvibe-a22db.appspot.com",
-            messagingSenderId: "717648312311",
-            appId: "1:717648312311:web:c97e204d16e4211b9360f2",
-            measurementId: "G-WPV8M3E8K2"
-        };
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
+      authDomain: "amvibe-a22db.firebaseapp.com",
+      projectId: "amvibe-a22db",
+      storageBucket: "amvibe-a22db.appspot.com",
+      messagingSenderId: "717648312311",
+      appId: "1:717648312311:web:c97e204d16e4211b9360f2",
+      measurementId: "G-WPV8M3E8K2"
+    };
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        
-        // DOM Elements
-        const loginBtn = document.getElementById('login-btn');
-        const signupLink = document.getElementById('signup-link');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const googleLogin = document.getElementById('google-login');
-        const facebookLogin = document.getElementById('facebook-login');
-        const notification = document.getElementById('notification');
-        
-        // Show notification
-        function showNotification(message) {
-            notification.textContent = message;
-            notification.classList.add('show');
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-        
-        // Email login
-        loginBtn.addEventListener('click', () => {
-            const email = emailInput.value;
-            const password = passwordInput.value;
-            
-            if (!email || !password) {
-                showNotification('Please enter both email and password');
-                return;
-            }
-            
-            auth.signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
-                    showNotification(`Login successful! Welcome ${user.email}`);
-                    // Redirect to home page
-                    // window.location.href = 'home.html';
-                })
-                .catch((error) => {
-                    console.error('Login error:', error);
-                    showNotification(`Login failed: ${error.message}`);
-                });
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      if (!email || !password) {
+        alert("Please enter both email and password.");
+        return;
+      }
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          const isFirstTime = localStorage.getItem("firstTimeUser") === "true";
+          if (isFirstTime) {
+            localStorage.removeItem("firstTimeUser");
+            window.location.href = "language-preference.html";
+          } else {
+            window.location.href = "login.html"; // तुमचं मुख्य पेज
+          }
+        })
+        .catch((error) => {
+          let errorMessage = "Login failed: ";
+          switch(error.code) {
+            case 'auth/user-not-found':
+              errorMessage += "No user found with this email.";
+              break;
+            case 'auth/wrong-password':
+              errorMessage += "Incorrect password.";
+              break;
+            case 'auth/invalid-email':
+              errorMessage += "Invalid email format.";
+              break;
+            default:
+              errorMessage += error.message;
+          }
+          alert(errorMessage);
         });
-        
-        // Sign up link
-        signupLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            showNotification('Redirecting to sign up page...');
-            // Redirect to sign up page
-            // window.location.href = 'signup.html';
-        });
-        
-        // Google login
-        googleLogin.addEventListener('click', () => {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider)
-                .then((result) => {
-                    const user = result.user;
-                    showNotification(`Google login successful! Welcome ${user.displayName}`);
-                    // Redirect to home page
-                    // window.location.href = 'home.html';
-                })
-                .catch((error) => {
-                    console.error('Google login error:', error);
-                    showNotification(`Google login failed: ${error.message}`);
-                });
-        });
-        
-        // Facebook login
-        facebookLogin.addEventListener('click', () => {
-            const provider = new firebase.auth.FacebookAuthProvider();
-            auth.signInWithPopup(provider)
-                .then((result) => {
-                    const user = result.user;
-                    showNotification(`Facebook login successful! Welcome ${user.displayName}`);
-                    // Redirect to home page
-                    // window.location.href = 'home.html';
-                })
-                .catch((error) => {
-                    console.error('Facebook login error:', error);
-                    showNotification(`Facebook login failed: ${error.message}`);
-                });
-        });
-    </script>
+    }
+  </script>
 </body>
 </html>
