@@ -142,13 +142,13 @@
       }
       
       auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          return userCredential.user.updateProfile({ displayName: name });
-        })
         .then(() => {
-          alert('Account created successfully!');
-          window.location.href = "language-preference.html";
-        })
+      // 👉 पहिल्यांदा साइन अप केल्यावर flag सेट कर
+     localStorage.setItem("firstTimeUser", "true");
+
+     alert('Account created successfully!');
+     window.location.href = "language-preference.html"; // भाषा निवडीचं पेज
+     })
         .catch((error) => {
           let errorMessage = "Sign up failed: ";
           switch(error.code) {
