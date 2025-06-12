@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AmVibe - Log In</title>
+  <title>AmVibe - Login</title>
   <style>
     * {
       margin: 0;
@@ -27,6 +27,7 @@
       width: 100%;
       max-width: 420px;
       box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      text-align: center;
     }
     .logo {
       width: 120px;
@@ -36,7 +37,6 @@
     h1 {
       font-size: 24px;
       margin-bottom: 25px;
-      text-align: center;
       font-weight: 700;
     }
     .input-field {
@@ -75,7 +75,6 @@
     }
     .signup-link {
       margin-top: 20px;
-      text-align: center;
       color: #a7a7a7;
       font-size: 14px;
     }
@@ -89,19 +88,19 @@
 <body>
   <div class="login-container">
     <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo">
-    <h1>Log in to your account</h1>
-    
+    <h1>Log In to AmVibe</h1>
+
     <input type="email" class="input-field" id="email" placeholder="Email Address" />
     <input type="password" class="input-field" id="password" placeholder="Password" />
-    
-    <button class="btn" onclick="logIn()">Log In</button>
-    
+
+    <button class="btn" onclick="login()">Log In</button>
+
     <div class="signup-link">
       Don't have an account? <a href="signup.html">Sign up</a>
     </div>
   </div>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script>
@@ -118,31 +117,36 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    function logIn() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
       if (!email || !password) {
-        alert("Please fill in all fields");
+        alert("Please enter both email and password.");
         return;
       }
 
       auth.signInWithEmailAndPassword(email, password)
         .then(() => {
-          alert("Login successful!");
-          window.location.href = "home.html"; // किंवा तुमचं डॅशबोर्ड पेज
+          const isFirstTime = localStorage.getItem("firstTimeUser") === "true";
+          if (isFirstTime) {
+            localStorage.removeItem("firstTimeUser");
+            window.location.href = "language-preference.html";
+          } else {
+            window.location.href = "login.html"; // तुमचं मुख्य डॅशबोर्ड
+          }
         })
         .catch((error) => {
           let errorMessage = "Login failed: ";
-          switch (error.code) {
-            case 'auth/invalid-email':
-              errorMessage += "Invalid email address";
-              break;
+          switch(error.code) {
             case 'auth/user-not-found':
-              errorMessage += "No user found with this email";
+              errorMessage += "No user found with this email.";
               break;
             case 'auth/wrong-password':
-              errorMessage += "Incorrect password";
+              errorMessage += "Incorrect password.";
+              break;
+            case 'auth/invalid-email':
+              errorMessage += "Invalid email format.";
               break;
             default:
               errorMessage += error.message;
