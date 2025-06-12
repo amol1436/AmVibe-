@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AmVibe - Login</title>
+  <title>AmVibe - Log In</title>
   <style>
     * {
       margin: 0;
@@ -89,14 +89,15 @@
 <body>
   <div class="login-container">
     <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo">
-    <h1>Login to AmVibe</h1>
-
+    <h1>Log in to your account</h1>
+    
     <input type="email" class="input-field" id="email" placeholder="Email Address" />
     <input type="password" class="input-field" id="password" placeholder="Password" />
+    
     <button class="btn" onclick="login()">Log In</button>
-
+    
     <div class="signup-link">
-      Don't have an account? <a href="signup.html">Sign Up</a>
+      Don't have an account? <a href="signup.html">Sign up</a>
     </div>
   </div>
 
@@ -118,35 +119,35 @@
     const auth = firebase.auth();
 
     function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
 
       if (!email || !password) {
-        alert("Please enter both email and password.");
+        alert("Please fill in all fields.");
         return;
       }
 
       auth.signInWithEmailAndPassword(email, password)
         .then(() => {
-          const isFirstTime = localStorage.getItem("firstTimeUser");
-          if (isFirstTime === "true") {
+          const isFirstTimeUser = localStorage.getItem("firstTimeUser") === "true";
+          if (isFirstTimeUser) {
             localStorage.removeItem("firstTimeUser");
             window.location.href = "language-preference.html";
           } else {
-            window.location.href = "login.html"; // main app/home page
+            window.location.href = "login.html";
           }
         })
-        .catch((error) => {
+        .catch(error => {
           let errorMessage = "Login failed: ";
-          switch(error.code) {
+          switch (error.code) {
             case 'auth/user-not-found':
-              errorMessage += "No user found with this email.";
+              errorMessage += 'User not found.';
               break;
             case 'auth/wrong-password':
-              errorMessage += "Incorrect password.";
+              errorMessage += 'Incorrect password.';
               break;
             case 'auth/invalid-email':
-              errorMessage += "Invalid email format.";
+              errorMessage += 'Invalid email address.';
               break;
             default:
               errorMessage += error.message;
