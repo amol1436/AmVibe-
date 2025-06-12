@@ -27,7 +27,6 @@
       width: 100%;
       max-width: 420px;
       box-shadow: 0 0 20px rgba(0,0,0,0.6);
-      text-align: center;
     }
     .logo {
       width: 120px;
@@ -37,6 +36,7 @@
     h1 {
       font-size: 24px;
       margin-bottom: 25px;
+      text-align: center;
       font-weight: 700;
     }
     .input-field {
@@ -75,6 +75,7 @@
     }
     .signup-link {
       margin-top: 20px;
+      text-align: center;
       color: #a7a7a7;
       font-size: 14px;
     }
@@ -89,18 +90,18 @@
   <div class="login-container">
     <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo">
     <h1>Log In to AmVibe</h1>
-
+    
     <input type="email" class="input-field" id="email" placeholder="Email Address" />
     <input type="password" class="input-field" id="password" placeholder="Password" />
-
+    
     <button class="btn" onclick="login()">Log In</button>
-
+    
     <div class="signup-link">
       Don't have an account? <a href="signup.html">Sign up</a>
     </div>
   </div>
 
-  <!-- Firebase -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script>
@@ -133,7 +134,7 @@
             localStorage.removeItem("firstTimeUser");
             window.location.href = "language-preference.html";
           } else {
-            window.location.href = "login.html"; // तुमचं मुख्य डॅशबोर्ड
+            window.location.href = "login.html"; // तुमचं मुख्य पेज
           }
         })
         .catch((error) => {
