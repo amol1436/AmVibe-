@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>What music do you like?</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Circular', sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .language-card {
+      background-color: #222;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .language-card.selected {
+      border: 2px solid #1DB954;
+      background-color: #333;
+    }
+
+    .checkmark {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 18px;
+      color: #1DB954;
+      display: none;
+    }
+
+    .language-card.selected .checkmark {
+      display: block;
+    }
+
+    .next-btn {
+      margin: 30px auto 0;
+      display: block;
+      padding: 15px 30px;
+      background-color: #1DB954;
+      border: none;
+      border-radius: 30px;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>What music do you like?</h1>
+  <div class="grid" id="language-grid">
+    <!-- Language cards will be added by JS -->
+  </div>
+
+  <button class="next-btn" onclick="goToArtistPage()">Next</button>
+
+  <script>
+    const languages = [
+      "Hindi", "Marathi", "Punjabi", "Tamil",
+      "Telugu", "Malayalam", "Gujarati", "Kannada",
+      "Bengali", "International"
+    ];
+
+    const grid = document.getElementById('language-grid');
+
+    languages.forEach(lang => {
+      const card = document.createElement('div');
+      card.className = 'language-card';
+      card.innerHTML = `
+        ${lang}
+        <div class="checkmark">✔</div>
+      `;
+      card.onclick = () => {
+        card.classList.toggle('selected');
+      };
+      grid.appendChild(card);
+    });
+
+    function goToArtistPage() {
+      const selected = [...document.querySelectorAll('.language-card.selected')].map(card => card.textContent.trim());
+      
+      if (selected.length === 0) {
+        alert("Please select at least one language.");
+        return;
+      }
+
+      // Store selection in localStorage (or Firebase later)
+      localStorage.setItem('preferredLanguages', JSON.stringify(selected));
+      window.location.href = "artist-preference.html"; // Replace with your next page
+    }
+  </script>
+</body>
+</html>
