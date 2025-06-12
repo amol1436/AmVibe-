@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <title>AmVibe - Email Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,52 +12,52 @@
     }
     body {
       background: #000;
-      color: #fff;
+      color: white;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
     }
     .login-container {
-      background: #121212;
+      background: #000; /* Full black */
       width: 100%;
       max-width: 450px;
       padding: 40px 32px;
       border-radius: 12px;
       text-align: left;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 20px rgba(0,0,0,0.7); /* slight depth */
     }
     h1 {
       font-size: 24px;
-      margin-bottom: 32px;
-      font-weight: bold;
-      color: #fff;
+      margin-bottom: 30px;
+      font-weight: 700;
     }
     .input-group {
       margin-bottom: 24px;
     }
     input {
       width: 100%;
-      padding: 14px 16px;
+      padding: 14px 18px;
       margin-bottom: 16px;
-      background: #1e1e1e;
+      background: #121212;
       border: 1px solid #333;
-      border-radius: 8px;
-      color: #fff;
+      border-radius: 6px;
+      color: white;
       font-size: 16px;
     }
     input::placeholder {
-      color: #aaa;
+      color: #999;
     }
     input:focus {
       outline: none;
       border-color: #1DB954;
+      background-color: #181818;
     }
     .disclaimer {
       color: #a7a7a7;
-      font-size: 12px;
+      font-size: 11px;
       line-height: 1.5;
-      margin-bottom: 32px;
+      margin-bottom: 30px;
     }
     .btn {
       width: 100%;
@@ -65,7 +65,7 @@
       background: #1DB954;
       color: white;
       border: none;
-      border-radius: 30px;
+      border-radius: 500px;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
@@ -81,12 +81,9 @@
       margin-top: 24px;
     }
     .signup-link a {
-      color: #fff;
+      color: white;
       text-decoration: none;
       font-weight: bold;
-    }
-    .signup-link a:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
@@ -120,8 +117,7 @@
       projectId: "amvibe-a22db",
       storageBucket: "amvibe-a22db.appspot.com",
       messagingSenderId: "717648312311",
-      appId: "1:717648312311:web:c97e204d16e4211b9360f2",
-      measurementId: "G-WPV8M3E8K2"
+      appId: "1:717648312311:web:c97e204d16e4211b9360f2"
     };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
