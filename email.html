@@ -1,337 +1,530 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login to AmVibe</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Circular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
-        
-        body {
-            background-color: #000;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            text-align: center;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .background-pattern {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(29, 185, 84, 0.03) 0%, transparent 20%),
-                radial-gradient(circle at 80% 70%, rgba(29, 185, 84, 0.03) 0%, transparent 20%);
-            z-index: 1;
-        }
-        
-        .login-container {
-            background-color: rgba(18, 18, 18, 0.95);
-            padding: 50px 40px;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 450px;
-            position: relative;
-            z-index: 2;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
-        }
-        
-        .logo {
-            height: 60px;
-            margin-bottom: 30px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 10px rgba(29, 185, 84, 0.3));
-        }
-        
-        .login-title {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 40px;
-            color: #fff;
-            letter-spacing: -0.5px;
-            background: linear-gradient(to right, #1DB954, #1ED760);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .form-group {
-            margin-bottom: 30px;
-            text-align: left;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 12px;
-            font-weight: 600;
-            color: #b3b3b3;
-            font-size: 16px;
-            letter-spacing: 0.5px;
-        }
-        
-        .input-container {
-            position: relative;
-        }
-        
-        .input-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #1DB954;
-            font-size: 18px;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 18px 18px 18px 55px;
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-            outline: none;
-            transition: all 0.3s;
-        }
-        
-        .form-input:focus {
-            border-color: #1DB954;
-            background: rgba(29, 185, 84, 0.05);
-            box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.2);
-        }
-        
-        .login-btn {
-            width: 100%;
-            padding: 18px;
-            border-radius: 50px;
-            background-color: #1DB954;
-            color: #000;
-            font-weight: 700;
-            font-size: 18px;
-            letter-spacing: 0.5px;
-            border: none;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
-        }
-        
-        .login-btn:hover {
-            background-color: #1ED760;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
-        }
-        
-        .login-btn:active {
-            transform: translateY(0);
-        }
-        
-        .login-link {
-            margin-top: 30px;
-            font-size: 16px;
-            color: #a7a7a7;
-        }
-        
-        .login-link a {
-            color: #1DB954;
-            text-decoration: none;
-            font-weight: 700;
-            margin-left: 5px;
-            transition: all 0.2s;
-        }
-        
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-        
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 40px 0 30px;
-            color: #777;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .divider::before,
-        .divider::after {
-            content: "";
-            flex: 1;
-            border-bottom: 1px solid #333;
-        }
-        
-        .divider span {
-            padding: 0 15px;
-        }
-        
-        .social-login {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .social-btn {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .social-btn:hover {
-            background-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-3px);
-        }
-        
-        .social-btn i {
-            font-size: 24px;
-        }
-        
-        .google-icon {
-            color: #4285F4;
-        }
-        
-        .facebook-icon {
-            color: #1877F2;
-        }
-        
-        .phone-icon {
-            color: #1DB954;
-        }
-        
-        @media (max-width: 480px) {
-            .login-container {
-                padding: 40px 25px;
-                border-radius: 0;
-                background: #121212;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-            
-            body {
-                padding: 0;
-                background: #000;
-            }
-            
-            .login-title {
-                font-size: 28px;
-            }
-            
-            .logo {
-                height: 50px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AmVibe - Music Streaming</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Circular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    body {
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .login-container {
+      background-color: #121212;
+      padding: 40px 35px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 450px;
+      position: relative;
+      z-index: 2;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    }
+    
+    .logo-container {
+      margin-bottom: 30px;
+      padding-top: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .logo {
+      height: 60px;
+      margin-bottom: 20px;
+      object-fit: contain;
+    }
+    
+    .tagline {
+      font-size: 22px;
+      color: #b3b3b3;
+      font-weight: 500;
+      margin-bottom: 5px;
+      letter-spacing: 0.5px;
+      line-height: 1.4;
+    }
+    
+    .signup-heading {
+      font-size: 28px;
+      font-weight: 800;
+      margin: 20px 0 35px;
+      letter-spacing: -0.5px;
+      color: #fff;
+      text-transform: uppercase;
+      background: linear-gradient(to right, #1DB954, #1ED760);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .signup-btn {
+      width: 100%;
+      padding: 18px;
+      border-radius: 500px;
+      background-color: #1DB954;
+      color: #000;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.5px;
+      border: none;
+      cursor: pointer;
+      margin-bottom: 25px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+    }
+    
+    .signup-btn:hover {
+      background-color: #1ED760;
+      transform: scale(1.02);
+      box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+    }
+    
+    .signup-btn:active {
+      transform: scale(0.98);
+    }
+    
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 25px 0;
+      color: #777;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #333;
+    }
+    
+    .divider span {
+      padding: 0 15px;
+    }
+    
+    .login-option {
+      width: 100%;
+      padding: 16px;
+      border-radius: 500px;
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-weight: 600;
+      font-size: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      margin-bottom: 15px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    
+    .login-option:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .login-option:active {
+      transform: translateY(0);
+    }
+    
+    .login-option i {
+      font-size: 18px;
+    }
+    
+    .google-icon {
+      width: 20px;
+      height: 20px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg') center/cover no-repeat;
+    }
+    
+    .facebook-icon {
+      color: #1877F2;
+      font-size: 20px;
+    }
+    
+    .phone-icon {
+      color: #1DB954;
+    }
+    
+    .login-link {
+      margin-top: 30px;
+      font-size: 16px;
+      color: #a7a7a7;
+    }
+    
+    .login-link a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      margin-left: 5px;
+      transition: all 0.2s;
+    }
+    
+    .login-link a:hover {
+      color: #1DB954;
+      text-decoration: underline;
+    }
+    
+    /* Phone login section */
+    #phone-login-section {
+      display: none;
+      margin-top: 25px;
+      padding: 20px;
+      background: rgba(40, 40, 40, 0.5);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .phone-input-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    
+    .phone-input-container i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #1DB954;
+    }
+    
+    .phone-input {
+      width: 100%;
+      padding: 16px 16px 16px 45px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 500px;
+      color: white;
+      font-size: 15px;
+      outline: none;
+    }
+    
+    .phone-input:focus {
+      border-color: #1DB954;
+      background: rgba(29, 185, 84, 0.05);
+    }
+    
+    .otp-input-container {
+      display: none;
+      margin-bottom: 20px;
+    }
+    
+    .otp-input {
+      width: 100%;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 500px;
+      color: white;
+      font-size: 15px;
+      text-align: center;
+      outline: none;
+    }
+    
+    .otp-input:focus {
+      border-color: #1DB954;
+      background: rgba(29, 185, 84, 0.05);
+    }
+    
+    .phone-action-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 500px;
+      background-color: #1DB954;
+      color: #000;
+      font-weight: 600;
+      font-size: 15px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .phone-action-btn:hover {
+      background-color: #1ED760;
+    }
+    
+    #recaptcha-container {
+      margin: 15px 0;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(29, 185, 84, 0.9);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .notification.show {
+      opacity: 1;
+    }
+    
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 35px 25px;
+        border-radius: 0;
+        background: #121212;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      
+      body {
+        padding: 0;
+        background: #000;
+      }
+      
+      .tagline {
+        font-size: 18px;
+      }
+      
+      .logo {
+        height: 50px;
+      }
+      
+      .signup-heading {
+        font-size: 24px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="background-pattern"></div>
-    
-    <div class="login-container">
-        <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo">
-        
-        <h1 class="login-title">Login to AmVibe</h1>
-        
-        <div class="form-group">
-            <label class="form-label">Email</label>
-            <div class="input-container">
-                <i class="fas fa-envelope input-icon"></i>
-                <input type="email" id="email" class="form-input" placeholder="Enter your email address">
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label class="form-label">Password</label>
-            <div class="input-container">
-                <i class="fas fa-lock input-icon"></i>
-                <input type="password" id="password" class="form-input" placeholder="Enter your password">
-            </div>
-        </div>
-        
-        <button class="login-btn" id="login-btn">Login</button>
-        
-        <div class="divider">
-            <span>or continue with</span>
-        </div>
-        
-        <div class="social-login">
-            <div class="social-btn" id="phone-login">
-                <i class="fas fa-phone-alt phone-icon"></i>
-            </div>
-            <div class="social-btn" id="google-login">
-                <i class="fab fa-google google-icon"></i>
-            </div>
-            <div class="social-btn" id="facebook-login">
-                <i class="fab fa-facebook-f facebook-icon"></i>
-            </div>
-        </div>
-        
-        <div class="login-link">
-            Don't have an account? <a href="#" id="signup-link">Sign up</a>
-        </div>
+  <div class="notification" id="notification">Action completed successfully!</div>
+  
+  <div class="login-container">
+    <div class="logo-container">
+      <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo">
+      <p class="tagline">Millions of songs. Free on AMVibe.</p>
     </div>
+    
+    <p class="signup-heading">Sign up for free</p>
+    
+    <button class="signup-btn" id="signup-btn">Sign up for free</button>
+    
+    <div class="divider">
+      <span>or continue with</span>
+    </div>
+    
+    <button class="login-option" id="phone-btn">
+      <i class="fas fa-phone-alt phone-icon"></i>
+      Continue with phone number
+    </button>
+    
+    <button class="login-option" id="google-btn">
+      <div class="google-icon"></div>
+      Continue with Google
+    </button>
+    
+    <button class="login-option" id="facebook-btn">
+      <i class="fab fa-facebook facebook-icon"></i>
+      Continue with Facebook
+    </button>
+    
+    <div id="phone-login-section">
+      <div class="phone-input-container">
+        <i class="fas fa-phone-alt"></i>
+        <input type="tel" id="phone-number" class="phone-input" placeholder="Enter phone number" autocomplete="off">
+      </div>
+      <div id="recaptcha-container"></div>
+      <button class="phone-action-btn" id="send-otp-btn">Send OTP</button>
+      
+      <div class="otp-input-container" id="otp-container">
+        <input type="text" id="otp" class="otp-input" placeholder="Enter OTP" maxlength="6" autocomplete="off">
+        <button class="phone-action-btn" id="verify-otp-btn">Verify OTP</button>
+      </div>
+    </div>
+    
+    <div class="login-link">
+      Already have an account? <a href="#" id="login-link">Log in</a>
+    </div>
+  </div>
 
-    <script>
-        // Form validation
-        document.getElementById('login-btn').addEventListener('click', function() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            if (!email || !password) {
-                alert('Please fill in both email and password fields');
-                return;
-            }
-            
-            // Simulate login process
-            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
-            this.disabled = true;
-            
-            setTimeout(() => {
-                this.innerHTML = 'Login';
-                this.disabled = false;
-                alert('Login functionality will be implemented in the final version');
-            }, 1500);
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
+      authDomain: "amvibe-a22db.firebaseapp.com",
+      projectId: "amvibe-a22db",
+      storageBucket: "amvibe-a22db.appspot.com",
+      messagingSenderId: "717648312311",
+      appId: "1:717648312311:web:c97e204d16e4211b9360f2",
+      measurementId: "G-WPV8M3E8K2"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    
+    // DOM Elements
+    const signupBtn = document.getElementById('signup-btn');
+    const phoneBtn = document.getElementById('phone-btn');
+    const phoneLoginSection = document.getElementById('phone-login-section');
+    const sendOtpBtn = document.getElementById('send-otp-btn');
+    const otpContainer = document.getElementById('otp-container');
+    const verifyOtpBtn = document.getElementById('verify-otp-btn');
+    const phoneNumberInput = document.getElementById('phone-number');
+    const otpInput = document.getElementById('otp');
+    const googleBtn = document.getElementById('google-btn');
+    const facebookBtn = document.getElementById('facebook-btn');
+    const loginLink = document.getElementById('login-link');
+    const notification = document.getElementById('notification');
+    
+    // Show notification
+    function showNotification(message) {
+      notification.textContent = message;
+      notification.classList.add('show');
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+    
+    // Sign up button
+    signupBtn.addEventListener('click', () => {
+      showNotification('Sign up functionality will be implemented soon!');
+    });
+    
+    // Login link
+    loginLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      showNotification('Login functionality will be implemented soon!');
+    });
+    
+    // Phone login functionality
+    let recaptchaVerifier;
+    let confirmationResult;
+    
+    phoneBtn.addEventListener('click', () => {
+      phoneLoginSection.style.display = 'block';
+      
+      // Initialize reCAPTCHA if not already done
+      if (!recaptchaVerifier) {
+        recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+          'size': 'invisible',
+          'callback': () => {
+            // reCAPTCHA solved, allow send OTP
+            sendOtpBtn.disabled = false;
+          }
         });
         
-        // Social login buttons
-        document.getElementById('phone-login').addEventListener('click', function() {
-            alert('Phone login will be implemented');
+        recaptchaVerifier.render().then(widgetId => {
+          window.recaptchaWidgetId = widgetId;
         });
-        
-        document.getElementById('google-login').addEventListener('click', function() {
-            alert('Google login will be implemented');
+      }
+    });
+    
+    sendOtpBtn.addEventListener('click', () => {
+      const phoneNumber = phoneNumberInput.value;
+      if (!phoneNumber) {
+        showNotification('Please enter a valid phone number');
+        return;
+      }
+      
+      const formattedPhone = phoneNumber.startsWith('+') ? phoneNumber : `+91${phoneNumber}`;
+      
+      auth.signInWithPhoneNumber(formattedPhone, recaptchaVerifier)
+        .then(confirmation => {
+          confirmationResult = confirmation;
+          otpContainer.style.display = 'block';
+          sendOtpBtn.textContent = 'Resend OTP';
+          showNotification('OTP sent successfully!');
+        })
+        .catch(error => {
+          console.error('Error sending OTP:', error);
+          showNotification(`Error sending OTP: ${error.message}`);
+          
+          // Reset reCAPTCHA
+          if (window.recaptchaWidgetId) {
+            recaptchaVerifier.reset(window.recaptchaWidgetId);
+          }
         });
-        
-        document.getElementById('facebook-login').addEventListener('click', function() {
-            alert('Facebook login will be implemented');
+    });
+    
+    verifyOtpBtn.addEventListener('click', () => {
+      const otp = otpInput.value;
+      if (!otp || otp.length !== 6) {
+        showNotification('Please enter a valid 6-digit OTP');
+        return;
+      }
+      
+      confirmationResult.confirm(otp)
+        .then(result => {
+          const user = result.user;
+          showNotification(`Login successful! Welcome ${user.phoneNumber}`);
+          // Redirect to home page or dashboard
+          // window.location.href = 'home.html';
+        })
+        .catch(error => {
+          console.error('Error verifying OTP:', error);
+          showNotification(`Error verifying OTP: ${error.message}`);
         });
-        
-        // Sign up link
-        document.getElementById('signup-link').addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('Redirecting to sign up page...');
+    });
+    
+    // Google login
+    googleBtn.addEventListener('click', () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(result => {
+          const user = result.user;
+          showNotification(`Login successful! Welcome ${user.displayName}`);
+          // Redirect to home page
+          // window.location.href = 'home.html';
+        })
+        .catch(error => {
+          console.error('Google login error:', error);
+          showNotification(`Google login failed: ${error.message}`);
         });
-    </script>
+    });
+    
+    // Facebook login
+    facebookBtn.addEventListener('click', () => {
+      const provider = new firebase.auth.FacebookAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(result => {
+          const user = result.user;
+          showNotification(`Login successful! Welcome ${user.displayName}`);
+          // Redirect to home page
+          // window.location.href = 'home.html';
+        })
+        .catch(error => {
+          console.error('Facebook login error:', error);
+          showNotification(`Facebook login failed: ${error.message}`);
+        });
+    });
+  </script>
 </body>
 </html>
