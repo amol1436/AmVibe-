@@ -90,14 +90,14 @@
   <div class="signup-container">
     <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo">
     <h1>Create Your Account</h1>
-    
+
     <input type="text" class="input-field" id="name" placeholder="Full Name" />
     <input type="email" class="input-field" id="email" placeholder="Email Address" />
     <input type="password" class="input-field" id="password" placeholder="Password" />
     <input type="password" class="input-field" id="confirm-password" placeholder="Confirm Password" />
-    
+
     <button class="btn" onclick="signUp()">Sign Up</button>
-    
+
     <div class="login-link">
       Already have an account? <a href="email.html">Log in</a>
     </div>
@@ -121,34 +121,34 @@
     const auth = firebase.auth();
 
     function signUp() {
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirm-password').value;
-      
+
       if (!name || !email || !password || !confirmPassword) {
         alert('Please fill in all fields');
         return;
       }
-      
+
       if (password !== confirmPassword) {
         alert('Passwords do not match');
         return;
       }
-      
+
       if (password.length < 6) {
         alert('Password must be at least 6 characters');
         return;
       }
-      
+
       auth.createUserWithEmailAndPassword(email, password)
         .then(() => {
-      // 👉 पहिल्यांदा साइन अप केल्यावर flag सेट कर
-     localStorage.setItem("firstTimeUser", "true");
+          // 👉 पहिल्यांदा साइन अप केल्यावर flag सेट कर
+          localStorage.setItem("firstTimeUser", "true");
 
-     alert('Account created successfully!');
-     window.location.href = "language-preference.html"; // भाषा निवडीचं पेज
-     })
+          alert('Account created successfully!');
+          window.location.href = "language-preference.html"; // भाषा निवडीचं पेज
+        })
         .catch((error) => {
           let errorMessage = "Sign up failed: ";
           switch(error.code) {
