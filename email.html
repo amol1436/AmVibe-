@@ -1,149 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>AmVibe - Email Login</title>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Circular', sans-serif;
+      font-family: "Circular", -apple-system, BlinkMacSystemFont, sans-serif;
     }
     body {
       background: #000;
-      color: white;
-      height: 100vh;
+      color: #fff;
+      min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      text-align: center;
     }
-    .login-container {
-      background: #121212;
-      padding: 40px 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
-      width: 100%;
-      max-width: 400px;
+    .signup-container {
+      width: 300px;
     }
     h1 {
-      font-size: 24px;
-      margin-bottom: 30px;
-      font-weight: bold;
+      margin-bottom: 20px;
     }
-    input {
+    button {
       width: 100%;
-      padding: 14px 16px;
-      margin-bottom: 16px;
-      border: 1px solid #333;
-      border-radius: 8px;
-      background: #1e1e1e;
-      color: white;
-      font-size: 16px;
-    }
-    input::placeholder {
-      color: #bbb;
-    }
-    input:focus {
-      outline: none;
-      border-color: #1DB954;
-    }
-    .btn {
-      width: 100%;
-      padding: 14px;
-      background: #1DB954;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 20px;
       border: none;
-      border-radius: 30px;
-      color: white;
-      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      transition: 0.3s;
-    }
-    .btn:hover {
-      background: #1ed760;
-    }
-    .disclaimer {
-      color: #a7a7a7;
-      font-size: 12px;
-      margin-top: 10px;
-      margin-bottom: 30px;
-    }
-    .signup-link {
-      color: #a7a7a7;
-      font-size: 14px;
-      text-align: center;
-      margin-top: 20px;
-    }
-    .signup-link a {
+      background: #1db954;
       color: white;
-      text-decoration: none;
-      font-weight: bold;
     }
-    .signup-link a:hover {
-      text-decoration: underline;
+    .phone {
+      background: transparent;
+      border: 1px solid #878787;
+    }
+    .google {
+      background: #4285F4;
+    }
+    .facebook {
+      background: #1877F2;
+    }
+    .divider {
+      margin: 20px 0;
+      color: #878787;
     }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <h1>Log in to AmVibe</h1>
-
-    <input type="email" id="email" placeholder="Email address" />
-    <input type="password" id="password" placeholder="Password" />
-
-    <p class="disclaimer">
-      By logging in, you agree to AmVibe's Terms and Conditions.
-    </p>
-
-    <button class="btn" onclick="login()">Log In</button>
-
-    <p class="signup-link">
-      Don't have an account? <a href="signup.html">Sign up</a>
-    </p>
+  <div class="signup-container">
+    <h1>Sign up to start listening</h1>
+    <button class="signup-free">Sign up for free</button>
+    <div class="divider">Or continue with</div>
+    <button class="phone">Continue with phone number</button>
+    <button class="google">Continue with Google</button>
+    <button class="facebook">Continue with Facebook</button>
   </div>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
-      authDomain: "amvibe-a22db.firebaseapp.com",
-      projectId: "amvibe-a22db",
-      storageBucket: "amvibe-a22db.appspot.com",
-      messagingSenderId: "717648312311",
-      appId: "1:717648312311:web:c97e204d16e4211b9360f2"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      if (!email || !password) {
-        alert("Please enter both email and password");
-        return;
-      }
-
-      auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-          alert("Login successful!");
-          window.location.href = "home.html";
-        })
-        .catch((error) => {
-          let message = "Login failed: ";
-          if (error.code === "auth/user-not-found") {
-            message += "No user found.";
-          } else if (error.code === "auth/wrong-password") {
-            message += "Incorrect password.";
-          } else {
-            message += error.message;
-          }
-          alert(message);
-        });
-    }
-  </script>
 </body>
 </html>
