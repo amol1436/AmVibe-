@@ -1,193 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>AmVibe - Premium Phone Login</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- ✅ Firebase JS SDK (Same theme preserved) -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Phone Login - AmVibe</title>
   <style>
-    /* तुमचं CSS तसंच ठेवलं आहे */
-    :root {
-      --primary: #1DB954;
-      --dark: #121212;
-      --light: #FFFFFF;
-      --gray: #A7A7A7;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Circular', -apple-system, sans-serif;
-    }
     body {
-      background: linear-gradient(135deg, #191414 0%, #000000 100%);
-      color: var(--light);
-      min-height: 100vh;
+      background-color: #000;
+      color: #fff;
+      font-family: 'Circular', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
+      min-height: 100vh;
       padding: 20px;
+      margin: 0;
     }
-    .login-container {
-      background: var(--dark);
+    .container {
+      background-color: #121212;
+      padding: 30px;
+      border-radius: 10px;
       width: 100%;
-      max-width: 480px;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
       text-align: center;
-      animation: fadeIn 0.6s ease;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .logo {
-      width: 120px;
-      margin-bottom: 30px;
-      filter: brightness(1.1);
-    }
-    h1 {
-      font-size: 28px;
-      margin-bottom: 32px;
-      font-weight: 700;
-      background: linear-gradient(to right, #1DB954, #1ED760);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .input-group {
-      margin-bottom: 24px;
-      position: relative;
-    }
-    .country-selector {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    .flag-dropdown {
-      position: relative;
-      width: 120px;
-    }
-    .flag-dropdown select {
+    input, button {
       width: 100%;
-      padding: 14px 16px;
-      background: var(--dark);
-      border: 1px solid #333;
-      border-radius: 8px;
-      color: var(--light);
+      padding: 12px;
+      margin-top: 10px;
       font-size: 16px;
-      appearance: none;
-      cursor: pointer;
-    }
-    .flag-dropdown::after {
-      content: "▼";
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray);
-      pointer-events: none;
+      border-radius: 30px;
+      border: none;
     }
     input {
-      width: 100%;
-      padding: 14px 16px;
-      background: var(--dark);
-      border: 1px solid #333;
-      border-radius: 8px;
-      color: var(--light);
-      font-size: 16px;
-      transition: all 0.3s;
+      background-color: #333;
+      color: #fff;
     }
-    input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(29, 185, 84, 0.2);
-    }
-    .disclaimer {
-      color: var(--gray);
-      font-size: 12px;
-      line-height: 1.6;
-      margin: 30px 0;
-    }
-    .btn {
-      width: 100%;
-      padding: 14px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 500px;
-      font-size: 16px;
-      font-weight: 700;
+    button {
+      background-color: #1DB954;
+      color: #fff;
+      font-weight: bold;
       cursor: pointer;
-      transition: all 0.3s;
-      text-transform: uppercase;
-      letter-spacing: 1px;
     }
-    .btn:hover {
-      background: #1ED760;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
-    }
-    .btn:active {
-      transform: translateY(0);
-    }
-    .country-flag {
-      width: 24px;
-      height: 16px;
-      margin-right: 8px;
-      vertical-align: middle;
+    #recaptcha-container {
+      margin-top: 15px;
     }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/main/logo.png" alt="AmVibe Logo" class="logo">
-    <h1>Enter Your Phone Number</h1>
-
-    <div class="input-group">
-      <div class="country-selector">
-        <div class="flag-dropdown">
-          <select id="countryCode">
-            <option value="+91" data-flag="🇮🇳">India (+91)</option>
-            <option value="+1" data-flag="🇺🇸">USA (+1)</option>
-            <option value="+44" data-flag="🇬🇧">UK (+44)</option>
-            <option value="+880" data-flag="🇧🇩">Bangladesh (+880)</option>
-<option value="+977" data-flag="🇳🇵">Nepal (+977)</option>
-<option value="+94" data-flag="🇱🇰">Sri Lanka (+94)</option>
-<option value="+92" data-flag="🇵🇰">Pakistan (+92)</option>
-<option value="+60" data-flag="🇲🇾">Malaysia (+60)</option>
-<option value="+62" data-flag="🇮🇩">Indonesia (+62)</option>
-<option value="+234" data-flag="🇳🇬">Nigeria (+234)</option>
-<option value="+39" data-flag="🇮🇹">Italy (+39)</option>
-<option value="+34" data-flag="🇪🇸">Spain (+34)</option>
-<option value="+55" data-flag="🇧🇷">Brazil (+55)</option>
-<option value="+61" data-flag="🇦🇺">Australia (+61)</option>
-<option value="+82" data-flag="🇰🇷">South Korea (+82)</option>
-<option value="+964" data-flag="🇮🇶">Iraq (+964)</option>
-<option value="+20" data-flag="🇪🇬">Egypt (+20)</option>
-<option value="+98" data-flag="🇮🇷">Iran (+98)</option>
-            <!-- अजून देश -->
-          </select>
-        </div>
-      </div>
-      <input type="tel" id="phone" placeholder="Enter phone number">
-    </div>
-
-    <p class="disclaimer">
-      We'll send a verification code to this number.<br>
-      Standard message rates may apply.
-    </p>
-
-    <button class="btn" id="send-otp-btn" onclick="sendOTP()">Send Verification Code</button>
+  <div class="container">
+    <h2>Phone Number Login</h2>
+    <input type="text" id="phone-number" placeholder="+91XXXXXXXXXX" />
     <div id="recaptcha-container"></div>
+    <button onclick="sendOTP()">Send OTP</button>
+
+    <input type="text" id="otp" placeholder="Enter OTP" style="display:none;" />
+    <button onclick="verifyOTP()" style="display:none;" id="verify-btn">Verify OTP</button>
   </div>
 
-  <script>
-    // ✅ Firebase config आणि initialization
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      RecaptchaVerifier,
+      signInWithPhoneNumber
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
     const firebaseConfig = {
       apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
       authDomain: "amvibe-a22db.firebaseapp.com",
@@ -197,39 +75,52 @@
       appId: "1:717648312311:web:c97e204d16e4211b9360f2",
       measurementId: "G-WPV8M3E8K2"
     };
-    firebase.initializeApp(firebaseConfig);
 
-    // ✅ Invisible reCAPTCHA once
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-      size: 'invisible',
-      callback: function(response) {
-        // Captcha OK
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Setup Recaptcha
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+      size: 'normal',
+      callback: (response) => {
+        console.log('reCAPTCHA verified');
+      },
+      'expired-callback': () => {
+        alert("reCAPTCHA expired, please refresh.");
       }
     });
 
-    function sendOTP() {
-      const countryCode = document.getElementById("countryCode").value;
-      const phoneNumber = document.getElementById("phone").value;
+    window.sendOTP = () => {
+      const phoneNumber = document.getElementById("phone-number").value;
+      const appVerifier = window.recaptchaVerifier;
 
-      if (!phoneNumber) {
-        alert("Please enter your phone number");
-        return;
-      }
-
-      const fullPhone = countryCode + phoneNumber;
-      console.log("Sending OTP to:", fullPhone);
-
-      firebase.auth().signInWithPhoneNumber(fullPhone, window.recaptchaVerifier)
-        .then(function (confirmationResult) {
+      signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+        .then((confirmationResult) => {
           window.confirmationResult = confirmationResult;
-          alert("OTP sent successfully!");
-          window.location.href = "verify.html";
+          alert("OTP sent!");
+
+          // Show OTP input
+          document.getElementById("otp").style.display = "block";
+          document.getElementById("verify-btn").style.display = "block";
         })
-        .catch(function (error) {
-          console.error("Error sending OTP:", error);
-          alert("Failed to send OTP: " + error.message);
+        .catch((error) => {
+          alert("Error sending OTP: " + error.message);
         });
-    }
+    };
+
+    window.verifyOTP = () => {
+      const otp = document.getElementById("otp").value;
+
+      window.confirmationResult.confirm(otp)
+        .then((result) => {
+          const user = result.user;
+          alert("Login successful! Welcome " + user.phoneNumber);
+          // window.location.href = "home.html";
+        })
+        .catch((error) => {
+          alert("Invalid OTP. Please try again.");
+        });
+    };
   </script>
 </body>
 </html>
