@@ -4,13 +4,143 @@
   <title>AmVibe - Premium Phone Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- ✅ Firebase SDK जोडले -->
+  <!-- ✅ Firebase JS SDK (Same theme preserved) -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
 
   <style>
-    /* तुमचं स्टायलिंग तसंच ठेवलेलं आहे - unchanged */
-    /* ... (तुमचं CSS तसंच) ... */
+    /* तुमचं CSS तसंच ठेवलं आहे */
+    :root {
+      --primary: #1DB954;
+      --dark: #121212;
+      --light: #FFFFFF;
+      --gray: #A7A7A7;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Circular', -apple-system, sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #191414 0%, #000000 100%);
+      color: var(--light);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .login-container {
+      background: var(--dark);
+      width: 100%;
+      max-width: 480px;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      animation: fadeIn 0.6s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .logo {
+      width: 120px;
+      margin-bottom: 30px;
+      filter: brightness(1.1);
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 32px;
+      font-weight: 700;
+      background: linear-gradient(to right, #1DB954, #1ED760);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .input-group {
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .country-selector {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .flag-dropdown {
+      position: relative;
+      width: 120px;
+    }
+    .flag-dropdown select {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--dark);
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: var(--light);
+      font-size: 16px;
+      appearance: none;
+      cursor: pointer;
+    }
+    .flag-dropdown::after {
+      content: "▼";
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      pointer-events: none;
+    }
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--dark);
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: var(--light);
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(29, 185, 84, 0.2);
+    }
+    .disclaimer {
+      color: var(--gray);
+      font-size: 12px;
+      line-height: 1.6;
+      margin: 30px 0;
+    }
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 500px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .btn:hover {
+      background: #1ED760;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+    }
+    .btn:active {
+      transform: translateY(0);
+    }
+    .country-flag {
+      width: 24px;
+      height: 16px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
   </style>
 </head>
 <body>
@@ -24,7 +154,8 @@
           <select id="countryCode">
             <option value="+91" data-flag="🇮🇳">India (+91)</option>
             <option value="+1" data-flag="🇺🇸">USA (+1)</option>
-            <!-- बाकी देश -->
+            <option value="+44" data-flag="🇬🇧">UK (+44)</option>
+            <!-- अजून देश -->
           </select>
         </div>
       </div>
@@ -36,15 +167,12 @@
       Standard message rates may apply.
     </p>
 
-    <!-- ✅ बटणचा id बदलला -->
-    <button class="btn" id="send-button" onclick="sendOTP()">Send Verification Code</button>
-
-    <!-- ✅ Invisible reCAPTCHA container -->
+    <button class="btn" id="send-otp-btn" onclick="sendOTP()">Send Verification Code</button>
     <div id="recaptcha-container"></div>
   </div>
 
   <script>
-    // ✅ Firebase configuration (बाहेर initialize केलंय)
+    // ✅ Firebase config आणि initialization
     const firebaseConfig = {
       apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
       authDomain: "amvibe-a22db.firebaseapp.com",
@@ -56,11 +184,11 @@
     };
     firebase.initializeApp(firebaseConfig);
 
-    // ✅ reCAPTCHA तयार करा एकदाच
+    // ✅ Invisible reCAPTCHA once
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-      'size': 'invisible',
-      'callback': function(response) {
-        // reCAPTCHA सोडवलं गेलं
+      size: 'invisible',
+      callback: function(response) {
+        // Captcha OK
       }
     });
 
@@ -79,8 +207,6 @@
       firebase.auth().signInWithPhoneNumber(fullPhone, window.recaptchaVerifier)
         .then(function (confirmationResult) {
           window.confirmationResult = confirmationResult;
-
-          // ✅ OTP पाठवलं, आता redirect
           alert("OTP sent successfully!");
           window.location.href = "verify.html";
         })
