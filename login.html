@@ -26,7 +26,7 @@
       margin-bottom: 20px;
       color: #1DB954;
     }
-    input {
+    input, select {
       width: 100%;
       padding: 12px;
       margin-bottom: 15px;
@@ -52,24 +52,23 @@
 <body>
   <div class="login-box">
     <h2>Login to AmVibe</h2>
+
     <input type="email" id="email" placeholder="Email" />
     <input type="password" id="password" placeholder="Password" />
+
+    <select id="countryCode">
+      <option value="+91">India (+91)</option>
+    </select>
+
+    <input type="tel" id="phone" placeholder="Enter phone number" />
+
     <button id="send-button" onclick="sendOTP()">SEND VERIFICATION CODE</button>
   </div>
-  <select id="countryCode">
-  <option value="+91">India (+91)</option>
-</select>
 
-<input type="tel" id="phone" placeholder="Enter phone number" />
-  <script>
-  function sendOTP() {
-    // नंतर Firebase कोड टाकू, आत्ता फक्त redirect
-    window.location.href = "otp-verify.html";
-  }
-  </script>
-
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
@@ -81,29 +80,30 @@
     };
     firebase.initializeApp(firebaseConfig);
 
-  function sendOTP() {
-    const countryCode = document.getElementById("countryCode").value;
-    const phone = document.getElementById("phone").value;
-    const fullPhone = countryCode + phone;
+    function sendOTP() {
+      const countryCode = document.getElementById("countryCode").value;
+      const phone = document.getElementById("phone").value;
+      const fullPhone = countryCode + phone;
 
-    if (!phone) {
-      alert("कृपया फोन नंबर टाका");
-      return;
-    }
+      if (!phone) {
+        alert("कृपया फोन नंबर टाका");
+        return;
+      }
 
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('send-button', {
-      size: 'invisible'
-    });
-    firebase.auth().signInWithPhoneNumber(fullPhone, window.recaptchaVerifier)
-      .then(function (confirmationResult) {
-        window.confirmationResult = confirmationResult;
-        localStorage.setItem("phoneNumber", fullPhone); // पुढे वापरण्यासाठी
-        window.location.href = "otp-verify.html";
-      })
-      .catch(function (error) {
-        alert("OTP पाठवण्यात अडचण आली: " + error.message);
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('send-button', {
+        size: 'invisible'
       });
-  }
-</script>
+
+      firebase.auth().signInWithPhoneNumber(fullPhone, window.recaptchaVerifier)
+        .then(function (confirmationResult) {
+          window.confirmationResult = confirmationResult;
+          localStorage.setItem("phoneNumber", fullPhone);
+          window.location.href = "otp-verify.html";
+        })
+        .catch(function (error) {
+          alert("OTP पाठवण्यात अडचण आली: " + error.message);
+        });
+    }
+  </script>
 </body>
 </html>
