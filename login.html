@@ -56,6 +56,12 @@
     <input type="password" id="password" placeholder="Password" />
     <button id="send-button" onclick="sendOTP()">SEND VERIFICATION CODE</button>
   </div>
+  <script>
+  function sendOTP() {
+    // नंतर Firebase कोड टाकू, आत्ता फक्त redirect
+    window.location.href = "otp-verify.html";
+  }
+  </script>
 
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
