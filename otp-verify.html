@@ -4,7 +4,6 @@
   <title>OTP Verification</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* तुमचं डिझाईन जसंच्या तसं ठेवलेलं */
     body {
       background: #000;
       color: white;
@@ -73,7 +72,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
 
   <script>
-    // ✅ Initialize Firebase
+    // ✅ Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
       authDomain: "amvibe-a22db.firebaseapp.com",
@@ -101,7 +100,7 @@
       });
     });
 
-    // ✅ OTP Verify Function
+    // ✅ Verify OTP function
     function verifyOTP() {
       let otp = '';
       inputs.forEach(input => otp += input.value);
@@ -112,13 +111,13 @@
       }
 
       if (!window.confirmationResult) {
-        alert("OTP session expired. Please try again.");
+        alert("OTP session expired or not started. Please go back and try again.");
         return;
       }
 
       window.confirmationResult.confirm(otp)
         .then(result => {
-          console.log("✅ User signed in");
+          console.log("✅ User verified:", result.user);
           window.location.href = "music-preference.html";
         })
         .catch(error => {
