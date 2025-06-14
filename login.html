@@ -56,6 +56,11 @@
     <input type="password" id="password" placeholder="Password" />
     <button id="send-button" onclick="sendOTP()">SEND VERIFICATION CODE</button>
   </div>
+  <select id="countryCode">
+  <option value="+91">India (+91)</option>
+</select>
+
+<input type="tel" id="phone" placeholder="Enter phone number" />
   <script>
   function sendOTP() {
     // नंतर Firebase कोड टाकू, आत्ता फक्त redirect
