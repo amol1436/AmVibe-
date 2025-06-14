@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AmVibe - Phone Login</title>
+    <script type="module">
+      // Firebase SDK import
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+      import {
+        getAuth,
+        RecaptchaVerifier,
+        signInWithPhoneNumber,
+      } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+      // तुझं Firebase config
+      const firebaseConfig = {
+        apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
+        authDomain: "amvibe-a22db.firebaseapp.com",
+        projectId: "amvibe-a22db",
+        storageBucket: "amvibe-a22db.appspot.com",
+        messagingSenderId: "717648312311",
+        appId: "1:717648312311:web:c97e204d16e4211b9360f2"
+      };
+
+      // Firebase Init
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+
+      // Recaptcha सेट करणे
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: (response) => {
+            // reCAPTCHA solved
+          },
+        },
+        auth
+      );
+
+      let confirmationResult;
+
+      // OTP पाठवा
+      window.sendOTP = () => {
+        const phoneNumber = document.getElementById("phone").value;
+        if (!phoneNumber) {
+          alert("कृपया फोन नंबर टाका");
+          return;
+        }
+
+        signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
+          .then((result) => {
+            confirmationResult = result;
+            alert("OTP पाठवला गेला आहे!");
+          })
+          .catch((error) => {
+            console.error("OTP Error:", error);
+            alert("OTP पाठवताना त्रुटी आली");
+          });
+      };
+
+      // OTP verify करा
+      window.verifyOTP = () => {
+        const code = document.getElementById("otp").value;
+        if (!code) {
+          alert("कृपया OTP टाका");
+          return;
+        }
+
+        confirmationResult
+          .confirm(code)
+          .then((result) => {
+            alert("OTP पडताळणी यशस्वी!");
+            window.location.href = "home.html"; // पुढच्या पेजवर redirect करा
+          })
+          .catch((error) => {
+            console.error("OTP Verification Error:", error);
+            alert("OTP चुकीचा आहे");
+          });
+      };
+    </script>
+  </head>
+  <body>
+    <h2>📱 AmVibe Login with Phone</h2>
+
+    <input type="text" id="phone" placeholder="+91xxxxxxxxxx" /><br /><br />
+    <div id="recaptcha-container"></div>
+    <button onclick="sendOTP()">Send OTP</button><br /><br />
+
+    <input type="text" id="otp" placeholder="Enter OTP" /><br /><br />
+    <button onclick="verifyOTP()">Verify OTP</button>
+  </body>
+</html>
