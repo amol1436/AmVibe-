@@ -218,7 +218,7 @@
       .then(function (confirmationResult) {
         window.confirmationResult = confirmationResult;
         alert("OTP sent successfully!");
-        window.location.href = "verify.html"; // OTP verify page
+        window.location.href = "otp-verify.html"; // OTP verify page
       })
       .catch(function (error) {
         console.error("Error sending OTP:", error);
