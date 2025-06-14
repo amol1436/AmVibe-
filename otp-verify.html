@@ -1,54 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AmVibe - OTP Verification</title>
+  <title>OTP Verification</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    
+    /* तुमचं डिझाईन जसंच्या तसं ठेवलेलं */
     body {
-      background: #000; /* पूर्ण काळा बॅकग्राऊंड */
+      background: #000;
       color: white;
-      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    
     .otp-container {
-      background: #121212; /* Spotify डार्क थीम */
-      width: 100%;
-      max-width: 450px;
+      background: #121212;
       padding: 32px;
       border-radius: 8px;
       text-align: center;
-      margin: 20px;
+      max-width: 400px;
+      width: 100%;
     }
-    
-    h1 {
-      font-size: 24px;
-      margin-bottom: 24px;
-      font-weight: 600;
-    }
-    
-    .otp-message {
-      color: #a7a7a7;
-      font-size: 14px;
-      margin-bottom: 32px;
-    }
-    
     .otp-inputs {
       display: flex;
-      justify-content: center;
       gap: 10px;
-      margin-bottom: 32px;
+      justify-content: center;
+      margin: 20px 0;
     }
-    
     .otp-input {
       width: 50px;
       height: 50px;
@@ -59,107 +38,93 @@
       border-radius: 4px;
       color: white;
     }
-    
-    .otp-input:focus {
-      outline: none;
-      border-color: #1DB954;
-    }
-    
     .btn {
-      width: 100%;
-      padding: 12px;
-      background: #1DB954; /* Spotify ग्रीन */
-      color: white;
+      background: #1DB954;
       border: none;
+      color: white;
+      padding: 12px;
+      width: 100%;
       border-radius: 500px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    
-    .btn:hover {
-      background: #1ED760;
-    }
-    
-    .resend-link {
-      color: #a7a7a7;
-      font-size: 14px;
-      margin-top: 24px;
-    }
-    
-    .resend-link a {
-      color: #1DB954;
-      text-decoration: none;
       font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
   <div class="otp-container">
-    <h1>Enter Verification Code</h1>
-    
-    <p class="otp-message">
-      We've sent a 6-digit code to <strong>+91 •••• •••789</strong><br>
-      (Expires in 5:00)
-    </p>
-    
+    <h2>Enter Verification Code</h2>
+    <p>We've sent a 6-digit code to your phone.</p>
+
     <div class="otp-inputs">
-      <input type="text" class="otp-input" maxlength="1" pattern="\d*">
-      <input type="text" class="otp-input" maxlength="1" pattern="\d*">
-      <input type="text" class="otp-input" maxlength="1" pattern="\d*">
-      <input type="text" class="otp-input" maxlength="1" pattern="\d*">
-      <input type="text" class="otp-input" maxlength="1" pattern="\d*">
-      <input type="text" class="otp-input" maxlength="1" pattern="\d*">
+      <input type="text" class="otp-input" maxlength="1">
+      <input type="text" class="otp-input" maxlength="1">
+      <input type="text" class="otp-input" maxlength="1">
+      <input type="text" class="otp-input" maxlength="1">
+      <input type="text" class="otp-input" maxlength="1">
+      <input type="text" class="otp-input" maxlength="1">
     </div>
-    
+
     <button class="btn" onclick="verifyOTP()">Verify</button>
-    
-    <p class="resend-link">
-      Didn't receive code? <a href="#" onclick="resendOTP()">Resend</a>
-    </p>
   </div>
 
+  <!-- ✅ Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
+
   <script>
-    // OTP इनपुट स्वयंचलित नेव्हिगेशन
+    // ✅ Initialize Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
+      authDomain: "amvibe-a22db.firebaseapp.com",
+      projectId: "amvibe-a22db",
+      storageBucket: "amvibe-a22db.appspot.com",
+      messagingSenderId: "717648312311",
+      appId: "1:717648312311:web:c97e204d16e4211b9360f2",
+      measurementId: "G-WPV8M3E8K2"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // OTP input navigation
     const inputs = document.querySelectorAll('.otp-input');
     inputs.forEach((input, index) => {
-      input.addEventListener('input', (e) => {
-        if (e.target.value.length === 1) {
-          if (index < inputs.length - 1) {
-            inputs[index + 1].focus();
-          }
+      input.addEventListener('input', () => {
+        if (input.value && index < inputs.length - 1) {
+          inputs[index + 1].focus();
         }
       });
-      
+
       input.addEventListener('keydown', (e) => {
-        if (e.key === 'Backspace' && e.target.value === '') {
-          if (index > 0) {
-            inputs[index - 1].focus();
-          }
+        if (e.key === 'Backspace' && input.value === '' && index > 0) {
+          inputs[index - 1].focus();
         }
       });
     });
 
+    // ✅ OTP Verify Function
     function verifyOTP() {
       let otp = '';
-      inputs.forEach(input => {
-        otp += input.value;
-      });
-      
+      inputs.forEach(input => otp += input.value);
+
       if (otp.length !== 6) {
         alert("Please enter 6-digit OTP");
         return;
       }
-      
-      console.log("OTP submitted:", otp);
-      // Firebase OTP व्हेरिफिकेशन कोड येथे जोडा
-      // confirmOTP(otp);
-    }
-    
-    function resendOTP() {
-      console.log("Resending OTP...");
-      // OTP पुन्हा पाठवण्याचा कोड
+
+      if (!window.confirmationResult) {
+        alert("OTP session expired. Please try again.");
+        return;
+      }
+
+      window.confirmationResult.confirm(otp)
+        .then(result => {
+          console.log("✅ User signed in");
+          window.location.href = "music-preference.html";
+        })
+        .catch(error => {
+          console.error("❌ Invalid OTP:", error);
+          alert("Invalid OTP. Please try again.");
+        });
     }
   </script>
 </body>
