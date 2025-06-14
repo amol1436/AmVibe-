@@ -69,20 +69,30 @@
       appId: "1:717648312311:web:c97e204d16e4211b9360f2"
     };
     firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
 
-    function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      auth.signInWithEmailAndPassword(email, password)
-        .then(user => {
-          alert("Login successful");
-          window.location.href = "home.html"; // लॉगिननंतर कुठे जायचं ते इथे लिही
-        })
-        .catch(error => {
-          alert("Login failed: " + error.message);
-        });
+  function sendOTP() {
+    const countryCode = document.getElementById("countryCode").value;
+    const phone = document.getElementById("phone").value;
+    const fullPhone = countryCode + phone;
+
+    if (!phone) {
+      alert("कृपया फोन नंबर टाका");
+      return;
     }
-  </script>
+
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('send-button', {
+      size: 'invisible'
+    });
+    firebase.auth().signInWithPhoneNumber(fullPhone, window.recaptchaVerifier)
+      .then(function (confirmationResult) {
+        window.confirmationResult = confirmationResult;
+        localStorage.setItem("phoneNumber", fullPhone); // पुढे वापरण्यासाठी
+        window.location.href = "otp-verify.html";
+      })
+      .catch(function (error) {
+        alert("OTP पाठवण्यात अडचण आली: " + error.message);
+      });
+  }
+</script>
 </body>
 </html>
