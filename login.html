@@ -1,75 +1,146 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login - AmVibe</title>
-  <style>
-    body {
-      background-color: #000;
-      color: #fff;
-      font-family: 'Circular', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .login-box {
-      background-color: #111;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-      width: 90%;
-      max-width: 400px;
-    }
-    h2 {
-      margin-bottom: 20px;
-      color: #1DB954;
-    }
-    input, select {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #1DB954;
-      border: none;
-      color: white;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #1ed760;
-    }
-  </style>
-</head>
-<body>
-  <div class="login-box">
-    <h2>Login to AmVibe</h2>
+  <title>AmVibe - Premium Phone Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password" />
-
-    <select id="countryCode">
-      <option value="+91">India (+91)</option>
-    </select>
-
-    <input type="tel" id="phone" placeholder="Enter phone number" />
-
-    <button id="send-button" onclick="sendOTP()">SEND VERIFICATION CODE</button>
-  </div>
-
-  <!-- Firebase SDKs -->
+  <!-- ✅ Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
+  <style>
+    :root {
+      --primary: #1DB954;
+      --dark: #121212;
+      --light: #FFFFFF;
+      --gray: #A7A7A7;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Circular', -apple-system, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #191414 0%, #000000 100%);
+      color: var(--light);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      background: var(--dark);
+      width: 100%;
+      max-width: 480px;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      width: 120px;
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 32px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .input-group {
+      margin-bottom: 24px;
+    }
+
+    .flag-dropdown select {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--dark);
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: var(--light);
+      font-size: 16px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--dark);
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: var(--light);
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    .disclaimer {
+      color: var(--gray);
+      font-size: 12px;
+      margin: 30px 0;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 500px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #1ED760;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/main/logo.png" alt="AmVibe Logo" class="logo">
+    <h1>Enter Your Phone Number</h1>
+
+    <div class="input-group">
+      <div class="flag-dropdown">
+        <select id="countryCode">
+          <option value="+91">India (+91)</option>
+          <option value="+1">USA (+1)</option>
+          <option value="+44">UK (+44)</option>
+          <!-- Add more if needed -->
+        </select>
+      </div>
+      <input type="tel" id="phone" placeholder="Enter phone number">
+    </div>
+
+    <p class="disclaimer">
+      We'll send a verification code to this number.<br>
+      Standard message rates may apply.
+    </p>
+
+    <button class="btn" id="send-otp-btn" onclick="sendOTP()">SEND VERIFICATION CODE</button>
+
+    <!-- reCAPTCHA container (invisible) -->
+    <div id="recaptcha-container"></div>
+  </div>
+
   <script>
+    // ✅ Initialize Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBara9XDn6DDZeHM8ReakXA3tDzvhSelDY",
       authDomain: "amvibe-a22db.firebaseapp.com",
@@ -80,28 +151,36 @@
     };
     firebase.initializeApp(firebaseConfig);
 
+    // ✅ Send OTP
     function sendOTP() {
       const countryCode = document.getElementById("countryCode").value;
-      const phone = document.getElementById("phone").value;
-      const fullPhone = countryCode + phone;
+      const phone = document.getElementById("phone").value.trim();
 
       if (!phone) {
-        alert("कृपया फोन नंबर टाका");
+        alert("Please enter your phone number");
         return;
       }
 
-      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('send-button', {
-        size: 'invisible'
+      const fullPhone = countryCode + phone;
+
+      // Setup invisible reCAPTCHA
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        size: 'invisible',
+        callback: function(response) {
+          // reCAPTCHA solved
+        }
       });
 
       firebase.auth().signInWithPhoneNumber(fullPhone, window.recaptchaVerifier)
-        .then(function (confirmationResult) {
+        .then(function(confirmationResult) {
           window.confirmationResult = confirmationResult;
           localStorage.setItem("phoneNumber", fullPhone);
+          alert("OTP sent successfully!");
           window.location.href = "otp-verify.html";
         })
-        .catch(function (error) {
-          alert("OTP पाठवण्यात अडचण आली: " + error.message);
+        .catch(function(error) {
+          console.error("Error sending OTP:", error);
+          alert("Failed to send OTP: " + error.message);
         });
     }
   </script>
