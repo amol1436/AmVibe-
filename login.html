@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - AmVibe</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .login-container h2 {
+      margin-bottom: 25px;
+      font-size: 22px;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin: 12px 0;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #1db954;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 18px;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #17a64a;
+    }
+
+    .back-link {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .back-link a {
+      color: #1db954;
+      text-decoration: none;
+    }
+  </style>
+
+  <script type="module">
+    import {
+      getAuth,
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import { auth } from "./firebase.js";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginBtn = document.getElementById("loginBtn");
+
+      loginBtn.onclick = () => {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        signInWithEmailAndPassword(auth, email, password)
+          .then(() => {
+            window.location.href = "music-preference.html";
+          })
+          .catch(error => {
+            alert("Login failed: " + error.message);
+          });
+      };
+    });
+  </script>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login to AmVibe</h2>
+    <input type="email" id="email" placeholder="Enter your email" />
+    <input type="password" id="password" placeholder="Enter your password" />
+    <button id="loginBtn">Login</button>
+    <div class="back-link">
+      Don't have an account? <a href="index.html">Sign up</a>
+    </div>
+  </div>
+</body>
+</html>
