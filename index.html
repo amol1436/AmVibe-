@@ -1,122 +1,123 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>AmVibe Login</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script type="module" src="./firebase.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AmVibe - Login</title>
   <style>
     body {
-      font-family: sans-serif;
-      padding: 20px;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: normal;
+      margin-bottom: 30px;
       text-align: center;
     }
-    input, button {
-      padding: 10px;
-      margin: 8px;
-      width: 80%;
-      max-width: 300px;
+
+    .login-btn {
+      width: 280px;
+      padding: 14px 18px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s ease-in-out;
     }
-    #recaptcha-container {
-      margin: 12px 0;
+
+    .login-btn:hover {
+      transform: scale(1.03);
+      opacity: 0.95;
     }
-    .btn-google, .btn-facebook {
-      width: 80%;
-      max-width: 300px;
-      margin: 8px auto;
+
+    .email-btn {
+      background-color: #1db954;
+      color: white;
     }
+
+    .phone-btn, .google-btn, .facebook-btn {
+      background-color: transparent;
+      border: 1px solid #888;
+      color: white;
+    }
+
+    .google-btn img,
+    .facebook-btn img,
+    .phone-btn img {
+      width: 22px;
+      margin-right: 10px;
+    }
+
+    .login-links {
+      margin-top: 25px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .login-links a {
+      color: #1db954;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
   </style>
+  <script>
+    function handleGoogleLogin() {
+      // Replace this with your actual Google login function
+      window.location.href = 'google-login.html';
+    }
+
+    function handleFacebookLogin() {
+      // Replace this with your actual Facebook login function
+      window.location.href = 'facebook-login.html';
+    }
+  </script>
 </head>
 <body>
-  <h2>Welcome to AmVibe 🎧</h2>
+  <img src="https://raw.githubusercontent.com/amol1436/AmVibe-/refs/heads/main/logo.png" alt="AmVibe Logo" class="logo" />
 
-  <!-- Email/Password -->
-  <input type="email" id="email" placeholder="Email" />
-  <input type="password" id="password" placeholder="Password" />
-  <br>
-  <button id="emailSignup">Sign Up for Free</button>
-  <button id="emailLogin">Login with Email</button>
+  <h2>Signup to get your vibes flowing</h2>
 
-  <hr style="margin: 20px 0;">
+  <button class="login-btn email-btn" onclick="window.location.href='signup-email.html'">
+    Sign up for free
+  </button>
 
-  <!-- Phone -->
-  <input type="tel" id="phone" placeholder="+91XXXXXXXXXX" />
-  <div id="recaptcha-container"></div>
-  <button id="sendOtp">Send OTP</button>
+  <button class="login-btn phone-btn" onclick="window.location.href='otp-verify.html'">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" />
+    Continue with Phone Number
+  </button>
 
-  <hr style="margin: 20px 0;">
+  <button class="login-btn google-btn" onclick="handleGoogleLogin()">
+    <img src="https://img.icons8.com/color/48/000000/google-logo.png" />
+    Continue with Google
+  </button>
 
-  <!-- Google -->
-  <button id="googleLogin" class="btn-google">Continue with Google</button>
+  <button class="login-btn facebook-btn" onclick="handleFacebookLogin()">
+    <img src="https://img.icons8.com/color/48/000000/facebook.png" />
+    Continue with Facebook
+  </button>
 
-  <!-- Facebook -->
-  <button id="facebookLogin" class="btn-facebook">Continue with Facebook</button>
-
-  <script type="module">
-    import {
-      getAuth,
-      signInWithPopup,
-      signInWithPhoneNumber,
-      RecaptchaVerifier,
-      GoogleAuthProvider,
-      FacebookAuthProvider,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword
-    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-    import { auth } from "./firebase.js";
-
-    // Email Sign Up
-    document.getElementById('emailSignup').onclick = () => {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => window.location.href = "music-preference.html")
-        .catch(err => alert(err.message));
-    };
-
-    // Email Login
-    document.getElementById('emailLogin').onclick = () => {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => window.location.href = "music-preference.html")
-        .catch(err => alert(err.message));
-    };
-
-    // Google Login
-    document.getElementById('googleLogin').onclick = () => {
-      const provider = new GoogleAuthProvider();
-      signInWithPopup(auth, provider)
-        .then(() => window.location.href = "music-preference.html")
-        .catch(err => alert(err.message));
-    };
-
-    // Facebook Login
-    document.getElementById('facebookLogin').onclick = () => {
-      const provider = new FacebookAuthProvider();
-      signInWithPopup(auth, provider)
-        .then(() => window.location.href = "music-preference.html")
-        .catch(err => alert(err.message));
-    };
-
-    // Phone Login
-    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
-      'size': 'normal',
-      'callback': () => {}
-    }, auth);
-
-    document.getElementById('sendOtp').onclick = () => {
-      const phoneNumber = document.getElementById('phone').value;
-      const appVerifier = window.recaptchaVerifier;
-      signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-        .then((confirmationResult) => {
-          window.confirmationResult = confirmationResult;
-          window.localStorage.setItem('phoneAuth', 'yes');
-          window.location.href = "otp-verify.html";
-        })
-        .catch((error) => {
-          alert(error.message);
-        });
-    };
-  </script>
+  <div class="login-links">
+    Already have an account? <a href="login.html">Log in</a>
+  </div>
 </body>
 </html>
