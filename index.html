@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AmVibe Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script type="module" src="./firebase.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    input, button {
+      padding: 10px;
+      margin: 8px;
+      width: 80%;
+      max-width: 300px;
+    }
+    #recaptcha-container {
+      margin: 12px 0;
+    }
+    .btn-google, .btn-facebook {
+      width: 80%;
+      max-width: 300px;
+      margin: 8px auto;
+    }
+  </style>
+</head>
+<body>
+  <h2>Welcome to AmVibe 🎧</h2>
+
+  <!-- Email/Password -->
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="password" placeholder="Password" />
+  <br>
+  <button id="emailSignup">Sign Up for Free</button>
+  <button id="emailLogin">Login with Email</button>
+
+  <hr style="margin: 20px 0;">
+
+  <!-- Phone -->
+  <input type="tel" id="phone" placeholder="+91XXXXXXXXXX" />
+  <div id="recaptcha-container"></div>
+  <button id="sendOtp">Send OTP</button>
+
+  <hr style="margin: 20px 0;">
+
+  <!-- Google -->
+  <button id="googleLogin" class="btn-google">Continue with Google</button>
+
+  <!-- Facebook -->
+  <button id="facebookLogin" class="btn-facebook">Continue with Facebook</button>
+
+  <script type="module">
+    import {
+      getAuth,
+      signInWithPopup,
+      signInWithPhoneNumber,
+      RecaptchaVerifier,
+      GoogleAuthProvider,
+      FacebookAuthProvider,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import { auth } from "./firebase.js";
+
+    // Email Sign Up
+    document.getElementById('emailSignup').onclick = () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => window.location.href = "music-preference.html")
+        .catch(err => alert(err.message));
+    };
+
+    // Email Login
+    document.getElementById('emailLogin').onclick = () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => window.location.href = "music-preference.html")
+        .catch(err => alert(err.message));
+    };
+
+    // Google Login
+    document.getElementById('googleLogin').onclick = () => {
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+        .then(() => window.location.href = "music-preference.html")
+        .catch(err => alert(err.message));
+    };
+
+    // Facebook Login
+    document.getElementById('facebookLogin').onclick = () => {
+      const provider = new FacebookAuthProvider();
+      signInWithPopup(auth, provider)
+        .then(() => window.location.href = "music-preference.html")
+        .catch(err => alert(err.message));
+    };
+
+    // Phone Login
+    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+      'size': 'normal',
+      'callback': () => {}
+    }, auth);
+
+    document.getElementById('sendOtp').onclick = () => {
+      const phoneNumber = document.getElementById('phone').value;
+      const appVerifier = window.recaptchaVerifier;
+      signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          window.localStorage.setItem('phoneAuth', 'yes');
+          window.location.href = "otp-verify.html";
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    };
+  </script>
+</body>
+</html>
