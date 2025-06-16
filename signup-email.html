@@ -1,69 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>AmVibe - Sign Up</title>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up - AmVibe</title>
   <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
     body {
-      font-family: 'Urbanist', sans-serif;
-      background: #0f0f0f;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
       color: #fff;
+      height: 100vh;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      padding: 20px;
+      align-items: center;
     }
-    .form-box {
-      background: #1e1e1e;
-      padding: 30px;
+
+    .signup-container {
+      background: rgba(15, 12, 41, 0.4); /* Transparent dark matching blend */
+      padding: 40px 30px;
       border-radius: 20px;
-      width: 100%;
+      width: 90%;
       max-width: 400px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px); /* smooth blend with background */
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    input, button {
+
+    .signup-container h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: 400;
+    }
+
+    .signup-container input {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      background-color: rgba(255, 255, 255, 0.07);
+      color: #fff;
+    }
+
+    .signup-container input::placeholder {
+      color: #ccc;
+    }
+
+    .signup-container input:focus {
+      outline: 2px solid #1db954;
+    }
+
+    .signup-container button {
       width: 100%;
       padding: 12px;
-      margin-top: 12px;
-      border-radius: 10px;
+      background-color: #1db954;
       border: none;
-      font-size: 16px;
-    }
-    button {
-      background-color: #ff5f6d;
       color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 30px;
       cursor: pointer;
+      margin-top: 15px;
+      transition: all 0.3s ease;
     }
-    h2 {
-      margin-bottom: 20px;
-      color: #ff5f6d;
+
+    .signup-container button:hover {
+      transform: scale(1.03);
+      opacity: 0.9;
+    }
+
+    .signup-container .login-link {
+      margin-top: 20px;
       text-align: center;
+      font-size: 14px;
+    }
+
+    .signup-container .login-link a {
+      color: #1db954;
+      text-decoration: none;
+      font-weight: bold;
     }
   </style>
-  <script type="module" src="/firebase.js"></script>
 </head>
 <body>
-  <div class="form-box">
-    <h2>Create Your Account</h2>
-    <input type="email" id="email" placeholder="Enter your email">
-    <input type="password" id="password" placeholder="Enter your password">
-    <button id="signupBtn">Sign Up</button>
+
+  <div class="signup-container">
+    <h2>Create Your AmVibe Account</h2>
+    <input type="text" id="firstName" placeholder="First Name" />
+    <input type="text" id="lastName" placeholder="Last Name" />
+    <input type="email" id="email" placeholder="Email Address" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="signUp()">Sign Up</button>
+
+    <div class="login-link">
+      Already have an account? <a href="login.html">Log in</a>
+    </div>
   </div>
 
   <script type="module">
-    import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      updateProfile
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
     import { auth } from "./firebase.js";
 
-    document.getElementById('signupBtn').onclick = () => {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+    window.signUp = () => {
+      const firstName = document.getElementById("firstName").value.trim();
+      const lastName = document.getElementById("lastName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!firstName || !lastName || !email || !password) {
+        alert("Please fill all the fields.");
+        return;
+      }
+
       createUserWithEmailAndPassword(auth, email, password)
-        .then(() => window.location.href = "music-preference.html")
-        .catch(err => alert(err.message));
+        .then((userCredential) => {
+          return updateProfile(userCredential.user, {
+            displayName: `${firstName} ${lastName}`
+          });
+        })
+        .then(() => {
+          window.location.href = "music-preference.html";
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
     };
   </script>
 </body>
