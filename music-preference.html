@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Music Preferences</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1b1f3b, #2d2957);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    h2 {
+      color: #1ed760;
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .card {
+      border-radius: 15px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+
+    .card.selected::after {
+      content: '✓';
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      background-color: white;
+      color: green;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    /* Gradient backgrounds */
+    .hindi { background: linear-gradient(45deg, #f857a6, #ff5858); }
+    .international { background: linear-gradient(45deg, #36d1dc, #5b86e5); }
+    .punjabi { background: linear-gradient(45deg, #fc4a1a, #f7b733); }
+    .tamil { background: linear-gradient(45deg, #f7971e, #ffd200); }
+    .telugu { background: linear-gradient(45deg, #add100, #7b920a); }
+    .malayalam { background: linear-gradient(45deg, #2c3e50, #4ca1af); }
+    .marathi { background: linear-gradient(45deg, #ff416c, #ff4b2b); }
+    .gujarati { background: linear-gradient(45deg, #bc4e9c, #f80759); }
+    .bengali { background: linear-gradient(45deg, #36d1dc, #5b86e5); }
+    .kannada { background: linear-gradient(45deg, #f7971e, #ffd200); }
+
+    .next-btn {
+      margin-top: 30px;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(to right, #1DB954, #1ED760);
+      color: black;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(29, 185, 84, 0.4);
+      transition: 0.3s;
+    }
+
+    .next-btn:hover {
+      transform: scale(1.03);
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Select Your Music Preferences</h2>
+
+  <div class="grid">
+    <div class="card hindi">Hindi</div>
+    <div class="card international">International</div>
+    <div class="card punjabi">Punjabi</div>
+    <div class="card tamil">Tamil</div>
+    <div class="card telugu">Telugu</div>
+    <div class="card malayalam">Malayalam</div>
+    <div class="card marathi">Marathi</div>
+    <div class="card gujarati">Gujarati</div>
+    <div class="card bengali">Bengali</div>
+    <div class="card kannada">Kannada</div>
+  </div>
+
+  <button class="next-btn">Next</button>
+
+  <script>
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('selected');
+      });
+    });
+
+    document.querySelector('.next-btn').addEventListener('click', () => {
+      const selectedLanguages = [...cards].filter(card => card.classList.contains('selected')).map(card => card.textContent);
+      if (selectedLanguages.length === 0) {
+        alert('Please select at least one language.');
+      } else {
+        alert('Selected: ' + selectedLanguages.join(', '));
+        // पुढे redirect करायचं असल्यास इथे window.location.href वापरा
+        // window.location.href = "next-page.html";
+      }
+    });
+  </script>
+
+</body>
+</html>
