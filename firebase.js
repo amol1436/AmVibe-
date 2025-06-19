@@ -7,7 +7,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyDGAjXCIdqSx_FhChoLUjAQ0kN5HSQbTF0",
   authDomain: "amvibe-28f17.firebaseapp.com",
   projectId: "amvibe-28f17",
-  storageBucket: "amvibe-28f17.firebasestorage.app",
+  storageBucket: "amvibe-28f17.appspot.com", // <-- corrected here
   messagingSenderId: "452233184351",
   appId: "1:452233184351:web:4781d4f09e66a8643c07ea",
   measurementId: "G-SGP0CJFDGE"
