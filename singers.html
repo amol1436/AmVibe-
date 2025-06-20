@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AmVibe - Top Singers</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      background: linear-gradient(to right, #1db954, #1ed760);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .singer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 25px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .singer-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px;
+      border-radius: 15px;
+      transition: transform 0.3s;
+    }
+
+    .singer-card:hover {
+      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .singer-img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #1db954;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      margin-bottom: 10px;
+    }
+
+    /* Adjusted object-position for specific singers */
+    img[alt="Jubin Nautiyal"],
+    img[alt="Neha Kakkar"],
+    img[alt="Shaan"],
+    img[alt="Sonu Nigam"],
+    img[alt="Udit Narayan"],
+    img[alt="Lata Mangeshkar"] {
+      object-position: top;
+    }
+
+    .singer-name {
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Top Singers</h1>
+
+  <div class="singer-grid" id="singerGrid">
+    <!-- Singers will be inserted here by JavaScript -->
+  </div>
+
+  <script>
+    const singerData = {
+      hindi: [
+        { name: "Arijit Singh", img: "https://i.postimg.cc/CzMJb5Gc/Arijit-Singh.jpg" },
+        { name: "Javed Ali", img: "https://i.postimg.cc/GHNY9mq8/Javed-Ali.jpg" },
+        { name: "Jubin Nautiyal", img: "https://i.postimg.cc/D4ws4W9s/Jubin-Notiyal.jpg" },
+        { name: "Kumar Sanu", img: "https://i.postimg.cc/6TthNqmB/Kumar-Sanu.jpg" },
+        { name: "Neha Kakkar", img: "https://i.postimg.cc/zybCkgVF/Neha-Kakkar.jpg" },
+        { name: "Palak Muchhal", img: "https://i.postimg.cc/w3qDGP1v/Palak-Muchhal.jpg" },
+        { name: "Shaan", img: "https://i.postimg.cc/zb5T52px/Shaan.jpg" },
+        { name: "Sonu Nigam", img: "https://i.postimg.cc/XpDKF87v/Sonu-Nigam.jpg" },
+        { name: "Udit Narayan", img: "https://i.postimg.cc/Z0HxYmGp/Udit-Narayan.jpg" },
+        { name: "Shreya Ghoshal", img: "https://i.postimg.cc/Sj2xmVF7/Shreya-Ghoshal.jpg" }
+      ],
+      marathi: [
+        { name: "Ajay-Atul", img: "https://i.postimg.cc/2qr16WFj/Ajay-Atul.jpg" },
+        { name: "Asha Bhosle", img: "https://i.postimg.cc/dkS34xMD/Asha-Bhosle.jpg" },
+        { name: "Avadhoot Gupte", img: "https://i.postimg.cc/py4yj4Y6/Avadhoot-Gupte.jpg" },
+        { name: "Bela Shende", img: "https://i.postimg.cc/BtrQbDJW/Bela-Shende.jpg" },
+        { name: "Lata Mangeshkar", img: "https://i.postimg.cc/SJY2tkx4/Lata-Mangeshkar.jpg" },
+        { name: "Sadhana Sargam", img: "https://i.postimg.cc/yDXNwdqM/Sadhana-Sargam.jpg" },
+        { name: "Swapnil Bandodkar", img: "https://i.postimg.cc/WFtbFwDV/Swapnil-Bandodkar.jpg" },
+        { name: "Vaishali Samant", img: "https://i.postimg.cc/R60q1zDj/Vaishali-Samant.jpg" },
+        { name: "Adarsh Shinde", img: "https://i.postimg.cc/WDBRwBS5/Adarsh-Shinde.jpg" },
+        { name: "Anand Shinde", img: "https://i.postimg.cc/xkJDHfGk/Anand-Shinde.jpg" }
+      ]
+    };
+
+    const selectedLanguages = JSON.parse(localStorage.getItem('selectedLanguages')) || ['hindi', 'marathi'];
+    const singerGrid = document.getElementById("singerGrid");
+
+    selectedLanguages.forEach(lang => {
+      if (singerData[lang]) {
+        singerData[lang].forEach(singer => {
+          const card = document.createElement('div');
+          card.className = 'singer-card';
+          card.innerHTML = `
+            <img src="${singer.img}" class="singer-img" alt="${singer.name}" />
+            <div class="singer-name">${singer.name}</div>
+          `;
+          singerGrid.appendChild(card);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
