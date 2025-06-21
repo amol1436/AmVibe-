@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login with Phone - AmVibe</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: white;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 32px 24px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 360px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      border: none;
+      background: rgba(255, 255, 255, 0.1);
+      font-size: 16px;
+      color: white;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #1db954;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #18a34a;
+    }
+
+    #recaptcha-container {
+      margin-top: 15px;
+    }
+  </style>
+
+  <script type="module">
+    import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import { auth } from './firebase.js';
+
+    window.onload = () => {
+      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        size: 'invisible',
+        callback: () => {}
+      });
+
+      document.getElementById("sendOtpBtn").onclick = () => {
+        const phone = document.getElementById("phone").value.trim();
+        if (!phone) return alert("Please enter a valid phone number.");
+        signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
+          .then((confirmationResult) => {
+            sessionStorage.setItem("otpConfirm", JSON.stringify(confirmationResult));
+            window.location.href = "otp-verify.html";
+          })
+          .catch((error) => {
+            alert("Error sending OTP: " + error.message);
+          });
+      };
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>Login with Phone</h2>
+    <input type="tel" id="phone" placeholder="+91XXXXXXXXXX" />
+    <div id="recaptcha-container"></div>
+    <button id="sendOtpBtn">Send OTP</button>
+  </div>
+</body>
+</html>
