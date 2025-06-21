@@ -78,18 +78,40 @@
       text-decoration: none;
       font-weight: 500;
     }
-
   </style>
-  <script>
-    function handleGoogleLogin() {
-      // Replace this with your actual Google login function
-      window.location.href = 'google-login.html';
-    }
 
-    function handleFacebookLogin() {
-      // Replace this with your actual Facebook login function
-      window.location.href = 'facebook-login.html';
-    }
+  <!-- ✅ Firebase Auth + Google Login Code -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDGAjXCIdqSx_FhChoLUjAQ0kN5HSQbTF0",
+      authDomain: "amvibe-28f17.firebaseapp.com",
+      projectId: "amvibe-28f17",
+      storageBucket: "amvibe-28f17.firebasestorage.app",
+      messagingSenderId: "452233184351",
+      appId: "1:452233184351:web:4781d4f09e66a8643c07ea",
+      measurementId: "G-SGP0CJFDGE"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    window.handleGoogleLogin = function () {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          window.location.href = "music-preference.html";
+        })
+        .catch((error) => {
+          alert("Google login failed: " + error.message);
+        });
+    };
+
+    window.handleFacebookLogin = function () {
+      alert("Facebook login functionality not implemented yet.");
+    };
   </script>
 </head>
 <body>
