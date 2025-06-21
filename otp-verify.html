@@ -3,12 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Phone Login - AmVibe</title>
+  <title>Verify OTP - AmVibe</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
@@ -22,29 +19,29 @@
 
     .container {
       background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(12px);
-      padding: 40px 30px;
+      padding: 32px 24px;
       border-radius: 16px;
-      box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 360px;
       text-align: center;
-      width: 100%;
-      max-width: 380px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
     }
 
     h2 {
-      margin-bottom: 25px;
+      font-size: 20px;
       font-weight: 500;
-      font-size: 22px;
+      margin-bottom: 24px;
     }
 
     input {
       width: 100%;
       padding: 14px;
-      margin: 12px 0;
-      border: none;
+      margin-bottom: 20px;
       border-radius: 10px;
-      font-size: 16px;
+      border: none;
       background: rgba(255, 255, 255, 0.1);
+      font-size: 16px;
       color: white;
       outline: none;
     }
@@ -59,79 +56,33 @@
       font-size: 16px;
       font-weight: 500;
       cursor: pointer;
-      transition: background 0.3s ease;
-      margin-top: 10px;
     }
 
     button:hover {
       background-color: #18a34a;
     }
-
-    #otp-section {
-      display: none;
-    }
-
-    #recaptcha-container {
-      margin-top: 10px;
-    }
   </style>
 
-  <!-- Firebase SDK + OTP Login Logic -->
   <script type="module">
-    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-    import { auth } from "./firebase.js";
-
-    let confirmationResult;
+    import { auth } from './firebase.js';
 
     window.onload = () => {
-      const phoneInput = document.getElementById("phone");
-      const otpInput = document.getElementById("otp");
-      const sendBtn = document.getElementById("sendBtn");
-      const verifyBtn = document.getElementById("verifyBtn");
-      const otpSection = document.getElementById("otp-section");
+      const stored = sessionStorage.getItem("otpConfirm");
+      if (!stored) {
+        alert("No OTP session found. Try again.");
+        window.location.href = "otp-login.html";
+        return;
+      }
 
-      // Initialize reCAPTCHA
-      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        'size': 'invisible',
-        'callback': (response) => {
-          sendOTP();
-        }
-      });
-
-      // Send OTP
-      sendBtn.onclick = () => {
-        const phoneNumber = phoneInput.value;
-        if (!phoneNumber.startsWith('+91')) {
-          alert("Phone number must start with +91 (e.g. +919876543210)");
-          return;
-        }
-
-        signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
-          .then(result => {
-            confirmationResult = result;
-            otpSection.style.display = 'block';
-            alert("OTP sent successfully!");
-          })
-          .catch(error => {
-            alert("Failed to send OTP: " + error.message);
-          });
-      };
-
-      // Verify OTP
-      verifyBtn.onclick = () => {
-        const code = otpInput.value;
-        if (!confirmationResult) {
-          alert("OTP not sent yet.");
-          return;
-        }
-
+      const confirmationResult = JSON.parse(stored);
+      document.getElementById("verifyBtn").onclick = () => {
+        const code = document.getElementById("otp").value;
         confirmationResult.confirm(code)
-          .then(result => {
-            alert("Phone number verified!");
+          .then(() => {
             window.location.href = "music-preference.html";
           })
-          .catch(error => {
-            alert("Invalid OTP: " + error.message);
+          .catch(() => {
+            alert("Invalid OTP. Please try again.");
           });
       };
     };
@@ -139,16 +90,9 @@
 </head>
 <body>
   <div class="container">
-    <h2>Login with Phone</h2>
-
-    <input type="text" id="phone" placeholder="+91XXXXXXXXXX" maxlength="13" />
-    <div id="recaptcha-container"></div>
-    <button id="sendBtn">Send OTP</button>
-
-    <div id="otp-section">
-      <input type="text" id="otp" placeholder="Enter OTP" maxlength="6" />
-      <button id="verifyBtn">Verify OTP</button>
-    </div>
+    <h2>Enter OTP</h2>
+    <input type="text" id="otp" placeholder="6-digit OTP" maxlength="6" />
+    <button id="verifyBtn">Verify OTP</button>
   </div>
 </body>
 </html>
